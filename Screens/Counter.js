@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, Button, Alert } from "react-native";
 import { connect } from "react-redux";
-import {counterIncrement} from '../src/actions';
-import {counterDecrement} from '../src/actions';
+import { counterIncrement } from '../src/actions';
+import { counterDecrement } from '../src/actions';
 
+import { Header } from 'react-native-elements';
+import LinearGradient from 'react-native-linear-gradient';
 
 class Counter extends Component {
     constructor(props) {
@@ -15,7 +17,12 @@ class Counter extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <View>
+                <Header
+                    leftComponent={{ icon: 'menu', color: '#fff' }}
+                    centerComponent={{ text: 'MY TITLE', style: { color: '#fff' } }}
+                    rightComponent={{ icon: 'home', color: '#fff' }}
+                />
                 <Text>{this.props.count}</Text>
                 <Button
                     title="+"
@@ -53,4 +60,4 @@ function mapStateToProps(state) {
 }
 
 
-export default connect(mapStateToProps, {counterIncrement,counterDecrement})(Counter);
+export default connect(mapStateToProps, { counterIncrement, counterDecrement })(Counter);

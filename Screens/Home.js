@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
     Alert,
-    Modal,
     StyleSheet,
     Text,
     TouchableHighlight,
@@ -12,35 +11,10 @@ import {
 import IconE from 'react-native-vector-icons/Entypo';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
-
+import Modal from 'react-native-modal';
+import { Header } from 'react-native-elements';
 
 class App extends Component {
-
-    static navigationOptions = ({ navigation }) => {
-        return {
-            title: "DMart",
-            headerRight: () => (
-                <TouchableHighlight style={{ paddingRight: 10 }}
-                    onPress={() => setModalVisible(!modalVisible)}
-                >
-                    <IconI
-                        name="ellipsis-vertical"
-                        color="green"
-                        size={25}
-                    />
-                </TouchableHighlight>
-            ),
-            headerLeft: () => (
-                <TouchableHighlight
-                    activeOpacity={.6}
-                    style={{ padding: 10 }}
-                    onPress={() => navigation.openDrawer()}
-                >
-                    <IconE name="menu" size={25} color="green" />
-                </TouchableHighlight>
-            ),
-        };
-    };
 
     state = {
         modalVisible: false
@@ -54,72 +28,75 @@ class App extends Component {
         const { modalVisible } = this.state;
         return (
             <View
-                style={styles.centeredView}
             >
-
-                <TouchableWithoutFeedback
-                    onPress={() => this.setState({ modalVisible: false })}
-                >
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        closeOnClick={false}
-                        visible={modalVisible}
-                        onRequestClose={() => {
-                            Alert.alert("Modal has been closed.");
-                        }}
-                    >
-                        <View style={styles.modalViewCode}>
-                            <View style={styles.modalView}>
-
-                                <TouchableOpacity
-                                    activeOpacity={0.1}
-                                    onPress={() => {
-                                        this.setState({ modalVisible: false }, () => {
-                                            this.props.navigation.navigate('Counter')
-                                        })
-                                    }}>
-                                    <View style={styles.userView} >
-                                        <IconA name="login"
-                                            color="green"
-                                            size={25}
-                                        />
-                                        <Text style={styles.modalText}>SIGN IN</Text>
-
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    activeOpacity={0.1}
-                                    onPress={() => {
-                                        this.setState({ modalVisible: false }, () => {
-                                            this.props.navigation.navigate('Register')
-                                        })
-                                    }}>
-                                    <View style={styles.userView}>
-                                        <IconA name="adduser"
-                                            color="green"
-                                            size={25}
-                                        />
-                                        <Text style={styles.modalText}>REGISTER</Text>
-
-                                    </View>
-
-                                </TouchableOpacity>
-                            </View>
-                        </View>
-                    </Modal>
-
-
-                </TouchableWithoutFeedback>
-
-                <TouchableHighlight
-                    style={styles.openButton}
-                    onPress={() => {
-                        this.setModalVisible(true);
+                <Header
+                    placement="left"
+                    leftComponent={
+                        <TouchableHighlight
+                            activeOpacity={0}
+                            style={{ padding: 10 }}
+                            onPress={() => this.props.navigation.openDrawer()}
+                        >
+                            <IconE name="menu" size={20} color="#1DB954" />
+                        </TouchableHighlight>}
+                    centerComponent={{ text: 'DMart', style: { color: '#1DB954', fontWeight: "bold", fontSize: 18 } }}
+                    rightComponent={
+                        <TouchableHighlight
+                            onPress={() => {
+                                this.setModalVisible(true);
+                            }}
+                            style={{ padding: 10 }}
+                        >
+                            <IconI name="ellipsis-vertical" color="#1DB954" size={20} />
+                        </TouchableHighlight>
+                    }
+                    containerStyle={{
+                        backgroundColor: 'white'
                     }}
-                >
-                    <Text style={styles.textStyle}>Show Modal</Text>
-                </TouchableHighlight>
+                />
+
+                <Modal
+                    isVisible={this.state.modalVisible}
+                    animationIn={"fadeInRight"}
+                    onBackdropPress={() => this.setState({ modalVisible: false })}>
+                    <View style={styles.modalViewCode}>
+                        <View style={styles.modalView}>
+                            <TouchableOpacity
+                                activeOpacity={0.1}
+                                onPress={() => {
+                                    this.setState({ modalVisible: false }, () => {
+                                        this.props.navigation.navigate('Counter')
+                                    })
+                                }}>
+                                <View style={styles.userView} >
+                                    <IconA name="login"
+                                        color="green"
+                                        size={25}
+                                    />
+                                    <Text style={styles.modalText}>SIGN IN</Text>
+
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                activeOpacity={0.1}
+                                onPress={() => {
+                                    this.setState({ modalVisible: false }, () => {
+                                        this.props.navigation.navigate('Register')
+                                    })
+                                }}>
+                                <View style={styles.userView}>
+                                    <IconA name="adduser"
+                                        color="green"
+                                        size={25}
+                                    />
+                                    <Text style={styles.modalText}>REGISTER</Text>
+                                </View>
+
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+
             </View>
         );
     }
@@ -147,10 +124,9 @@ const styles = StyleSheet.create({
         alignItems: "flex-end",
     },
     modalView: {
-        margin: 20,
         backgroundColor: "white",
         borderRadius: 5,
-        padding: 15,
+        padding: 10,
         alignItems: "flex-start",
         shadowColor: "#000",
         shadowOffset: {
