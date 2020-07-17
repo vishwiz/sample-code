@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeDMartScreen from '../Screens/Home';
 import RegisterScreen from '../Screens/Register'
 import Counter from '../Screens/Counter';
+import LoginScreen from '../Screens/Login';
 
 import DrawerContent from './DrawerContainer';
 
@@ -31,6 +32,12 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="Counter"
                 component={Counter}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="Login"
+                component={LoginScreen}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
@@ -62,7 +69,7 @@ export default function App() {
     return (
         <NavigationContainer>
             <Drawer.Navigator initialRouteName="HomeStack"
-            // drawerContent={props => <DrawerContent  {...props} />}
+                drawerContent={props => <DrawerContent  {...props} />}
             >
                 <Drawer.Screen name="HomeStack" component={HomeStack} />
                 <Drawer.Screen name="Notifications" component={NotificationsScreen} />

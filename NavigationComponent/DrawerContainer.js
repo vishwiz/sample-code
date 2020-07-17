@@ -9,9 +9,10 @@ class DisplayAnImage extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <View>
+        <View>
+          
+        </View>
               <Text>adsadasdsa</Text>
-          </View>
        
       </View>
     );
@@ -20,7 +21,9 @@ class DisplayAnImage extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      flex : 1
+      flex : 1,
+      // backgroundColor:"green",
+      marginTop:25
     },
     
   });

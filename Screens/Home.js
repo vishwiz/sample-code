@@ -37,9 +37,9 @@ class App extends Component {
                             style={{ padding: 10 }}
                             onPress={() => this.props.navigation.openDrawer()}
                         >
-                            <IconE name="menu" size={20} color="#1DB954" />
+                            <IconE name="menu" size={20} color="#548247" />
                         </TouchableHighlight>}
-                    centerComponent={{ text: 'DMart', style: { color: '#1DB954', fontWeight: "bold", fontSize: 18 } }}
+                    centerComponent={{ text: 'DMart', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }}
                     rightComponent={
                         <TouchableHighlight
                             onPress={() => {
@@ -47,7 +47,7 @@ class App extends Component {
                             }}
                             style={{ padding: 10 }}
                         >
-                            <IconI name="ellipsis-vertical" color="#1DB954" size={20} />
+                            <IconI name="ellipsis-vertical" color="#548247" size={20} />
                         </TouchableHighlight>
                     }
                     containerStyle={{
@@ -58,6 +58,7 @@ class App extends Component {
                 <Modal
                     isVisible={this.state.modalVisible}
                     animationIn={"fadeInRight"}
+                    animationOut={"fadeOutRight"}
                     onBackdropPress={() => this.setState({ modalVisible: false })}>
                     <View style={styles.modalViewCode}>
                         <View style={styles.modalView}>
@@ -65,7 +66,7 @@ class App extends Component {
                                 activeOpacity={0.1}
                                 onPress={() => {
                                     this.setState({ modalVisible: false }, () => {
-                                        this.props.navigation.navigate('Counter')
+                                        this.props.navigation.navigate('Login')
                                     })
                                 }}>
                                 <View style={styles.userView} >
