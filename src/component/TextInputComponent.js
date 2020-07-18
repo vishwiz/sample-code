@@ -7,16 +7,17 @@ const TextInputComponent = (props) => {
     return (
 
         <KeyboardAvoidingView style={{ marginVertical: 5 }}>
-            <Text style={styles.textinput}>{props.title}</Text>
+            <Text style={[styles.textinput,{color : highlight ? "green" : "gray"}]}>{props.title}</Text>
 
             <View style={[styles.inputarea, { borderColor: highlight ? "green" : "gray" }]}>
                 {
-                    props.title === "PHONE NUMBER" ? <Text style={styles.prefix}>+91</Text> : null
+                    props.phoneNumber ? <Text style={styles.prefix}>+91</Text> : null
                 }
                 <TextInput
-                    style={{ height: 40, width: "100%", fontSize: 16 }}
+                    style={{ height: 40, width: "100%", fontSize: 16  }}
+                    editable={!props.isDisable}
                     onChangeText={text => {
-                        if (props.title === "PHONE NUMBER") {
+                        if (props.phoneNumber) {
                             text = text.replace(/[^0-9]/g, "")
                         }
                         props.onChangeText(text)

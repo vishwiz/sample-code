@@ -13,6 +13,9 @@ import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
 import Modal from 'react-native-modal';
 import { Header } from 'react-native-elements';
+import { connect } from "react-redux";
+import { resetUserData } from "../src/actions";
+
 
 class App extends Component {
 
@@ -24,8 +27,13 @@ class App extends Component {
         this.setState({ modalVisible: visible });
     }
 
+    componentDidMount(){
+
+        this.props.resetUserData();
+
+    }
+
     render() {
-        const { modalVisible } = this.state;
         return (
             <View
             >
@@ -72,7 +80,7 @@ class App extends Component {
                                 <View style={styles.userView} >
                                     <IconA name="login"
                                         color="green"
-                                        size={25}
+                                        size={20}
                                     />
                                     <Text style={styles.modalText}>SIGN IN</Text>
 
@@ -88,7 +96,7 @@ class App extends Component {
                                 <View style={styles.userView}>
                                     <IconA name="adduser"
                                         color="green"
-                                        size={25}
+                                        size={20}
                                     />
                                     <Text style={styles.modalText}>REGISTER</Text>
                                 </View>
@@ -154,8 +162,15 @@ const styles = StyleSheet.create({
     modalText: {
         textAlign: "center",
         marginHorizontal: 20,
-        margin: 3
     }
 });
 
-export default App;
+
+function mapStateToProps(state) {
+    return {
+      userDetails: state.register.userDetails
+    }
+  
+  }
+  
+  export default connect(mapStateToProps, { resetUserData })(App);

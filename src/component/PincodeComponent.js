@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TextInput, Text, StyleSheet, KeyboardAvoidingView } from 'react-native';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
 
@@ -9,20 +9,34 @@ const PincodeComponent = (props) => {
         <KeyboardAvoidingView style={{ marginVertical: 5, height: 80 }}>
             <Text style={styles.textinput}>{props.title}</Text>
             <View style={styles.pincodeStyle}>
-                <SmoothPinCodeInput
-                    password
-                    mask="﹡"
-                    cellSize={36}
-                    codeLength={4}
-                    cellStyleFocused={{
-                        borderColor: 'green',
-                    }}
-                    value={props.value}
-                    onTextChange={value => {
-                        value = value.replace(/[^0-9]/g, "")
-                        props.onChangeText(value)
-                    }}
-                />
+                {!props.passwordvisible ?
+                    <SmoothPinCodeInput
+                        password
+                        mask="﹡"
+                        cellSize={36}
+                        codeLength={4}
+                        cellStyleFocused={{
+                            borderColor: 'green',
+                        }}
+                        value={props.value}
+                        onTextChange={value => {
+                            value = value.replace(/[^0-9]/g, "")
+                            props.onChangeText(value)
+                        }}
+                    />
+                    :
+                    <SmoothPinCodeInput
+                        cellSize={36}
+                        codeLength={4}
+                        cellStyleFocused={{
+                            borderColor: 'green',
+                        }}
+                        value={props.value}
+                        onTextChange={value => {
+                            value = value.replace(/[^0-9]/g, "")
+                            props.onChangeText(value)
+                        }}
+                    />}
             </View>
 
         </KeyboardAvoidingView>

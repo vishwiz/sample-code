@@ -3,7 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import AsyncStorage from '@react-native-community/async-storage';
 import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
-
+import loginReducer from '../reducers/loginReducer';
 import rootReducer from '../reducers';
 import { watchIncrementAsync } from '../sagas/saga';
 
@@ -12,7 +12,7 @@ const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    //   whitelist: ['navigation']
+    whitelist: ['navigation']
 };
 
 
@@ -38,14 +38,3 @@ export default () => {
     let persistor = persistStore(store);
     return { store, persistor };
 }
-
-// const store = createStore(
-//     storage.reducer(reducers),
-//     compose(
-//         applyMiddleware(
-//             sagaMiddleware,
-//             storeMiddleware,
-//             // logger
-//         ),
-//     ),
-// );

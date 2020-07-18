@@ -9,7 +9,7 @@ import HomeDMartScreen from '../Screens/Home';
 import RegisterScreen from '../Screens/Register'
 import Counter from '../Screens/Counter';
 import LoginScreen from '../Screens/Login';
-
+import OTPVarification from '../Screens/OtpVarification';
 import DrawerContent from './DrawerContainer';
 
 
@@ -38,6 +38,11 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="Login"
                 component={LoginScreen}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="OptVarification"
+                component={OTPVarification}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

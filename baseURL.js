@@ -1,0 +1,1 @@
+export default url = "http://devonlinebazar-env.eba-mcb3knnk.ap-south-1.elasticbeanstalk.com/api";

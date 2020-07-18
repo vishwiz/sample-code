@@ -1,42 +1,40 @@
-// import * as axios from 'axios';
+import baseURL from '../../baseURL';
 
-export default get = () => {
+get = async () => {
 
-    // axios({
-    //     method: 'get',
-    //     url: 'https://jsonplaceholder.typicode.com/todos/1',
-    //     data: {}
-    // }).then((response) => {
+    try {
+        const response = await fetch('https://reactnative.dev/movies.json')
+        const data = await response.json();
+        return data
+    } catch (error) {
 
-    //     console.log("response ", response)
+        console.log("error : ", error);
 
-    // }).catch((error) => {
-
-    //     console.log('Error', error);
-
-    // });
-
-    fetch('https://reactnative.dev/movies.json')
-        .then((response) => {
-
-            console.log("response ", response.json())
-
-            return response;
-        })
-        .catch((error) => console.error(error))
-    return 0;
+    }
 
 }
 
-// export default post = () => {
+post = async (params) => {
 
-//     axios({
-//         method: 'post',
-//         url: '/user/12345',
-//         data: {
-//             firstName: 'Fred',
-//             lastName: 'Flintstone'
-//         }
-//     });
+    try {
+        const response = await fetch(baseURL + params.endurl, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(params.requestData)
+        });
+        const data = await response.json();
+        return data
+    } catch (error) {
 
-// }
+        console.log("error : ", error);
+
+    }
+
+
+
+}
+
+export default { get, post }

@@ -5,7 +5,11 @@ import IconI from 'react-native-vector-icons/Ionicons';
 import TextInputComponent from '../src/component/TextInputComponent';
 import PincodeComponent from '../src/component/PincodeComponent';
 import ErrorComponent from '../src/component/ErrorComponent';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import { Button, CheckBox } from 'react-native-elements';
+import { connect } from "react-redux";
+import { registerUser } from "../src/actions";
 
 class RegisterScreen extends Component {
   constructor(props) {
@@ -21,7 +25,8 @@ class RegisterScreen extends Component {
       flagEmail: false,
       pinPassword: "",
       flagPin: false,
-      checked: false
+      checked: false,
+      isLoading: false
     };
   }
 
@@ -60,17 +65,43 @@ class RegisterScreen extends Component {
       flagEmail: !e,
       flagPin: !p
     }, () => {
-      if (f & l & m & e & p)
-        Alert.alert("Registration...!!!!")
+      if (f & l & m & e & p & this.state.checked) {
+        let register_user = {
+          UserId: 0,
+          FirstName: this.state.firstName,
+          LastName: this.state.lastName,
+          MobileNo: Number(this.state.phoneNumber),
+          EmailId: this.state.email,
+          LoginPinCode: Number(this.state.pinPassword)
+        }
+        this.setState({ isLoading: true },
+          () => {
+            this.props.registerUser({
+              endurl: "/RegisterUser",
+              requestData: register_user
+            })
+          })
+
+      }
     })
 
+  }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.userDetails.userId) {
+      this.props.navigation.navigate('OptVarification');
+    }
+  }
 
-    console.log("firstName : ", this.state.firstName);
-    console.log("lastName : ", this.state.lastName);
-    console.log("phoneNumber : ", this.state.phoneNumber);
-    console.log("email : ", this.state.email, this.validateEmail(this.state.email));
-    console.log("pinPassword : ", this.state.pinPassword);
+  static getDerivedStateFromProps(props, state) {
+
+    if (!props.isLoading) {
+      return {
+        isLoading: false
+      }
+    }
+
+    return null;
 
   }
 
@@ -95,35 +126,42 @@ class RegisterScreen extends Component {
             backgroundColor: 'white'
           }}
         />
-
+        <Spinner
+          visible={this.state.isLoading}
+          color="green"
+        />
         <KeyboardAvoidingView
           style={styles.container}
           behavior={"height"}
           keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
         >
-          <ScrollView>
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+          >
             <Image
               style={styles.imageStyle}
               resizeMode={'contain'}
               source={require('../src/assests/Images/logo.png')}
             />
-            <TextInputComponent title={"FIRST NAME"} keyboard_type={"default"} onChangeText={this.onChangeTextfirstName} value={firstName} />
+
+
+            <TextInputComponent title={"FIRST NAME"} keyboard_type={"default"} onChangeText={this.onChangeTextfirstName} value={firstName} isDisable={false} />
             {
               flagFirst ? <ErrorComponent title={"Enter at least 3 characters"} /> : null
             }
-            <TextInputComponent title={"LAST NAME"} keyboard_type={"default"} onChangeText={this.onChangeTextlastName} value={lastName} />
+            <TextInputComponent title={"LAST NAME"} keyboard_type={"default"} onChangeText={this.onChangeTextlastName} value={lastName} isDisable={false} />
             {
               flagLast ? <ErrorComponent title={"Enter at least 3 characters"} /> : null
             }
-            <TextInputComponent title={"PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} />
+            <TextInputComponent title={"PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} phoneNumber={true} isDisable={false} />
             {
               flagPhone ? <ErrorComponent title={"Enter your 10 digit phone number"} /> : null
             }
-            <TextInputComponent title={"EMAIL"} keyboard_type={"email-address"} onChangeText={this.onChangeTextemail} value={email} />
+            <TextInputComponent title={"EMAIL"} keyboard_type={"email-address"} onChangeText={this.onChangeTextemail} value={email} isDisable={false} />
             {
               flagEmail ? <ErrorComponent title={"Enter a valid email address"} /> : null
             }
-            <PincodeComponent title={"PIN PASSWORD"} onChangeText={this.onChangeTextPassword} value={pinPassword} />
+            <PincodeComponent title={"PIN PASSWORD"} onChangeText={this.onChangeTextPassword} value={pinPassword} passwordvisible={false} />
             {
               flagPin ? <ErrorComponent title={"Should enter pin password"} /> : null
             }
@@ -146,6 +184,9 @@ class RegisterScreen extends Component {
               }}
               onPress={this._validation}
             />
+            <View style={{ height: 300 }}>
+
+            </View>
 
           </ScrollView>
         </KeyboardAvoidingView>
@@ -170,12 +211,19 @@ const styles = StyleSheet.create({
   imageStyle: {
     width: "50%",
     height: 50,
-    // borderColor :"red",
-    // borderWidth : 1,
     alignSelf: "center",
     paddingBottom: 50
 
   }
 });
 
-export default RegisterScreen;
+function mapStateToProps(state) {
+  return {
+    userDetails: state.register.userDetails,
+    isLoading: state.register.isLoading
+  }
+
+}
+
+
+export default connect(mapStateToProps, { registerUser })(RegisterScreen);

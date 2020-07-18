@@ -5,11 +5,10 @@ import {
 } from 'react-native';
 import Navigation from './NavigationComponent/Navigation'
 
-
 const App: () => React$Node = () => {
   return (
     <>
-      <StatusBar barStyle="dark-content" />  
+      <StatusBar barStyle="light-content"  />  
       <Navigation />     
     </>
   );

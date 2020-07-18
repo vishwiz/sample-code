@@ -1,11 +1,8 @@
 import React, { Component } from "react";
 import { Text, StyleSheet, View, Button, Alert } from "react-native";
 import { connect } from "react-redux";
-import { counterIncrement } from '../src/actions';
-import { counterDecrement } from '../src/actions';
-
+import { counterIncrement, counterDecrement } from '../src/actions';
 import { Header } from 'react-native-elements';
-import LinearGradient from 'react-native-linear-gradient';
 
 class Counter extends Component {
     constructor(props) {
@@ -32,6 +29,9 @@ class Counter extends Component {
                     title="-"
                     onPress={this.props.counterDecrement}
                 />
+                <Text>
+                    {JSON.stringify(this.props.MoviesDetails)}
+                </Text>
             </View>
         );
     }
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        count: state.counter
+        MoviesDetails : state.counter.moviesDetails
     }
 
 }

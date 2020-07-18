@@ -1,12 +1,20 @@
-export default (state = 0, action) => {
+const initialState = {
+    isLoading: false,
+    moviesDetails: ""
+};
+
+export default (state = initialState, action) => {
 
     switch (action.type) {
 
         case "INCREMENT_ASYNC":
-            return state + 1;
+            return {
+                ...state,
+                moviesDetails: action.products
+            }
 
         case "DECREMENT_ASYNC":
-            return state - 1;
+            return state;
 
         default:
             return state;
