@@ -1,23 +1,25 @@
 import React, { Component } from "react";
 import { Alert, StyleSheet, View, TouchableHighlight, StatusBar, KeyboardAvoidingView, Platform, Image, ScrollView } from "react-native";
-import { Header } from 'react-native-elements';
+import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
-import { connect } from "react-redux";
 
-import { registerUser } from "../src/actions";
 import TextInputComponent from '../src/component/TextInputComponent';
 import PincodeComponent from '../src/component/PincodeComponent';
+import ErrorComponent from '../src/component/ErrorComponent';
+import Spinner from 'react-native-loading-spinner-overlay';
+import ToastMessage from "../src/component/ToastMessage";
 
-import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { varifyOtp } from '../src/actions';
 
 class OtpVarification extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            // phoneNumber : "",
             OtpPassword: "",
             flagOtp: false,
+            isLoading: false
         };
     }
 
@@ -26,11 +28,46 @@ class OtpVarification extends Component {
         this.setState({ OtpPassword: value })
     }
 
+    _varifyOtp = () => {
+
+        var p = this.state.OtpPassword.length == 4;
+
+        this.setState({
+            flagOtp: !p
+        }, () => {
+            if (p) {
+
+                let otpRequestData = this.props.userDetails;
+                otpRequestData.otp = this.state.OtpPassword
+
+                this.setState({ isLoading: true });
+                this.props.varifyOtp({
+                    endurl: '/VerifyOtp',
+                    requestData: this.props.userDetails,
+                })
+            }
+        })
+
+
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (!props.isLoading) {
+            return {
+                isLoading: false,
+            };
+        }
+        return null;
+    }
+
 
 
     render() {
 
-        const { OtpPassword, flagPin } = this.state;
+
+        console.log("this.props.userDetails : ", this.props);
+
+        const { OtpPassword, flagOtp } = this.state;
 
 
         return (
@@ -53,6 +90,12 @@ class OtpVarification extends Component {
                     }}
                 />
 
+                <Spinner visible={this.state.isLoading} color="green" />
+                {
+                    this.props.otp_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                }
+
+
                 <KeyboardAvoidingView
                     style={styles.container}
                     behavior={"position"}
@@ -61,7 +104,9 @@ class OtpVarification extends Component {
                     <ScrollView>
                         <TextInputComponent title={"YOUR PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={this.props.userDetails.mobileNo} phoneNumber={true} isDisable={true} />
                         <PincodeComponent title={"ENTER THE OTP"} onChangeText={this.onChangeTextPassword} value={OtpPassword} passwordvisible={true} />
-
+                        {flagOtp ? (
+                            <ErrorComponent title={'Should Enter Valid OTP'} />
+                        ) : null}
                         <Button
                             title="Solid Button"
                             title="VERIFY OTP"
@@ -70,7 +115,7 @@ class OtpVarification extends Component {
                                 borderRadius: 20,
                                 marginTop: 20
                             }}
-                        // onPress={this._fetchData}
+                            onPress={this._varifyOtp}
                         />
 
                     </ScrollView>
@@ -97,8 +142,6 @@ const styles = StyleSheet.create({
     imageStyle: {
         width: "50%",
         height: 50,
-        // borderColor :"red",
-        // borderWidth : 1,
         alignSelf: "center",
         marginBottom: 30
 
@@ -111,10 +154,15 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
+
+    const { isLoading, userDetails, otp_failure, errorMessage } = state.register;
     return {
-        userDetails: state.register.userDetails,
-        isLoading: state.register.isLoading
+        userDetails,
+        isLoading,
+        otp_failure,
+        errorMessage
+
     }
 }
 
-export default connect(mapStateToProps, { registerUser })(OtpVarification);
+export default connect(mapStateToProps, { varifyOtp })(OtpVarification);

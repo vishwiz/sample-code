@@ -5,7 +5,6 @@ import {
     Text,
     TouchableHighlight,
     TouchableOpacity,
-    TouchableWithoutFeedback,
     View
 } from "react-native";
 import IconE from 'react-native-vector-icons/Entypo';
@@ -27,16 +26,17 @@ class App extends Component {
         this.setState({ modalVisible: visible });
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
         this.props.resetUserData();
 
     }
 
     render() {
+
+
         return (
-            <View
-            >
+            <View>
                 <Header
                     placement="left"
                     leftComponent={
@@ -51,7 +51,11 @@ class App extends Component {
                     rightComponent={
                         <TouchableHighlight
                             onPress={() => {
-                                this.setModalVisible(true);
+
+                                this.props.isLogged ?
+                                    Alert.alert("User Logged ..!!!")
+                                    :
+                                    this.setModalVisible(true)
                             }}
                             style={{ padding: 10 }}
                         >
@@ -62,6 +66,8 @@ class App extends Component {
                         backgroundColor: 'white'
                     }}
                 />
+
+
 
                 <Modal
                     isVisible={this.state.modalVisible}
@@ -168,9 +174,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-      userDetails: state.register.userDetails
+        isLogged: state.register.isLogged
     }
-  
-  }
-  
-  export default connect(mapStateToProps, { resetUserData })(App);
+
+}
+
+export default connect(mapStateToProps, { resetUserData })(App);

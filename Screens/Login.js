@@ -1,94 +1,158 @@
-import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, StatusBar, KeyboardAvoidingView, Platform, Image, ScrollView } from "react-native";
+import React, { Component } from 'react';
+import {
+    StyleSheet,
+    View,
+    TouchableHighlight,
+    KeyboardAvoidingView,
+    Platform,
+    Image,
+    ScrollView
+} from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
+import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputComponent from '../src/component/TextInputComponent';
 import PincodeComponent from '../src/component/PincodeComponent';
 import { Button } from 'react-native-elements';
+import ErrorComponent from '../src/component/ErrorComponent';
+import ToastMessage from "../src/component/ToastMessage";
+//for redux
+import { connect } from 'react-redux';
+import { loginUser } from '../src/actions';
 
 class LoginScreen extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
-            phoneNumber: "",
+            phoneNumber: '',
             flagPhone: false,
-            pinPassword: "",
+            pinPassword: '',
             flagPin: false,
+            isLoading: false
         };
     }
 
     onChangeTextphoneNumber = (value) => {
-        this.setState({ phoneNumber: value })
-    }
+        this.setState({ phoneNumber: value });
+    };
     onChangeTextPassword = (value) => {
-        this.setState({ pinPassword: value })
+        this.setState({ pinPassword: value });
+    };
+
+
+    static getDerivedStateFromProps(props, state) {
+        if (!props.isLoading) {
+            return {
+                isLoading: false,
+            };
+        }
+        return null;
     }
 
+    _loginuser = () => {
 
+        var m = this.state.phoneNumber.length === 10;
+        var p = this.state.pinPassword.length === 4;
+
+        this.setState({
+            flagPhone: !m,
+            flagPin: !p,
+        }, () => {
+            if (m & p) {
+
+                this.setState({ isLoading: true })
+                this.props.loginUser({
+                    endurl: '/SignIn',
+                    requestData: {
+                        MobileNo: Number(this.state.phoneNumber),
+                        LoginPinCode: Number(this.state.pinPassword),
+                    },
+                });
+
+            }
+        });
+
+    };
 
     render() {
-
         const { phoneNumber, flagPhone, pinPassword, flagPin } = this.state;
 
-
         return (
-            <View >
+            <View>
                 <Header
                     placement="left"
                     leftComponent={
                         <TouchableHighlight
                             activeOpacity={0}
                             style={{ padding: 10 }}
-                            onPress={() => this.props.navigation.goBack()}
-                        >
+                            onPress={() => this.props.navigation.goBack()}>
                             <IconI name="chevron-back" size={25} color="#548247" />
                         </TouchableHighlight>
                     }
-                    centerComponent={{ text: 'SIGN IN', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }}
-
+                    centerComponent={{
+                        text: 'SIGN IN',
+                        style: { color: '#548247', fontWeight: 'bold', fontSize: 18 },
+                    }}
                     containerStyle={{
-                        backgroundColor: 'white'
+                        backgroundColor: 'white',
                     }}
                 />
 
+                <Spinner visible={this.state.isLoading} color="green" />
+                {
+                    this.props.login_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                }
+
+
                 <KeyboardAvoidingView
                     style={styles.container}
-                    behavior={"position"}
-                    keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
-                >
+                    behavior={'position'}
+                    keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
                     <ScrollView>
                         <Image
                             style={styles.imageStyle}
                             resizeMode={'contain'}
                             source={require('../src/assests/Images/logo.png')}
                         />
-                        <TextInputComponent title={"PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} phoneNumber={true} isDisable={false}/>
-                        <PincodeComponent title={"PIN PASSWORD"} onChangeText={this.onChangeTextPassword} value={pinPassword} />
+                        <TextInputComponent
+                            title={'PHONE NUMBER'}
+                            keyboard_type={'number-pad'}
+                            onChangeText={this.onChangeTextphoneNumber}
+                            value={phoneNumber}
+                            phoneNumber={true}
+                            isDisable={false}
+                        />
+                        {flagPhone ? (
+                            <ErrorComponent title={'Enter your 10 digit phone number'} />
+                        ) : null}
+                        <PincodeComponent
+                            title={'PIN PASSWORD'}
+                            onChangeText={this.onChangeTextPassword}
+                            value={pinPassword}
+                        />
+                        {flagPin ? (
+                            <ErrorComponent title={'Should enter pin password'} />
+                        ) : null}
 
                         <Button
                             title="Solid Button"
                             title="SIGN IN"
                             buttonStyle={{
-                                backgroundColor: "#548247",
+                                backgroundColor: '#548247',
                                 borderRadius: 20,
-                                marginTop: 20
+                                marginTop: 20,
                             }}
-                        // onPress={this._fetchData}
+                            onPress={this._loginuser}
                         />
-
                     </ScrollView>
 
-
-                    <Button
-                        title="FORGET PASSWORD"
-                        type="clear"
-                        buttonStyle={styles.forgetbutton}
-                        containerStyle={{color:"green"}}
-                    />
+                    {/* <Button
+            title="FORGET PASSWORD"
+            type="clear"
+            buttonStyle={styles.forgetbutton}
+            containerStyle={{color: 'green'}}
+          /> */}
                 </KeyboardAvoidingView>
-
-
             </View>
         );
     }
@@ -96,29 +160,34 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
     baseText: {
-        fontFamily: "Cochin"
+        fontFamily: 'Cochin',
     },
     titleText: {
         fontSize: 20,
-        fontWeight: "bold"
+        fontWeight: 'bold',
     },
     container: {
-        margin: 20
+        margin: 20,
     },
     imageStyle: {
-        width: "50%",
+        width: '50%',
         height: 50,
-        // borderColor :"red",
-        // borderWidth : 1,
-        alignSelf: "center",
-        marginBottom: 30
-
+        alignSelf: 'center',
+        marginBottom: 30,
     },
-    forgetbutton:{
-        width : "50%",
-        fontSize :10,
-        color:"green"
-    }
+    forgetbutton: {
+        width: '50%',
+        fontSize: 10,
+        color: 'green',
+    },
 });
 
-export default LoginScreen;
+function mapStateToProps(state) {
+
+    const { isLoading, login_failure, errorMessage } = state.register;
+    return {
+        isLoading, login_failure, errorMessage
+    };
+}
+
+export default connect(mapStateToProps, { loginUser })(LoginScreen);
