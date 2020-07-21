@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, StatusBar, KeyboardAvoidingView, Platform, Image, ScrollView } from "react-native";
+import { Alert, StyleSheet, View, TouchableHighlight, TouchableOpacity, KeyboardAvoidingView, Platform, Text, ScrollView } from "react-native";
 import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -10,7 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
 
 import { connect } from 'react-redux';
-import { varifyOtp } from '../src/actions';
+import { varifyOtp ,resendOtp} from '../src/actions';
 
 class OtpVarification extends Component {
 
@@ -30,6 +30,8 @@ class OtpVarification extends Component {
 
     _varifyOtp = () => {
 
+        console.log("this.props.navigation : ",this.props.route)
+
         var p = this.state.OtpPassword.length == 4;
 
         this.setState({
@@ -44,11 +46,21 @@ class OtpVarification extends Component {
                 this.props.varifyOtp({
                     endurl: '/VerifyOtp',
                     requestData: this.props.userDetails,
+                    routeData : this.props.route.params.directionTo
                 })
             }
         })
+    }
 
-
+    _resendOTP = () => {
+        this.setState({ isLoading: true });
+        this.props.resendOtp({
+            endurl: '/RESendOTP',
+            requestData: {
+                "UserId": this.props.userDetails?.userId,
+                "MobileNo": this.props.userDetails?.mobileNo
+            },
+        })
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -64,11 +76,7 @@ class OtpVarification extends Component {
 
     render() {
 
-
-        console.log("this.props.userDetails : ", this.props);
-
         const { OtpPassword, flagOtp } = this.state;
-
 
         return (
             <View >
@@ -92,8 +100,9 @@ class OtpVarification extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    this.props.otp_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.props.resend_otp_failure || this.props.otp_failure ) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
+                
 
 
                 <KeyboardAvoidingView
@@ -102,18 +111,26 @@ class OtpVarification extends Component {
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
                 >
                     <ScrollView>
-                        <TextInputComponent title={"YOUR PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={this.props.userDetails.mobileNo} phoneNumber={true} isDisable={true} />
+                        <TextInputComponent title={"YOUR PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={this.props.userDetails?.mobileNo} phoneNumber={true} isDisable={true} />
                         <PincodeComponent title={"ENTER THE OTP"} onChangeText={this.onChangeTextPassword} value={OtpPassword} passwordvisible={true} />
                         {flagOtp ? (
                             <ErrorComponent title={'Should Enter Valid OTP'} />
                         ) : null}
+
+                        <TouchableOpacity
+                            style={{ padding: 15 }}
+                            onPress={this._resendOTP}
+                        >
+                            <Text style={{ fontSize: 12, top: -20 }}>{`Not received OTP?    RESEND OTP`}</Text>
+
+                        </TouchableOpacity>
                         <Button
                             title="Solid Button"
                             title="VERIFY OTP"
                             buttonStyle={{
                                 backgroundColor: "#548247",
                                 borderRadius: 20,
-                                marginTop: 20
+                                marginTop: 5
                             }}
                             onPress={this._varifyOtp}
                         />
@@ -155,14 +172,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, userDetails, otp_failure, errorMessage } = state.register;
+    const { isLoading, userDetails, otp_failure,resend_otp_failure ,errorMessage} = state.register;
     return {
         userDetails,
         isLoading,
         otp_failure,
-        errorMessage
-
+        errorMessage,
+        resend_otp_failure
     }
 }
 
-export default connect(mapStateToProps, { varifyOtp })(OtpVarification);
+export default connect(mapStateToProps, { varifyOtp , resendOtp})(OtpVarification);

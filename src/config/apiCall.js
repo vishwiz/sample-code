@@ -12,25 +12,40 @@ get = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.log('error : ', error);
+    return {
+      data: "error",
+      status: 404
+    }
   }
 };
 
 post = async (params) => {
+
+  console.log("url : ",baseURL + params.endurl);
+  console.log("requestData : ",params.requestData);
+
   try {
-    const response = await fetch(baseURL + params.endurl , {
+    const response = await fetch(baseURL + params.endurl, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(params.requestData),
     });
     const data = await response.json();
-    return {data: data, status: response.status};
+
+    console.log("data : ",data);
+    return { data: data, status: response.status };
   } catch (error) {
-    console.log('error : ', error);
+
+    console.log("error : ",error);
+
+    return {
+      data: "error",
+      status: 404
+    }
   }
 };
 
-export default {get, post};
+export default { get, post };

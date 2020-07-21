@@ -8,7 +8,16 @@ import {
     LOGIN_USER_FAILURE,
     VARIFY_OTP,
     VARIFY_OTP_SUCCESS,
-    VARIFY_OTP_FAILURE
+    VARIFY_OTP_FAILURE,
+    RESEND_OTP,
+    RESEND_OTP_SUCCESS,
+    RESEND_OTP_FAILURE,
+    FORGET_PASSWORD,
+    FORGET_PASSWORD_SUCCESS,
+    FORGET_PASSWORD_FAILURE,
+    CHANGE_PASSWORD,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_FAILURE
 } from '../actions/types';
 
 
@@ -24,6 +33,15 @@ const initialState = {
 
     otp_success: false,
     otp_failure: false,
+
+    resend_otp_success: false,
+    resend_otp_failure: false,
+
+    forget_password_success: false,
+    forget_password_failure: false,
+
+    change_password_success: false,
+    change_password_failure: false,
 
     errorMessage: "",
     isLogged: false,
@@ -98,19 +116,107 @@ export default (state = initialState, action) => {
             }
 
         case VARIFY_OTP_SUCCESS:
-            return {
-                ...state,
-                loginDetails: action.payload.ResponseData,
-                otp_success: true,
-                isLoading: false,
-                isLogged: true
+
+            if (action.payload.routeData === "Home") {
+                return {
+                    ...state,
+                    loginDetails: action.payload.ResponseData,
+                    otp_success: true,
+                    isLoading: false,
+                    isLogged: true
+                }
+
+            } else {
+                return {
+                    ...state,
+                    userDetails: action.payload.ResponseData,
+                    otp_success: true,
+                    isLoading: false,
+                    isLogged: true
+                }
             }
+
 
         case VARIFY_OTP_FAILURE:
 
             return {
                 ...state,
                 otp_failure: true,
+                errorMessage: action.payload.ErrorMessage,
+                isLoading: false
+            }
+
+        case RESEND_OTP:
+            return {
+                ...state,
+                isLoading: true,
+                resend_otp_success: false,
+                resend_otp_failure: false,
+                errorMessage: ""
+            }
+
+        case RESEND_OTP_SUCCESS:
+            return {
+                ...state,
+                loginDetails: action.payload.ResponseData,
+                resend_otp_success: true,
+                isLoading: false,
+            }
+
+        case RESEND_OTP_FAILURE:
+            return {
+                ...state,
+                resend_otp_failure: true,
+                errorMessage: action.payload.ErrorMessage,
+                isLoading: false
+            }
+
+        case FORGET_PASSWORD:
+            return {
+                ...state,
+                isLoading: true,
+                forget_password_success: false,
+                forget_password_failure: false,
+                errorMessage: ""
+            }
+
+        case FORGET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                userDetails: action.payload.ResponseData,
+                forget_password_success: true,
+                isLoading: false,
+            }
+
+        case FORGET_PASSWORD_FAILURE:
+            return {
+                ...state,
+                forget_password_failure: true,
+                errorMessage: action.payload.ErrorMessage,
+                isLoading: false
+            }
+
+        case CHANGE_PASSWORD:
+            return {
+                ...state,
+                isLoading: true,
+                change_password_success: false,
+                change_password_failure: false,
+                errorMessage: ""
+            }
+
+        case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                userDetails: action.payload.ResponseData,
+                change_password_success: true,
+                isLoading: false,
+            }
+
+        case CHANGE_PASSWORD_FAILURE:
+            return {
+                ...state,
+                change_password_failure: true,
                 errorMessage: action.payload.ErrorMessage,
                 isLoading: false
             }

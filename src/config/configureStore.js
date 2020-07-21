@@ -5,7 +5,7 @@ import createSagaMiddleware from 'redux-saga';
 import { createLogger } from 'redux-logger';
 import loginReducer from '../reducers/loginReducer';
 import rootReducer from '../reducers';
-import { watchIncrementAsync } from '../sagas/saga';
+import  Saga from '../sagas';
 
 const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
 
@@ -34,7 +34,7 @@ export default () => {
                 logger
             )
         ));
-    sagaMiddleware.run(watchIncrementAsync);
+    sagaMiddleware.run(Saga);
     let persistor = persistStore(store);
     return { store, persistor };
 }

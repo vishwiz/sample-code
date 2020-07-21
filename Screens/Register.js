@@ -15,6 +15,7 @@ import IconI from 'react-native-vector-icons/Ionicons';
 import TextInputComponent from '../src/component/TextInputComponent';
 import PincodeComponent from '../src/component/PincodeComponent';
 import ErrorComponent from '../src/component/ErrorComponent';
+import ToastMessage from "../src/component/ToastMessage";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import { Button, CheckBox } from 'react-native-elements';
@@ -78,12 +79,12 @@ class RegisterScreen extends Component {
       () => {
         if (f & l & m & e & p & this.state.checked) {
           let register_user = {
-            UserId: 0,
-            FirstName: this.state.firstName,
-            LastName: this.state.lastName,
-            MobileNo: Number(this.state.phoneNumber),
-            EmailId: this.state.email,
-            LoginPinCode: Number(this.state.pinPassword),
+            "UserId": 0,
+            "FirstName": this.state.firstName,
+            "LastName": this.state.lastName,
+            "MobileNo": this.state.phoneNumber,
+            "EmailId": this.state.email,
+            "LoginPinCode": this.state.pinPassword
           };
 
           this.setState(function (state, props) { return { isLoading: true } });
@@ -140,6 +141,11 @@ class RegisterScreen extends Component {
           }}
         />
         <Spinner visible={this.state.isLoading} color="green" />
+
+        {
+          (this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
+        }
+
         <KeyboardAvoidingView
           style={styles.container}
           behavior={'height'}
@@ -251,6 +257,8 @@ function mapStateToProps(state) {
   return {
     userDetails: state.register.userDetails,
     isLoading: state.register.isLoading,
+    register_failure: state.register.register_failure,
+    errorMessage: state.register.errorMessage
   };
 }
 

@@ -11,6 +11,9 @@ import RegisterScreen from '../Screens/Register'
 import Counter from '../Screens/Counter';
 import LoginScreen from '../Screens/Login';
 import OTPVarification from '../Screens/OtpVarification';
+import ForgetPassword from '../Screens/ForgetPassword';
+import ChangePassword from '../Screens/ChangePassword';
+
 import DrawerContent from './DrawerContainer';
 
 
@@ -44,6 +47,18 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="OptVarification"
                 component={OTPVarification}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="ForgetPassword"
+                component={ForgetPassword}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="ChangePassword"
+                component={ChangePassword}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

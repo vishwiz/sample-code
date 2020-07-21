@@ -6,7 +6,9 @@ import {
     KeyboardAvoidingView,
     Platform,
     Image,
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Text
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -48,6 +50,7 @@ class LoginScreen extends Component {
         }
         return null;
     }
+
 
     _loginuser = () => {
 
@@ -146,12 +149,13 @@ class LoginScreen extends Component {
                         />
                     </ScrollView>
 
-                    {/* <Button
-            title="FORGET PASSWORD"
-            type="clear"
-            buttonStyle={styles.forgetbutton}
-            containerStyle={{color: 'green'}}
-          /> */}
+                    <TouchableOpacity
+                        style={{ padding: 15 }}
+                        onPress={() => this.props.navigation.navigate("ForgetPassword")}
+                    >
+                        <Text style={{ fontSize: 12, color : "blue", textDecorationLine:"underline" }}>FORGET PASSWORD</Text>
+
+                    </TouchableOpacity>
                 </KeyboardAvoidingView>
             </View>
         );
