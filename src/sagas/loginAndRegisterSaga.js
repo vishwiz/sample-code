@@ -4,6 +4,7 @@ import {
     call
 } from 'redux-saga/effects';
 import APIRequest from '../config/apiCall';
+import APIRequestAxios from '../config/networking';
 import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -11,11 +12,11 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 export function* registerUserAsync({
     payload
 }) {
-
+    console.log("post ", payload)
     try {
 
-        const response = yield call(APIRequest.post, payload);
-
+        const response = yield call(APIRequestAxios.postReq,payload);
+        console.log("response.status ", response.status)
         if (response.status === 200) {
 
             yield put({
@@ -40,6 +41,7 @@ export function* registerUserAsync({
         }
 
     } catch (error) {
+        console.log("error 7553", error )
         yield put({
             type: 'REGISTER_USER_FAILURE',
             payload: {
@@ -56,10 +58,12 @@ export function* loginUserASYNC({
 }) {
     try {
 
-        const response = yield call(APIRequest.post, payload);
+        const response = yield call(APIRequestAxios.postReq, payload);
 
         if (response.status === 200) {
+            console.log("11111111145 ", response.data , response)
             if (response.data.errorMessage === 'OB_Success') {
+                console.log("1111111111")
                 yield put({
                     type: 'LOGIN_USER_SUCCESS',
                     payload: {
@@ -113,9 +117,9 @@ export function* varifyOTPASYNC({
 }) {
     try {
 
-        const response = yield call(APIRequest.post, payload);
+        const response = yield call(APIRequestAxios.postReq, payload);
 
-        console.log("payload : ",payload)
+        console.log("payload : ", payload)
 
         if (response.status === 200) {
             if (response.data.errorMessage === 'OTP validation is successfull') {
@@ -123,7 +127,7 @@ export function* varifyOTPASYNC({
                     type: 'VARIFY_OTP_SUCCESS',
                     payload: {
                         ResponseData: response.data,
-                        routeData : payload.routeData
+                        routeData: payload.routeData
                     },
                 });
 
@@ -170,7 +174,7 @@ export function* resendOTPASYNC({
         yield delay(5000)
 
 
-        const response = yield call(APIRequest.post, payload);
+        const response = yield call(APIRequestAxios.postReq, payload);
 
         if (response.status === 200) {
             if (response.data.errorMessage === "Otp sent to your mobile no") {
@@ -223,7 +227,7 @@ export function* forgetPasswordASYNC({
         yield delay(5000)
 
 
-        const response = yield call(APIRequest.post, payload);
+        const response = yield call(APIRequestAxios.postReq, payload);
 
 
         if (response.status === 200) {
@@ -279,7 +283,7 @@ export function* changePasswordASYNC({
         yield delay(5000)
 
 
-        const response = yield call(APIRequest.post, payload);
+        const response = yield call(APIRequestAxios.postReq, payload);
 
 
         if (response.status === 200) {
@@ -329,10 +333,10 @@ export function* changePasswordASYNC({
 
 
 export const loginAndRegisterSaga = [
-     takeLatest('REGISTER_USER', registerUserAsync),
-     takeLatest('LOGIN_USER', loginUserASYNC),
-     takeLatest('VARIFY_OTP', varifyOTPASYNC),
-     takeLatest('RESEND_OTP', resendOTPASYNC),
-     takeLatest('FORGET_PASSWORD', forgetPasswordASYNC),
-     takeLatest('CHANGE_PASSWORD', changePasswordASYNC)
+    takeLatest('REGISTER_USER', registerUserAsync),
+    takeLatest('LOGIN_USER', loginUserASYNC),
+    takeLatest('VARIFY_OTP', varifyOTPASYNC),
+    takeLatest('RESEND_OTP', resendOTPASYNC),
+    takeLatest('FORGET_PASSWORD', forgetPasswordASYNC),
+    takeLatest('CHANGE_PASSWORD', changePasswordASYNC)
 ]
