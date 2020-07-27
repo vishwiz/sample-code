@@ -13,6 +13,7 @@ import LoginScreen from '../Screens/Login';
 import OTPVarification from '../Screens/OtpVarification';
 import ForgetPassword from '../Screens/ForgetPassword';
 import ChangePassword from '../Screens/ChangePassword';
+import AddToCart from '../Screens/AddToCart';
 
 import DrawerContent from './DrawerContainer';
 
@@ -59,6 +60,11 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="ChangePassword"
                 component={ChangePassword}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AddToCart"
+                component={AddToCart}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

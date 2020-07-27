@@ -5,89 +5,128 @@ import {
     Dimensions,
     View,
     FlatList,
-    Image
+    Image,
+    TouchableOpacity
 } from "react-native";
 import { connect } from 'react-redux';
 import { productListCall } from '../src/actions/productListAction';
 import Spinner from 'react-native-loading-spinner-overlay';
+import ToastMessage from "../src/component/ToastMessage";
+import Carousel, { PaginationLight } from 'react-native-x-carousel';
+const { width } = Dimensions.get('window');
 
-class PRODUCTLIST extends Component {
-        constructor(props) {
-            super(props)
-            this.state = {
-                screenWidth: Dimensions.get('window').width,
-                screenheight: Dimensions.get('window').height,
-                DATA: [],
+class ProductList extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            screenWidth: Dimensions.get('window').width,
+            screenheight: Dimensions.get('window').height,
+            productListData: [],
+            isLoading: false,
+            promotionData: [
+                {
+                    coverImageUri: 'https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg',
+                    cornerLabelColor: '#FFD300',
+                    cornerLabelText: 'GOTY',
+                },
+                {
+                    coverImageUri: 'https://user-images.githubusercontent.com/6414178/73920358-336f9600-4900-11ea-8eec-cc919b991e90.jpg',
+                    cornerLabelColor: '#0080ff',
+                    cornerLabelText: 'NEW',
+                },
+                {
+                    coverImageUri: 'https://user-images.githubusercontent.com/6414178/73927874-25744200-490d-11ea-940f-db3e5dbd8b2b.jpg',
+                    cornerLabelColor: '#2ECC40',
+                    cornerLabelText: '-75%',
+                },
+                {
+                    coverImageUri: 'https://user-images.githubusercontent.com/6414178/73920399-45e9cf80-4900-11ea-9d5b-743fe5e8b9a4.jpg',
+                    cornerLabelColor: '#2ECC40',
+                    cornerLabelText: '-20%',
+                },
+            ]
+        }
+    }
+
+    componentDidMount = () => {
+        let params = {
+            CultureId: 1,
+            TalukaId: 1,
+            SupplierId: 1
+        }
+        this.setState(function (state, props) { return { isLoading: true } });
+        this.props.productListCall({
+            endurl: '/GetCategoryList',
+            requestData: params,
+        })
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (!props.isLoading && props.productListDetails.length > 0) {
+            return {
+                isLoading: false,
+                productListData: props.productListDetails
+            };
+        }
+
+        if (props.errorMessage !== "") {
+            return {
                 isLoading: false,
             }
         }
 
-        componentDidMount = () => {
-            let params = {
-                CultureId: 1,
-                TalukaId: 1,
-                SupplierId: 1
-            }
-            this.setState(function (state, props) { return { isLoading: true } });
-            this.props.productListCall({
-                endurl: '/GetCategoryList',
-                requestData: params,
-            })
-        }
+        return null;
+    }
 
-        static getDerivedStateFromProps(props, state) {
-            if (!props.isLoading && props.productListDetails.length > 0) {
-              return {
-                isLoading: false,
-                DATA : props.productListDetails
-              };
-            }
-        
-            return null;
-          }
+    renderPromotionData = (data) => (
+        <TouchableOpacity onPress={() => this.props.move()}
+            key={data.coverImageUri}
+        >
 
-        // componentWillReceiveProps(nextrops){
-        //     if (!nextrops.isLoading && nextrops.productListDetails.length > 0) {
-        //        this.setState({
-        //         isLoading: false,
-        //         DATA : nextrops.productListDetails
-        //        })
-        //       }
-          
-        //       return null;
-        //     }
-    
-        renderItem = (item) => {
-            console.log("item ", item);
-            return (<View style={styles.flatListContainer}>
-                
-                <View style={styles.productHeader}>
-                    <Text style={styles.productListHeader}>{item.name}</Text>
-                </View>
-                <View style={styles.productImage}>
-                    <Image
-                        style={{ width: this.state.screenWidth, height: 140 }}
-                        source={
-                            // require('../src/assests/Images/React_Native_Logo.png')
-                            {
-                                uri: `${item.categoryImageUrl}`,
-                                //   React_Native_Logo.png
-                            }
+            <Image
+                style={styles.card}
+                source={{ uri: data.coverImageUri }}
+            />
+        </TouchableOpacity>
+    );
+
+    renderProductListData = (item) => {
+        console.log("item ", item);
+        return (<View style={styles.flatListContainer}>
+            <View style={styles.productHeader}>
+                <Text style={styles.productListHeader}>{item.name}</Text>
+            </View>
+            <View style={styles.productImage}>
+                <Image
+                    style={{ width: this.state.screenWidth, height: 140 }}
+                    source={
+                        // require('../src/assests/Images/React_Native_Logo.png')
+                        {
+                            uri: `${item.categoryImageUrl}`,
+                            //   React_Native_Logo.png
                         }
-                    />
-                </View>
+                    }
+                />
+            </View>
 
-            </View>)
-        }
-        render() {
-            console.log("isLoading ",this.state.isLoading)
-            console.log("DATA ",this.state.DATA)
-            return (
-                <View style={{ height: "100%", flex:1 }}>
-                   { this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
+        </View>)
+    }
+    render() {
+        console.log("isLoading ", this.state.isLoading, this.props.errorMessage)
+        console.log("DATA ", this.state.productListData)
+        return (
+            <View style={{ height: "100%", flex: 1 }}>
+                <Carousel
+                    pagination={PaginationLight}
+                    renderItem={this.renderPromotionData}
+                    data={this.state.promotionData}
+                    loop
+                    autoplay
+                />
+                {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
                     <FlatList
-                        data={this.state.DATA}
-                        renderItem={((item)=>this.renderItem(item.item))}
+                        data={this.state.productListData}
+                        renderItem={((item) => this.renderProductListData(item.item))}
                         keyExtractor={(item, i) => i.toString()}
                         extraData={this.state}
                         horizontal={false}
@@ -95,13 +134,21 @@ class PRODUCTLIST extends Component {
                             marginVertical: 5,
                         }}
                     />
-                 }
-                </View>
-            )
-        }
+                }
+                {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
+            </View>
+        )
     }
+}
 
 const styles = StyleSheet.create({
+    container: {
+        width: 375,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'transparent',
+    },
     productHeader: {
         paddingHorizontal: 15,
         paddingVertical: 10,
@@ -116,17 +163,45 @@ const styles = StyleSheet.create({
         height: 190,
 
     },
-    flatListContainer:{
+    flatListContainer: {
         paddingBottom: 30
-    }
+    },
+    cardContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width,
+    },
+    cardWrapper: {
+        // borderRadius: 8,
+        overflow: 'hidden',
+    },
+    card: {
+        width: width,
+        height: width * 0.5,
+    },
+    cornerLabel: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        borderTopLeftRadius: 8,
+    },
+    cornerLabelText: {
+        fontSize: 12,
+        color: '#fff',
+        fontWeight: '600',
+        paddingLeft: 5,
+        paddingRight: 5,
+        paddingTop: 2,
+        paddingBottom: 2,
+    },
 })
 
 function mapStateToProps(state) {
-    const { productListDetails, isLoading } = state.productList
+    const { productListDetails, isLoading, errorMessage } = state.productList
     return {
-        productListDetails, isLoading
+        productListDetails, isLoading, errorMessage
     };
 }
 
-export default connect(mapStateToProps, { productListCall })(PRODUCTLIST);
+export default connect(mapStateToProps, { productListCall })(ProductList);
 // export default PRODUCTLIST

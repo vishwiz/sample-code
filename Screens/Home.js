@@ -14,7 +14,7 @@ import Modal from 'react-native-modal';
 import { Header } from 'react-native-elements';
 import { connect } from "react-redux";
 import { resetUserData } from "../src/actions";
-import PRODUCTLIST from "./productList"
+import ProductList from "./productList"
 
 
 class App extends Component {
@@ -112,7 +112,9 @@ class App extends Component {
                         </View>
                     </View>
                 </Modal>
-                <PRODUCTLIST />
+                <ProductList 
+                move={()=>this.props.navigation.navigate('AddToCart')}
+                />
             </View>
         );
     }
