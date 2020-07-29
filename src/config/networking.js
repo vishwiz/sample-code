@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios from 'axios'
 import baseURL from '../../baseURL';
 
-const postReq = async (params) => {
+postReq = async (params) => {
+    console.log("baseURL + params.endurl ", baseURL + params.endurl)
     try {
         const response = await axios(baseURL + params.endurl, {
             method: 'post',
@@ -9,40 +10,45 @@ const postReq = async (params) => {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            timeout: 3000,
-            data: JSON.stringify(params.requestData),
+            timeout: 30000,
+            data: params.requestData,
         });
-        const data = await response;
-
-
-        console.log("data data ", data, data.status)
-
-
+        const data = await response.data;
+        console.log("data data ", data, response.status)
         return { data: data, status: response.status };
     } catch (error) {
-        console.log('error : ', error);
+        console.log("error : ", error);
+
         return {
             data: "error",
             status: 404
-          }
+        }
     }
 };
 
-// const getReq = function (url, params, headers, timeout, isDownload = false, success, error) {
+getReq = async (params) => {
+    console.log("baseURL + params.endurl ", baseURL + params.endurl)
+    try {
+        const response = await axios(baseURL + params.endurl, {
+            method: 'get',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            timeout: 30000,
+            // data: params.requestData,
+        });
+        const data = await response.data;
+        console.log("data data ", data, response.status)
+        return { data: data, status: response.status };
+    } catch (error) {
+        console.log("error : ", error);
 
-//     return new Promise((resolve, reject) => {
-//         axios({
-//             method: 'get',
-//             url: url,
-//             params: params,
-//             timeout: timeout,
-//             headers: headers,
-//         }).then(function (response) {
-//             resolve(response);
-//         }).catch(error => {
-//             reject(error);
-//         });
-//     });
-// }
+        return {
+            data: "error",
+            status: 404
+        }
+    }
+};
 
-export { postReq };
+export default { postReq, getReq };

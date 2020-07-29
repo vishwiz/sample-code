@@ -16,6 +16,7 @@ import Modal from 'react-native-modal';
 import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
 import { resetUserData } from "../src/actions";
+import ProductList from "./productList"
 
 
 class App extends Component {
@@ -38,7 +39,7 @@ class App extends Component {
 
 
         return (
-            <View>
+            <View style={styles.centeredView}>
                 <Header
                     placement="left"
                     leftComponent={
@@ -139,7 +140,9 @@ class App extends Component {
                         </View>
                     </View>
                 </Modal>
-
+                <ProductList 
+                move={()=>this.props.navigation.navigate('AddToCart')}
+                />
             </View>
         );
     }
@@ -148,9 +151,9 @@ class App extends Component {
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#6e6e6e"
+        // justifyContent: "center",
+        // alignItems: "center",
+        // backgroundColor: "#6e6e6e"
     },
     userView: {
         flexDirection: "row",

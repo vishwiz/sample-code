@@ -16,9 +16,7 @@ import ChangePassword from '../Screens/ChangePassword';
 import ViewCart from '../Screens/ViewCart';
 import SelectDeliveryType from '../Screens/SelectDeliveryType';
 import ThankYou from '../Screens/ThankYou';
-
-
-
+import AddToCart from '../Screens/AddToCart';
 
 import DrawerContent from './DrawerContainer';
 
@@ -83,6 +81,11 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="ThankYou"
                 component={ThankYou}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AddToCart"
+                component={AddToCart}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
