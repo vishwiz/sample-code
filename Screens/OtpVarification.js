@@ -100,7 +100,7 @@ class OtpVarification extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    (this.props.resend_otp_failure || this.props.otp_failure ) ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.props.resend_otp_failure || this.props.otp_failure || this.props.resend_otp_success ) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
                 
 
@@ -172,13 +172,14 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, userDetails, otp_failure,resend_otp_failure ,errorMessage} = state.register;
+    const { isLoading, userDetails, otp_failure,resend_otp_failure ,errorMessage, resend_otp_success} = state.register;
     return {
         userDetails,
         isLoading,
         otp_failure,
         errorMessage,
-        resend_otp_failure
+        resend_otp_failure,
+        resend_otp_success
     }
 }
 

@@ -77,6 +77,22 @@ class LoginScreen extends Component {
 
     };
 
+    _forgetPassword = () => {
+
+        var m = this.state.phoneNumber.length === 10;
+
+        this.setState({
+            flagPhone: !m
+        }, () => {
+            if (m) {
+                this.props.navigation.navigate("ForgetPassword", { phoneNumber: this.state.phoneNumber })
+            }
+        });
+
+
+
+    }
+
     render() {
         const { phoneNumber, flagPhone, pinPassword, flagPin } = this.state;
 
@@ -111,7 +127,9 @@ class LoginScreen extends Component {
                     style={styles.container}
                     behavior={'position'}
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
-                    <ScrollView>
+                    <ScrollView
+                        keyboardShouldPersistTaps={'handled'}
+                    >
                         <Image
                             style={styles.imageStyle}
                             resizeMode={'contain'}
@@ -151,9 +169,9 @@ class LoginScreen extends Component {
 
                     <TouchableOpacity
                         style={{ padding: 15 }}
-                        onPress={() => this.props.navigation.navigate("ForgetPassword")}
+                        onPress={this._forgetPassword}
                     >
-                        <Text style={{ fontSize: 12, color : "blue", textDecorationLine:"underline" }}>FORGET PASSWORD</Text>
+                        <Text style={{ fontSize: 12, color: "blue", textDecorationLine: "underline" }}>FORGET PASSWORD</Text>
 
                     </TouchableOpacity>
                 </KeyboardAvoidingView>

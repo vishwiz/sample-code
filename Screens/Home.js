@@ -10,8 +10,10 @@ import {
 import IconE from 'react-native-vector-icons/Entypo';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
+import IconEv from 'react-native-vector-icons/EvilIcons';
+
 import Modal from 'react-native-modal';
-import { Header } from 'react-native-elements';
+import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
 import { resetUserData } from "../src/actions";
 
@@ -49,18 +51,44 @@ class App extends Component {
                         </TouchableHighlight>}
                     centerComponent={{ text: 'DMart', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }}
                     rightComponent={
-                        <TouchableHighlight
-                            onPress={() => {
 
-                                this.props.isLogged ?
-                                    Alert.alert("User Logged ..!!!")
-                                    :
-                                    this.setModalVisible(true)
-                            }}
-                            style={{ padding: 10 }}
-                        >
-                            <IconI name="ellipsis-vertical" color="#548247" size={20} />
-                        </TouchableHighlight>
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+
+                            <TouchableHighlight
+                                onPress={() => {
+                                    this.props.navigation.navigate("ViewCart")
+                                }}
+                                style={{ padding: 10 }}
+                            >
+                                <View>
+                                    <IconEv name="cart" color="#548247" size={30} />
+
+                                    <Badge
+                                        status="success"
+                                        value="91"
+                                        containerStyle={{ position: 'absolute', top: -10, right: -4 }}
+                                    />
+                                    <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -10, width: 100 }}>
+                                        ₹ 2363.00
+                                    </Text>
+                                </View>
+                            </TouchableHighlight>
+
+
+                            <TouchableHighlight
+                                onPress={() => {
+
+                                    this.props.isLogged ?
+                                        Alert.alert("User Logged ..!!!")
+                                        :
+                                        this.setModalVisible(true)
+                                }}
+                                style={{ padding: 10 }}
+                            >
+                                <IconI name="ellipsis-vertical" color="#548247" size={20} />
+                            </TouchableHighlight>
+
+                        </View>
                     }
                     containerStyle={{
                         backgroundColor: 'white'

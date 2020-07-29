@@ -16,7 +16,7 @@ class ForgetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            phoneNumber: "",
+            phoneNumber: this.props.route.params.phoneNumber,
             flagPhone: false,
             isLoading: false
         };
@@ -105,10 +105,8 @@ class ForgetPassword extends Component {
                         >
                             {`One Time Password (OTP) will be send to your registered phone number.`}
                         </Text>
-                        <TextInputComponent title={"ENTER REGISTERED PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} phoneNumber={true} isDisable={false} />
-                        {flagPhone ? (
-                            <ErrorComponent title={'Enter your 10 digit phone number'} />
-                        ) : null}
+                        <TextInputComponent title={"ENTER REGISTERED PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} phoneNumber={true} isDisable={true} />
+                       
                         <Button
                             title="Solid Button"
                             title="RESET PASSWORD"

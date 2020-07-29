@@ -161,6 +161,7 @@ export default (state = initialState, action) => {
                 loginDetails: action.payload.ResponseData,
                 resend_otp_success: true,
                 isLoading: false,
+                errorMessage: action.payload.ErrorMessage,
             }
 
         case RESEND_OTP_FAILURE:
