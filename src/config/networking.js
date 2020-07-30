@@ -2,7 +2,6 @@ import axios from 'axios'
 import baseURL from '../../baseURL';
 
 postReq = async (params) => {
-    console.log("baseURL + params.endurl ", baseURL + params.endurl)
     try {
         const response = await axios(baseURL + params.endurl, {
             method: 'post',
@@ -14,11 +13,8 @@ postReq = async (params) => {
             data: params.requestData,
         });
         const data = await response.data;
-        console.log("data data ", data, response.status)
         return { data: data, status: response.status };
     } catch (error) {
-        console.log("error : ", error);
-
         return {
             data: "error",
             status: 404
@@ -27,7 +23,6 @@ postReq = async (params) => {
 };
 
 getReq = async (params) => {
-    console.log("baseURL + params.endurl ", baseURL + params.endurl)
     try {
         const response = await axios(baseURL + params.endurl, {
             method: 'get',
@@ -39,11 +34,8 @@ getReq = async (params) => {
             // data: params.requestData,
         });
         const data = await response.data;
-        console.log("data data ", data, response.status)
         return { data: data, status: response.status };
     } catch (error) {
-        console.log("error : ", error);
-
         return {
             data: "error",
             status: 404

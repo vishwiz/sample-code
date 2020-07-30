@@ -29,9 +29,6 @@ class OtpVarification extends Component {
     }
 
     _varifyOtp = () => {
-
-        console.log("this.props.navigation : ",this.props.route)
-
         var p = this.state.OtpPassword.length == 4;
 
         this.setState({
