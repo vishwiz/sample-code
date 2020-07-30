@@ -6,7 +6,7 @@ const App = (props) => {
         ToastAndroid.showWithGravity(
             props.message,
             ToastAndroid.SHORT,
-            ToastAndroid.CENTER
+            ToastAndroid.BOTTOM
         );
     }, [])
     return (

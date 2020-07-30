@@ -7,7 +7,7 @@ import APIRequest from '../config/apiCall';
 import APIRequestAxios from '../config/networking';
 import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
 
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+// const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 export function* registerUserAsync({
     payload
@@ -17,13 +17,24 @@ export function* registerUserAsync({
         const response = yield call(APIRequestAxios.postReq,payload);
         if (response.status === 200) {
 
-            yield put({
-                type: 'REGISTER_USER_SUCCESS',
-                payload: {
-                    ResponseData: response.data,
-                },
-            });
-            RootNavigation.navigate('OptVarification', { directionTo: "Home" });
+            if (response.data.errorMessage === 'Otp sent you to registerd mobile no.') {
+                yield put({
+                    type: 'REGISTER_USER_SUCCESS',
+                    payload: {
+                        ResponseData: response.data,
+                    },
+                });
+                RootNavigation.navigate('OptVarification', { directionTo: "ThankYou" });
+            } else {
+                yield put({
+                    type: 'REGISTER_USER_FAILURE',
+                    payload: {
+                        ResponseData: {},
+                        Error: true,
+                        ErrorMessage: response.data.errorMessage,
+                    },
+                });
+            }
 
 
         } else {
@@ -115,7 +126,10 @@ export function* varifyOTPASYNC({
         const response = yield call(APIRequestAxios.postReq, payload);
 
         if (response.status === 200) {
-            if (response.data.errorMessage === 'OTP validation is successfull') {
+            if (response.data.errorMessage === 'OTP Verified Sucessfully') {
+
+
+
                 yield put({
                     type: 'VARIFY_OTP_SUCCESS',
                     payload: {
@@ -131,6 +145,16 @@ export function* varifyOTPASYNC({
                     type: 'VARIFY_OTP_FAILURE',
                     payload: {
                         ErrorMessage: 'Invaild OTP',
+                    },
+                });
+            }else {
+
+                yield put({
+                    type: 'VARIFY_OTP_FAILURE',
+                    payload: {
+                        ResponseData: {},
+                        Error: true,
+                        ErrorMessage: 'Something went wrong..!!!',
                     },
                 });
             }
@@ -164,7 +188,7 @@ export function* resendOTPASYNC({
 }) {
     try {
 
-        yield delay(5000)
+        // yield delay(5000)
 
 
         const response = yield call(APIRequestAxios.postReq, payload);
@@ -175,6 +199,7 @@ export function* resendOTPASYNC({
                     type: 'RESEND_OTP_SUCCESS',
                     payload: {
                         ResponseData: response.data,
+                        ErrorMessage: 'Otp sent to your mobile no',
                     },
                 });
 
@@ -217,7 +242,7 @@ export function* forgetPasswordASYNC({
 }) {
     try {
 
-        yield delay(5000)
+        // yield delay(5000)
 
 
         const response = yield call(APIRequestAxios.postReq, payload);
@@ -273,7 +298,7 @@ export function* changePasswordASYNC({
 }) {
     try {
 
-        yield delay(5000)
+        // yield delay(5000)
 
 
         const response = yield call(APIRequestAxios.postReq, payload);

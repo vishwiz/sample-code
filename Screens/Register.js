@@ -4,7 +4,7 @@ import {
   StyleSheet,
   View,
   TouchableHighlight,
-  StatusBar,
+  ToastAndroid,
   KeyboardAvoidingView,
   Platform,
   Image,
@@ -65,7 +65,7 @@ class RegisterScreen extends Component {
     var f = this.state.firstName.length > 3;
     var l = this.state.lastName.length > 3;
     var m = this.state.phoneNumber.length == 10;
-    var e = this.validateEmail(this.state.email);
+    var e = this.state.email.length === 0 || this.validateEmail(this.state.email);
     var p = this.state.pinPassword.length == 4;
 
     this.setState(
@@ -77,7 +77,7 @@ class RegisterScreen extends Component {
         flagPin: !p,
       },
       () => {
-        if (f & l & m & e & p & this.state.checked) {
+        if (f & l & m & e & p) {
           let register_user = {
             "UserId": 0,
             "FirstName": this.state.firstName,
@@ -86,12 +86,21 @@ class RegisterScreen extends Component {
             "EmailId": this.state.email,
             "LoginPinCode": this.state.pinPassword
           };
+          if (!this.state.checked) {
+            ToastAndroid.showWithGravity(
+              "Pleade agree to our T&C to register",
+              ToastAndroid.SHORT,
+              ToastAndroid.BOTTOM
+          );
+          } else {
+            this.setState(function (state, props) { return { isLoading: true } });
+            this.props.registerUser({
+              endurl: '/RegisterUser',
+              requestData: register_user,
+            });
+          }
 
-          this.setState(function (state, props) { return { isLoading: true } });
-          this.props.registerUser({
-            endurl: '/RegisterUser',
-            requestData: register_user,
-          });
+
         }
       },
     );
@@ -145,12 +154,14 @@ class RegisterScreen extends Component {
         {
           (this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
         }
-
+        
         <KeyboardAvoidingView
           style={styles.container}
           behavior={'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+          <ScrollView showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps={'handled'}
+          >
             <Image
               style={styles.imageStyle}
               resizeMode={'contain'}
@@ -189,7 +200,7 @@ class RegisterScreen extends Component {
               <ErrorComponent title={'Enter your 10 digit phone number'} />
             ) : null}
             <TextInputComponent
-              title={'EMAIL'}
+              title={'EMAIL (Optional)'}
               keyboard_type={'email-address'}
               onChangeText={this.onChangeTextemail}
               value={email}
@@ -226,7 +237,7 @@ class RegisterScreen extends Component {
               }}
               onPress={this._validation}
             />
-            <View style={{ height: 300 }}></View>
+            {/* <View style={{ height: 100 }}></View> */}
           </ScrollView>
         </KeyboardAvoidingView>
       </View>
