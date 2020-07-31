@@ -33,163 +33,166 @@ class AddToCart extends Component {
 
     componentDidMount = () => {
 
-        // let newObj = [
+        let newObj = [
 
-        //     {
+            {
 
-        //         "productId": 1,
+                "productId": 1,
 
-        //         "maxQuantity": 4,
+                "maxQuantity": 4,
 
-        //         "name": "Boro Plus 10 RS",
+                "name": "Boro Plus 10 RS",
 
-        //         "productImageUrl": "https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg",
+                "productImageUrl": "https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg",
 
-        //         "unit": "Gm",
+                "unit": "Gm",
 
-        //         "discount": 0.5,
+                "discount": 0.5,
 
-        //         "quantity": 0,
+                "quantity": 0,
 
-        //         "mrp": 10,
+                "mrp": 10,
 
-        //         "sellingPrice": 9.5,
+                "sellingPrice": 9.5,
 
-        //         "isStock": true,
+                "isStock": true,
 
-        //         "productOption": "10",
+                "productOption": "10",
 
-        //         "isVariantTrue": false,
+                "isVariantTrue": false,
 
-        //         "isVisible": false,
+                "isVisible": false,
 
-        //         "addedQuantity": 0,
+                "addedQuantity": 0,
 
-        //         "productVariantList": [
+                "productVariantList": [
 
-        //             {
+                    {
 
-        //                 "productId": 17,
+                        "productId": 17,
 
-        //                 "name": "Boro Plus 20",
+                        "name": "Boro Plus 20",
 
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-        //                 "unit": "Gm",
+                        "unit": "Gm",
 
-        //                 "discount": 2,
+                        "discount": 2,
 
-        //                 "quantity": 0,
+                        "quantity": 0,
 
-        //                 "mrp": 20,
+                        "mrp": 20,
 
-        //                 "sellingPrice": 18,
+                        "sellingPrice": 18,
 
-        //                 "isStock": true,
+                        "isStock": true,
 
-        //                 "parentProductId": 1,
+                        "parentProductId": 1,
 
-        //                 "supplierId": null,
+                        "supplierId": null,
 
-        //                 "productOption": "20",
+                        "productOption": "20",
 
-        //                 "maxQuantity": 4,
+                        "maxQuantity": 4,
 
-        //                 "istrue": false,
+                        "istrue": false,
 
-        //                 "addedQuantity": 0,
+                        "addedQuantity": 0,
 
-        //             },
+                    },
 
-        //             {
+                    {
 
-        //                 "productId": 18,
+                        "productId": 18,
 
-        //                 "name": "Boro pus 50",
+                        "name": "Boro pus 50",
 
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-        //                 "unit": "Gm",
+                        "unit": "Gm",
 
-        //                 "discount": 4,
+                        "discount": 4,
 
-        //                 "quantity": 0,
+                        "quantity": 0,
 
-        //                 "mrp": 50,
+                        "mrp": 50,
 
-        //                 "sellingPrice": 46,
+                        "sellingPrice": 46,
 
-        //                 "isStock": true,
+                        "isStock": true,
 
-        //                 "parentProductId": 1,
+                        "parentProductId": 1,
 
-        //                 "supplierId": null,
+                        "supplierId": null,
 
-        //                 "productOption": "50",
+                        "productOption": "50",
 
-        //                 "maxQuantity": 4,
+                        "maxQuantity": 4,
 
-        //                 "istrue": false,
+                        "istrue": false,
 
-        //                 "addedQuantity": 0,
+                        "addedQuantity": 0,
 
-        //             },
+                    },
 
-        //             {
+                    {
 
-        //                 "productId": 19,
+                        "productId": 19,
 
-        //                 "name": "Boro Plus 100",
+                        "name": "Boro Plus 100",
 
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-        //                 "unit": "Gm",
+                        "unit": "Gm",
 
-        //                 "discount": 8,
+                        "discount": 8,
 
-        //                 "quantity": 0,
+                        "quantity": 0,
 
-        //                 "mrp": 100,
+                        "mrp": 100,
 
-        //                 "sellingPrice": 92,
+                        "sellingPrice": 92,
 
-        //                 "isStock": true,
+                        "isStock": true,
 
-        //                 "parentProductId": 1,
+                        "parentProductId": 1,
 
-        //                 "supplierId": null,
+                        "supplierId": null,
 
-        //                 "productOption": "100",
+                        "productOption": "100",
 
-        //                 "maxQuantity": 4,
+                        "maxQuantity": 4,
 
-        //                 "istrue": false,
+                        "istrue": false,
 
-        //                 "addedQuantity": 0,
+                        "addedQuantity": 0,
 
-        //             }
+                    }
 
-        //         ],
+                ],
 
 
-        //     }
+            }
 
-        // ]
+        ]
+
+        this.onAddToCartListSuccess(newObj)
 
         // this.setState({ data: [...newObj] })
-        let params = {
-            "CultureId": 1,
-            "TalukaId": 1,
-            "SupplierId": 1,
-            "ProductSerachName": this.props.searchText,
-            "SubCategoryId": 0
-        }
-        this.setState(function (state, props) { return { isLoading: true } });
-        this.addtoCartListCall = true
-        this.props.addtoCartListCall({
-            endurl: '/GetProductListWithProductSearchName',
-            requestData: params,
-        })
+        // this.props.searchText
+        // let params = {
+        //     "CultureId": 1,
+        //     "TalukaId": 1,
+        //     "SupplierId": 1,
+        //     "ProductSerachName": "boro plus",
+        //     // "SubCategoryId": 0
+        // }
+        // this.setState(function (state, props) { return { isLoading: true } });
+        // this.addtoCartListCall = true
+        // this.props.addtoCartListCall({
+        //     endurl: '/GetProductListByProductSearchName', 
+        //     requestData: params,
+        // })
     }
 
     componentWillReceiveProps(props) {
@@ -209,43 +212,110 @@ class AddToCart extends Component {
     }
 
     onAddToCartListSuccess = (addToCartListDetails) => {
-        let newData = this.props.addToCartListData
-        addToCartListDetails.forEach(element => {
-            element.isVisible = false
-            element.addedQuantity = 0
-            element.isVariantTrue = false
-            element.productVariantList.length > 0 ?
-                element.productVariantList.forEach(insideElement => {
-                    insideElement.istrue = false
-                    insideElement.addedQuantity = 0
-                }) : null
-        })
+        let viewCartData = this.props.addToCartListData
+        let newData = [...addToCartListDetails]
 
-        if (newData.length === 0) {
-            newData = [...addToCartListDetails]
-        } else {
-            let newTempData = [...addToCartListDetails]
-            newData.forEach(newDataElement => {
-                newDataElement.isVisible = false
-                newDataElement.isVariantTrue = false
-                newDataElement.productVariantList.length > 0 ?
-                    newDataElement.productVariantList.forEach(insideElement => {
-                        insideElement.istrue = false
-                        // insideElement.addedQuantity = 0
-                    }) : null
-                newTempData.forEach((element, index) => {
-                    if (newDataElement.productId == element.productId) {
-                        newTempData.splice(index, 1)
-                    }
+        if (newData.length > 0) {
+            if (viewCartData.length > 0) {
+                viewCartData.forEach(element => {
+                    newData.forEach(newDataElement => {
+                        newDataElement.productId === element.productId ? newDataElement.addedQuantity = element.addedQuantity : null
+                        newDataElement.productVariantList.length > 0 ? newDataElement.productVariantList.forEach(innerElement => {
+                            innerElement.productId === element.productId ? innerElement.addedQuantity = element.addedQuantity : null
+                        }) : null
+                    })
                 })
-            })
-            newData = [...newData, ...newTempData]
+            } else {
+                newData.forEach(element => {
+                    element.isVisible = false
+                    element.addedQuantity = 0
+                    element.isVariantTrue = false
+                    element.productVariantList.length > 0 ?
+                        element.productVariantList.forEach(insideElement => {
+                            insideElement.istrue = false
+                            insideElement.addedQuantity = 0
+                        }) : null
+                })
+            }
+
+            this.setState({addToCartListData: [...newData]})
+
         }
-        this.props.addtoCartListCompleteData(newData)
-        this.setState({ addToCartListData: [...newData] })
+        // addToCartListDetails.forEach(element => {
+        //     element.isVisible = false
+        //     element.addedQuantity = 0
+        //     element.isVariantTrue = false
+        //     element.productVariantList.length > 0 ?
+        //         element.productVariantList.forEach(insideElement => {
+        //             insideElement.istrue = false
+        //             insideElement.addedQuantity = 0
+        //         }) : null
+        // })
+
+        // if (newData.length === 0) {
+        //     newData = [...addToCartListDetails]
+        // } else {
+        //     let newTempData = [...addToCartListDetails]
+        //     newData.forEach(newDataElement => {
+        //         newDataElement.isVisible = false
+        //         newDataElement.isVariantTrue = false
+        //         newDataElement.productVariantList.length > 0 ?
+        //             newDataElement.productVariantList.forEach(insideElement => {
+        //                 insideElement.istrue = false
+        //                 // insideElement.addedQuantity = 0
+        //             }) : null
+        //         newTempData.forEach((element, index) => {
+        //             if (newDataElement.productId == element.productId) {
+        //                 newTempData.splice(index, 1)
+        //             }
+        //         })
+        //     })
+        //     newData = [...newData, ...newTempData]
+        // }
+        // this.props.addtoCartListCompleteData(newData)
+
 
 
     }
+
+    // onAddToCartListSuccess = (addToCartListDetails) => {
+    //     let newData = this.props.addToCartListData
+    //     addToCartListDetails.forEach(element => {
+    //         element.isVisible = false
+    //         element.addedQuantity = 0
+    //         element.isVariantTrue = false
+    //         element.productVariantList.length > 0 ?
+    //             element.productVariantList.forEach(insideElement => {
+    //                 insideElement.istrue = false
+    //                 insideElement.addedQuantity = 0
+    //             }) : null
+    //     })
+
+    //     if (newData.length === 0) {
+    //         newData = [...addToCartListDetails]
+    //     } else {
+    //         let newTempData = [...addToCartListDetails]
+    //         newData.forEach(newDataElement => {
+    //             newDataElement.isVisible = false
+    //             newDataElement.isVariantTrue = false
+    //             newDataElement.productVariantList.length > 0 ?
+    //                 newDataElement.productVariantList.forEach(insideElement => {
+    //                     insideElement.istrue = false
+    //                     // insideElement.addedQuantity = 0
+    //                 }) : null
+    //             newTempData.forEach((element, index) => {
+    //                 if (newDataElement.productId == element.productId) {
+    //                     newTempData.splice(index, 1)
+    //                 }
+    //             })
+    //         })
+    //         newData = [...newData, ...newTempData]
+    //     }
+    //     this.props.addtoCartListCompleteData(newData)
+    //     this.setState({ addToCartListData: [...newData] })
+
+
+    // }
 
 
     call = (item) => {
@@ -277,7 +347,14 @@ class AddToCart extends Component {
     }
 
     addToCartFunction = (obj, process) => {
+        delete obj.productVariantList
+        delete obj.isVisible
+        delete obj.isVariantTrue
+        delete obj.istrue
         let objState = [...this.state.addToCartListData]
+        let createViewCart = this.props.addToCartListData
+
+        console.log("this.props.addToCartListData ", this.props.addToCartListData);
         if (obj.addedQuantity === obj.maxQuantity && process === "add") {
             this.setState({ maximumNumberAlert: !this.state.maximumNumberAlert })
         }
@@ -288,10 +365,11 @@ class AddToCart extends Component {
                         element.productVariantList.forEach(insideElement => {
                             if (insideElement.productId == obj.productId) {
                                 if (process == "add") {
-                                    insideElement.maxQuantity <= insideElement.addedQuantity ? <ToastMessage message={"this.props.errorMessage"} /> : insideElement.addedQuantity += 1
+                                    insideElement.maxQuantity <= insideElement.addedQuantity ? null : insideElement.addedQuantity += 1
                                 } else {
                                     insideElement.addedQuantity -= 1
                                 }
+                                obj.addedQuantity = insideElement.addedQuantity
                             }
                         })
                     }
@@ -300,14 +378,27 @@ class AddToCart extends Component {
                 objState.forEach(element => {
                     if (element.productId === obj.productId) {
                         if (process == "add") {
-                            element.maxQuantity <= element.addedQuantity ? () => <ToastMessage message={"this.props.errorMessage"} /> : element.addedQuantity += 1
+                            element.maxQuantity <= element.addedQuantity ? () => null : element.addedQuantity += 1
                         } else {
                             element.addedQuantity -= 1
                         }
+                        obj.addedQuantity = element.addedQuantity
                     }
                 })
             }
-            this.props.addtoCartListCompleteData(objState)
+
+            if (createViewCart.some(item => item.productId === obj.productId)) {
+                createViewCart.forEach(elementRedux => {
+                    if (elementRedux.productId === obj.productId) {
+                        elementRedux.addedQuantity = obj.addedQuantity
+                    }
+                })
+            } else {
+                createViewCart.push(obj)
+            }
+
+
+            this.props.addtoCartListCompleteData(createViewCart)
             this.setState({ addToCartListData: [...objState] })
         }
     }
@@ -377,7 +468,7 @@ class AddToCart extends Component {
             obj = { ...item }
         }
         return (
-            <View style={{ borderBottomColor: "#000", borderBottomWidth: 1, paddingVertical: 15 }}>
+            <View style={{ borderBottomColor: "#000", borderBottomWidth: 1, paddingVertical: 15, backgroundColor: "#fff" }}>
                 <View style={styles.renderContainer}>
                     <ImageBackground style={styles.card} source={{ uri: obj.productImageUrl }} >
                         {
@@ -457,7 +548,7 @@ class AddToCart extends Component {
     }
 
     render() {
-        console.log("process ", this.state.maximumNumberAlert);
+        console.log("process ", this.state.addToCartListData);
         return (
             <View style={{ height: "100%", flex: 1 }}>
                 {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :

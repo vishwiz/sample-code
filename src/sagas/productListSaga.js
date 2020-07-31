@@ -59,7 +59,7 @@ export function* handleAddToCartList({
                 },
             });
         } else {
-
+            console.log("error 1 ", response.data);
             yield put({
                 type: 'ADD_TO_CART_FAILURE',
                 payload: {
@@ -71,6 +71,7 @@ export function* handleAddToCartList({
         }
 
     } catch (error) {
+        console.log("error ",error);
         yield put({
             type: 'ADD_TO_CART_FAILURE',
             payload: {
