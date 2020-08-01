@@ -7,12 +7,18 @@ import {
     FlatList,
     Image,
     TouchableOpacity,
-    ImageBackground
+    TouchableHighlight,
+    ImageBackground,
+    Alert
 } from "react-native";
+import IconI from 'react-native-vector-icons/Ionicons';
+import IconEv from 'react-native-vector-icons/EvilIcons';
+import IconA from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
-import { addtoCartListCall, addtoCartListCompleteData } from '../src/actions/productListAction';
+import { Header, Badge } from 'react-native-elements';
+import { addtoCartListCall, addtoCartListCompleteData , clearListData } from '../src/actions/productListAction';
 const { width } = Dimensions.get('window');
 
 class AddToCart extends Component {
@@ -22,11 +28,9 @@ class AddToCart extends Component {
             screenWidth: Dimensions.get('window').width,
             screenheight: Dimensions.get('window').height,
             addToCartListData: [],
-            refresh: false,
-            maximumNumberAlert: false
-
-
-
+            maximumNumberAlert: false,
+            totalItem: 0,
+            totalPaymentedValue: 0,
         }
         this.addtoCartListCall = false
     }
@@ -179,17 +183,17 @@ class AddToCart extends Component {
         // this.onAddToCartListSuccess(newObj)
 
         // this.setState({ data: [...newObj] })
-        this.props.searchText
         let params = {
             "CultureId": 1,
             "TalukaId": 1,
             "SupplierId": 1,
-            "ProductSerachName": "boro plus",
         }
+        this.props.searchData.pathName === "promotion" ? params.ProMotionId = this.props.searchData.id : this.props.searchData.pathName === "brand" ? params.BrandId = this.props.searchData.id : params.ProductSerachName = this.props.searchData.name
+        let url = this.props.searchData.pathName === "promotion" ? '/GetProductListByPromotionId' : this.props.searchData.pathName === "brand" ? '/GetProductListByBrandId' : '/GetProductListByProductSearchName'
         this.setState(function (state, props) { return { isLoading: true } });
         this.addtoCartListCall = true
         this.props.addtoCartListCall({
-            endurl: '/GetProductListByProductSearchName', 
+            endurl: url,
             requestData: params,
         })
     }
@@ -213,7 +217,16 @@ class AddToCart extends Component {
     onAddToCartListSuccess = (addToCartListDetails) => {
         let viewCartData = this.props.addToCartListData
         let newData = [...addToCartListDetails]
-
+        newData.forEach(element => {
+            element.isVisible = false
+            element.addedQuantity = 0
+            element.isVariantTrue = false
+            element.productVariantList.length > 0 ?
+                element.productVariantList.forEach(insideElement => {
+                    insideElement.istrue = false
+                    insideElement.addedQuantity = 0
+                }) : null
+        })
         if (newData.length > 0) {
             if (viewCartData.length > 0) {
                 viewCartData.forEach(element => {
@@ -224,97 +237,11 @@ class AddToCart extends Component {
                         }) : null
                     })
                 })
-            } else {
-                newData.forEach(element => {
-                    element.isVisible = false
-                    element.addedQuantity = 0
-                    element.isVariantTrue = false
-                    element.productVariantList.length > 0 ?
-                        element.productVariantList.forEach(insideElement => {
-                            insideElement.istrue = false
-                            insideElement.addedQuantity = 0
-                        }) : null
-                })
             }
-
-            this.setState({addToCartListData: [...newData]})
+            this.setState({ addToCartListData: [...newData] })
 
         }
-        // addToCartListDetails.forEach(element => {
-        //     element.isVisible = false
-        //     element.addedQuantity = 0
-        //     element.isVariantTrue = false
-        //     element.productVariantList.length > 0 ?
-        //         element.productVariantList.forEach(insideElement => {
-        //             insideElement.istrue = false
-        //             insideElement.addedQuantity = 0
-        //         }) : null
-        // })
-
-        // if (newData.length === 0) {
-        //     newData = [...addToCartListDetails]
-        // } else {
-        //     let newTempData = [...addToCartListDetails]
-        //     newData.forEach(newDataElement => {
-        //         newDataElement.isVisible = false
-        //         newDataElement.isVariantTrue = false
-        //         newDataElement.productVariantList.length > 0 ?
-        //             newDataElement.productVariantList.forEach(insideElement => {
-        //                 insideElement.istrue = false
-        //                 // insideElement.addedQuantity = 0
-        //             }) : null
-        //         newTempData.forEach((element, index) => {
-        //             if (newDataElement.productId == element.productId) {
-        //                 newTempData.splice(index, 1)
-        //             }
-        //         })
-        //     })
-        //     newData = [...newData, ...newTempData]
-        // }
-        // this.props.addtoCartListCompleteData(newData)
-
-
-
     }
-
-    // onAddToCartListSuccess = (addToCartListDetails) => {
-    //     let newData = this.props.addToCartListData
-    //     addToCartListDetails.forEach(element => {
-    //         element.isVisible = false
-    //         element.addedQuantity = 0
-    //         element.isVariantTrue = false
-    //         element.productVariantList.length > 0 ?
-    //             element.productVariantList.forEach(insideElement => {
-    //                 insideElement.istrue = false
-    //                 insideElement.addedQuantity = 0
-    //             }) : null
-    //     })
-
-    //     if (newData.length === 0) {
-    //         newData = [...addToCartListDetails]
-    //     } else {
-    //         let newTempData = [...addToCartListDetails]
-    //         newData.forEach(newDataElement => {
-    //             newDataElement.isVisible = false
-    //             newDataElement.isVariantTrue = false
-    //             newDataElement.productVariantList.length > 0 ?
-    //                 newDataElement.productVariantList.forEach(insideElement => {
-    //                     insideElement.istrue = false
-    //                     // insideElement.addedQuantity = 0
-    //                 }) : null
-    //             newTempData.forEach((element, index) => {
-    //                 if (newDataElement.productId == element.productId) {
-    //                     newTempData.splice(index, 1)
-    //                 }
-    //             })
-    //         })
-    //         newData = [...newData, ...newTempData]
-    //     }
-    //     this.props.addtoCartListCompleteData(newData)
-    //     this.setState({ addToCartListData: [...newData] })
-
-
-    // }
 
 
     call = (item) => {
@@ -352,10 +279,13 @@ class AddToCart extends Component {
         delete obj.istrue
         let objState = [...this.state.addToCartListData]
         let createViewCart = this.props.addToCartListData
+        let totalProducts = 0
+        let totalAmount = 0
 
         console.log("this.props.addToCartListData ", this.props.addToCartListData);
         if (obj.addedQuantity === obj.maxQuantity && process === "add") {
-            this.setState({ maximumNumberAlert: !this.state.maximumNumberAlert })
+            Alert.alert("You have already added the maximum allowed quantity for this item.")
+            // this.setState({ maximumNumberAlert: !this.state.maximumNumberAlert })
         }
         else {
             if (obj.hasOwnProperty("parentProductId")) {
@@ -503,18 +433,19 @@ class AddToCart extends Component {
                     paddingVertical: 10,
                     paddingBottom: 10,
                 }}>
-                    <View style={{ width: "30%" }} />
+                    <View style={{ width: "30%" , padding:8}} />
                     <View style={styles.optionView}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
                         {
                             item.productVariantList.length > 0 ?
-                                <TouchableOpacity style={{ backgroundColor: "#1D800E" }}
+                                <TouchableOpacity style={{ backgroundColor: "#1D800E", borderTopRightRadius: 5, 
+                                borderBottomRightRadius: 5}}
 
                                     onPress={() => {
                                         this.updateDropdownModal(index, item.isVisible)
                                     }}
                                 >
-                                    <Image style={{ width: 33, height: 37 }} source={require('../src/assests/Images/dropArrow11.png')} />
+                                    <Image style={{ width: 30, height: 34 }} source={require('../src/assests/Images/dropArrow11.png')} />
                                 </TouchableOpacity>
                                 : null
                         }
@@ -526,18 +457,18 @@ class AddToCart extends Component {
                     </TouchableOpacity>
                         :
                         <View style={{ flexDirection: "row", width: "35%", borderRadius: 3 }}>
-                            <TouchableOpacity style={styles.addAndDeduct}
+                            <TouchableOpacity style={styles.deduct}
                                 onPress={() => this.addToCartFunction(obj, "subs")}
                             >
-                                <Text style={{ color: "grey", }}>-</Text>
+                                <IconA name="minus" size={15} color="#548247" />
                             </TouchableOpacity>
                             <View style={[styles.addAndDeduct, { backgroundColor: "transparent" }]}>
                                 <Text>{obj.addedQuantity}</Text>
                             </View>
-                            <TouchableOpacity style={styles.addAndDeduct}
+                            <TouchableOpacity style={styles.add}
                                 onPress={() => this.addToCartFunction(obj, "add")}
                             >
-                                <Text style={{ color: "grey" }}>+</Text>
+                                <IconA name="plus" size={15} color="#548247" />
                             </TouchableOpacity>
                         </View>}
                 </View>
@@ -550,6 +481,73 @@ class AddToCart extends Component {
         console.log("process ", this.state.addToCartListData);
         return (
             <View style={{ height: "100%", flex: 1 }}>
+                <Header
+                    placement="left"
+                    leftComponent={
+                        <TouchableHighlight
+                            activeOpacity={0}
+                            style={{ padding: 10 }}
+                            onPress={() => {
+                                this.props.clearListData()
+                                this.props.navigation.goBack()}}>
+                            <IconI name="chevron-back" size={25} color="#548247" />
+                        </TouchableHighlight>
+                    }
+                    centerComponent={{
+                        text: this.props.searchData?.name,
+                        style: { color: '#548247', fontWeight: 'bold', fontSize: 18 },
+                    }}
+
+                    rightComponent={
+
+                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+
+                            {this.state.totalItem ? <TouchableOpacity
+                                onPress={() => {
+                                    // this.props.navigation.navigate("ViewCart")
+                                }}
+                                style={{ padding: 10 }}
+                            >
+                                <View>
+                                    <IconEv name="cart" color="#548247" size={30} />
+
+                                    <Badge
+                                        status="success"
+                                        value={this.state.totalItem}
+                                        containerStyle={{ position: 'absolute', top: -10, right: -4 }}
+                                    />
+                                    <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -5, width: 100 }}>
+                                        ₹ {this.state.totalPaymentedValue}.00
+                                    </Text>
+                                </View>
+                            </TouchableOpacity>
+
+                                :
+                                null
+                            }
+
+
+                            <TouchableOpacity
+                                onPress={() => {
+
+                                    // this.props.isLogged ?
+                                    //     Alert.alert("User Logged ..!!!")
+                                    //     :
+                                    //     this.setModalVisible(true)
+
+                                }}
+                                style={{ padding: 10 }}
+                            >
+                                <IconI name="ellipsis-vertical" color="#548247" size={20} />
+                            </TouchableOpacity>
+
+                        </View>
+                    }
+                    containerStyle={{
+                        backgroundColor: 'white',
+                    }}
+                />
+
                 {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
                     <FlatList
                         data={this.state.addToCartListData}
@@ -564,7 +562,7 @@ class AddToCart extends Component {
                         }}
                     />
                 }
-                {this.state.maximumNumberAlert || this.props.errorMessage ? <ToastMessage message={this.state.maximumNumberAlert ? "exceded maximum number of limit" : this.props.errorMessage} /> : null}
+                {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
             </View>
         )
     }
@@ -629,28 +627,28 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 3,
+        borderRadius: 5 ,
         borderColor: "#1D800E",
-        height: 40,
+        // height: 40,
         borderWidth: 1,
         flexDirection: "row",
         justifyContent: "flex-end",
         alignContent: "flex-end",
     },
     addToCart: {
-        width: "35%",
+        width: "30%",
         backgroundColor: "#1D800E",
-        height: 40,
-        fontSize: 10,
+        padding: 10,
+        // fontSize: 10,
         justifyContent: "center",
         alignItems: "center",
-        // borderRadius: 3,
+        borderRadius: 5,
     },
     textColor: {
         color: "#fff"
     },
     quantityView: {
-        flex: 1, justifyContent: "center", alignItems: "center"
+        flex: 1, justifyContent: "center", alignItems: "center", padding:7
     },
     dropDownView: {
         // height: 50,
@@ -662,10 +660,10 @@ const styles = StyleSheet.create({
     },
     dropdownButton: {
         borderWidth: 1,
-        height: 50,
+        height: 40,
         width: 90,
         fontWeight: "500",
-        borderRadius: 3,
+        borderRadius: 5,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -673,29 +671,49 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         justifyContent: "center",
         alignItems: "center",
-        height: 50,
+        height: 40,
         width: 90,
         fontWeight: "500",
-        borderRadius: 3
+        borderRadius: 5
 
 
     },
     addAndDeduct: {
-        width: "33.5%",
-        backgroundColor: "#DCDCDC",
-        height: 40,
-        fontSize: 10,
+        width: "33%",
         justifyContent: "center",
         alignItems: "center",
+    },
+    add: {
+        width: "33%",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 10,
+        borderColor: "#e0e0e0",
+        borderLeftWidth: 1,
+        backgroundColor: "#e0e0e0",
+        borderTopEndRadius: 5,
+        borderBottomEndRadius: 5
+    },
+    deduct: {
+        width: "33%",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: 10, 
+        borderColor: "#e0e0e0", 
+        borderRightWidth: 1, 
+        backgroundColor: "#e0e0e0", 
+        borderTopLeftRadius: 5, 
+        borderBottomLeftRadius: 5
     }
+
 })
 
 function mapStateToProps(state) {
-    const { addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchText } = state.productList
+    const { addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchData } = state.productList
     return {
-        addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchText
+        addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchData
     };
 }
 
-export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData })(AddToCart);
+export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData, clearListData })(AddToCart);
 // export default AddToCart

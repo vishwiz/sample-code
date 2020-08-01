@@ -41,3 +41,5 @@ export const ADD_TO_CART_LIST_DATA = "ADD_TO_CART_LIST_DATA";
 export const SEARCH_TEXT = "SEARCH_TEXT";
 
 export const RESET = "RESET";
+
+export const CLEAR_LIST_DATA = "CLEAR_LIST_DATA";

@@ -1,1 +1,1 @@
-export default url = "http://webapi31-dev.ap-south-1.elasticbeanstalk.com/api";
+export default url = "http://webapi1-dev.ap-south-1.elasticbeanstalk.com/api";
