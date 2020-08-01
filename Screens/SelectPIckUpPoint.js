@@ -11,8 +11,7 @@ import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconF from 'react-native-vector-icons/Entypo';
-
-
+import TextInputComponent from '../src/component/TextInputComponent';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 //for redux
@@ -47,7 +46,7 @@ class SelectDeliveryType extends Component {
                         </TouchableHighlight>
                     }
                     centerComponent={{
-                        text: 'SELECT DELIVERY TYPE',
+                        text: this.props.route.params.headerValue,
                         style: { color: '#548247', fontWeight: 'bold', fontSize: 18 },
                     }}
                     containerStyle={{
@@ -64,8 +63,6 @@ class SelectDeliveryType extends Component {
                     </View>
                     <TouchableOpacity
                         onPress={() => {
-
-                            console.log("on touch..!!!")
                             this.setState({ fullView: !this.state.fullView })
                         }}
                     >
@@ -109,68 +106,36 @@ class SelectDeliveryType extends Component {
 
                 <Text
                     style={{ fontSize: 12, padding: 10, color: "#494949" }}
-                >Tap to select one of the delivery modes</Text>
+                >You Select : </Text>
 
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("SelectPickUpPoint", { headerValue: "SELECT PICK UP POINT" })}
-                >
-
-                    <View style={styles.deliveryContainer}>
+                <View style={styles.bottomoContainer}>
+                    <View style={{ flexDirection: "row" }}>
                         <View style={styles.leftDeliveryContainer}>
                             <Text style={{ fontSize: 14, color: 'black' }}>SELF PICK UP</Text>
                             <View style={{ height: 25 }}>
                                 <Text style={{ fontSize: 10, color: 'gray', fontStyle: 'italic' }}>{`(Our Recommendation)`}</Text>
                             </View>
-                            <Text style={{ fontSize: 11, color: 'black' }}>You can collect your order from a DMart Ready Pick-up point. Select a self Pick-up Point near you and a convenient time slot.</Text>
                             <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY FREE</Text>
                         </View>
                         <View style={[styles.rightDeliveryContainer, { backgroundColor: "#ffdbdb" }]}>
                             <View style={[styles.imageContainer, { backgroundColor: "#ff9b9b" }]}>
-                                <IconF name="emoji-flirt" size={55} color="white" />
+                                <IconF name="emoji-flirt" size={45} color="white" />
                             </View>
-
-                            <View style={styles.selectStyle}>
-                                <Text style={{ color: "white", fontSize: 10 }}>
-                                    SELECT
-                                    </Text>
-
-                            </View>
-
                         </View>
                     </View>
-                </TouchableOpacity>
+                    <TouchableOpacity 
+                    style={{paddingHorizontal:8}}
+                    onPress={()=>console.log("on touch..!!")}
+                    >
+                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber} value={"A foundational component for inputting text into the app via a keyboard. Props provide configurability for several features, such as auto-correction, auto-capitalization, placeholder text, and different keyboard types, such as a numeric keypad."} phoneNumber={false} isDisable={true} />
+                    </TouchableOpacity>
 
-                <View style={{ width: 300, alignSelf: "center", padding: 20 }}>
-                    <Divider style={{ backgroundColor: 'black' }} />
-                    <View style={{ alignSelf: "center", borderColor: "gray", borderWidth: 1, height: 30, width: 30, padding: 5, borderRadius: 15, top: -15, backgroundColor: "white", }}>
-                        <Text>OR</Text>
-                    </View>
+
+
                 </View>
 
-                <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("SelectDeliveryAddress", { headerValue: "SELECT DELIVERY ADDRESS" })}
 
-                >
-                    <View style={[styles.deliveryContainer, { marginTop: -10 }]}>
-                        <View style={styles.leftDeliveryContainer}>
-                            <Text style={{ fontSize: 13, color: 'black' }}>HOME DELIVERY</Text>
 
-                            <Text style={{ fontSize: 11, color: 'black' }}>You can also get your orders delivered to an address of your choice. Rs. 49.00 or 3.00% of value whichever is higer will be added to your order amount .</Text>
-                            <Text style={{ fontSize: 13, color: '#0f4760' }}>DELIVERY CHARGES EXTRA</Text>
-
-                        </View>
-                        <View style={[styles.rightDeliveryContainer, { backgroundColor: "#d7dce5" }]}>
-                            <View style={styles.imageContainer}>
-                                <IconI name="ios-home-outline" size={55} color="white" />
-                            </View>
-                            <View style={[styles.selectStyle, { backgroundColor: "#548247" }]}>
-                                <Text style={{ color: "white", fontSize: 10 }}>
-                                    SELECT
-                                    </Text>
-                            </View>
-                        </View>
-                    </View>
-                </TouchableOpacity>
 
             </View>
         );
@@ -205,7 +170,7 @@ const styles = StyleSheet.create({
     leftDeliveryContainer: {
         flex: 5,
         padding: 10,
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
     },
     rightDeliveryContainer: {
         flex: 2,
@@ -216,8 +181,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#0f4760",
         justifyContent: "center",
         alignItems: "center",
-        height: 90,
-        width: 90,
+        height: 80,
+        width: 80,
         borderRadius: 50
     },
     selectStyle: {
@@ -227,7 +192,16 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 2
+    },
+    bottomoContainer: {
+        // height: "42%",
+        width: "95%",
+        margin: 10,
+        padding: 5,
+        borderRadius: 5,
+        backgroundColor: "#ffdbdb"
     }
+
 
 });
 

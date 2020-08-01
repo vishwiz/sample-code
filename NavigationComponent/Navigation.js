@@ -17,6 +17,9 @@ import ViewCart from '../Screens/ViewCart';
 import SelectDeliveryType from '../Screens/SelectDeliveryType';
 import ThankYou from '../Screens/ThankYou';
 import AddToCart from '../Screens/AddToCart';
+import SelectPickUpPoint from '../Screens/SelectPIckUpPoint';
+import SelectDeliveryAddress from '../Screens/SelectDeliveryAddress';
+
 
 import DrawerContent from './DrawerContainer';
 
@@ -86,6 +89,18 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="AddToCart"
                 component={AddToCart}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="SelectPickUpPoint"
+                component={SelectPickUpPoint}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="SelectDeliveryAddress"
+                component={SelectDeliveryAddress}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>
