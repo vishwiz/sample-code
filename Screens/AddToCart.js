@@ -17,8 +17,9 @@ import IconA from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
-import { Header, Badge } from 'react-native-elements';
+import { Header, Badge , Divider} from 'react-native-elements';
 import { addtoCartListCall, addtoCartListCompleteData , clearListData } from '../src/actions/productListAction';
+import { create } from "react-test-renderer";
 const { width } = Dimensions.get('window');
 
 class AddToCart extends Component {
@@ -217,6 +218,8 @@ class AddToCart extends Component {
     onAddToCartListSuccess = (addToCartListDetails) => {
         let viewCartData = this.props.addToCartListData
         let newData = [...addToCartListDetails]
+        let totalProducts = 0
+        let totalAmount = 0
         newData.forEach(element => {
             element.isVisible = false
             element.addedQuantity = 0
@@ -230,6 +233,8 @@ class AddToCart extends Component {
         if (newData.length > 0) {
             if (viewCartData.length > 0) {
                 viewCartData.forEach(element => {
+                    totalProducts += element.addedQuantity
+                    totalAmount +=  element.addedQuantity * element.sellingPrice
                     newData.forEach(newDataElement => {
                         newDataElement.productId === element.productId ? newDataElement.addedQuantity = element.addedQuantity : null
                         newDataElement.productVariantList.length > 0 ? newDataElement.productVariantList.forEach(innerElement => {
@@ -238,7 +243,7 @@ class AddToCart extends Component {
                     })
                 })
             }
-            this.setState({ addToCartListData: [...newData] })
+            this.setState({ addToCartListData: [...newData] , totalItem: totalProducts ,totalPaymentedValue : totalAmount})
 
         }
     }
@@ -285,7 +290,6 @@ class AddToCart extends Component {
         console.log("this.props.addToCartListData ", this.props.addToCartListData);
         if (obj.addedQuantity === obj.maxQuantity && process === "add") {
             Alert.alert("You have already added the maximum allowed quantity for this item.")
-            // this.setState({ maximumNumberAlert: !this.state.maximumNumberAlert })
         }
         else {
             if (obj.hasOwnProperty("parentProductId")) {
@@ -318,17 +322,31 @@ class AddToCart extends Component {
 
             if (createViewCart.some(item => item.productId === obj.productId)) {
                 createViewCart.forEach(elementRedux => {
+                   
                     if (elementRedux.productId === obj.productId) {
                         elementRedux.addedQuantity = obj.addedQuantity
                     }
+                    // console.log("inside ", elementRedux.addedQuantity)
+                    totalProducts += elementRedux.addedQuantity
+                    totalAmount +=  elementRedux.addedQuantity * elementRedux.sellingPrice
                 })
             } else {
                 createViewCart.push(obj)
+                if(createViewCart.length>0){
+                    createViewCart.forEach(elementRedux => {
+                        totalProducts += elementRedux.addedQuantity
+                        totalAmount +=  elementRedux.addedQuantity * elementRedux.sellingPrice
+                    })
+                }else{
+                    totalProducts += obj.addedQuantity
+                totalAmount +=  obj.addedQuantity * obj.sellingPrice
+                }
+                
             }
 
-
+            console.log("checking on ",totalProducts , obj)
             this.props.addtoCartListCompleteData(createViewCart)
-            this.setState({ addToCartListData: [...objState] })
+            this.setState({ addToCartListData: [...objState], totalItem: totalProducts ,totalPaymentedValue : totalAmount })
         }
     }
 
@@ -397,7 +415,7 @@ class AddToCart extends Component {
             obj = { ...item }
         }
         return (
-            <View style={{ borderBottomColor: "#000", borderBottomWidth: 1, paddingVertical: 15, backgroundColor: "#fff" }}>
+            <View style={{ borderBottomColor: "#000", backgroundColor: "#fff" ,paddingBottom:10 }}>
                 <View style={styles.renderContainer}>
                     <ImageBackground style={styles.card} source={{ uri: obj.productImageUrl }} >
                         {
@@ -473,6 +491,7 @@ class AddToCart extends Component {
                         </View>}
                 </View>
                 {item.isVisible ? this.call(item) : null}
+                <Divider style={{ backgroundColor: 'gray' }} />
             </View>
         )
     }
@@ -591,8 +610,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "row",
-        paddingTop: 40,
-        paddingBottom: 10,
+        paddingTop: 10,
         paddingHorizontal: 10
     },
     textFormatMrp: {
