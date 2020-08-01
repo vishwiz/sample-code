@@ -1,19 +1,34 @@
-import {PRODUCT_LIST ,PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILURE} from '../actions/types';
+import * as types from '../actions/types';
+// {PRODUCT_LIST ,PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILURE} 
+
 
 
 const initialState = {
     isLoading: false,
+    errorMessage: "",
+
+    productListDetails: [],
     productList_success: false,
     productList_failure: false,
-    errorMessage: "",
-    productListDetails: []
+
+    addToCartListDetails: [],
+    addToCartList_success: false,
+    addToCartList_failure: false,
+
+    addToCartListData: [],
+
+    carouselDataDetails: [],
+    carouselData_success: false,
+    carouselData_failure: false,
+
+    searchText: ""
 };
 
 export default (state = initialState, action) => {
 
     switch (action.type) {
 
-        case PRODUCT_LIST:
+        case types.PRODUCT_LIST:
             return {
                 ...state,
                 isLoading: true,
@@ -21,7 +36,7 @@ export default (state = initialState, action) => {
                 productList_failure: false,
                 errorMessage: ""
             }
-        case PRODUCT_LIST_SUCCESS:
+        case types.PRODUCT_LIST_SUCCESS:
             return {
                 ...state,
                 productListDetails: action.payload.ResponseData,
@@ -29,12 +44,72 @@ export default (state = initialState, action) => {
                 productList_success: true,
 
             }
-        case PRODUCT_LIST_FAILURE:
+        case types.PRODUCT_LIST_FAILURE:
             return {
                 ...state,
                 isLoading: false,
                 productList_failure: true,
                 errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.ADD_TO_CART:
+            return {
+                ...state,
+                isLoading: true,
+                addToCartList_success: false,
+                addToCartList_failure: false,
+                errorMessage: ""
+            }
+        case types.ADD_TO_CART_SUCCESS:
+            return {
+                ...state,
+                addToCartListDetails: action.payload.ResponseData,
+                isLoading: false,
+                addToCartList_success: true,
+
+            }
+        case types.ADD_TO_CART_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                addToCartList_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.ADD_TO_CART_LIST_DATA:
+            return {
+                ...state,
+                addToCartListData: action.payload
+            }
+
+        case types.CAROUSEl_DATA:
+            return {
+                ...state,
+                isLoading: true,
+                carouselData_success: false,
+                carouselData_failure: false,
+                errorMessage: ""
+            }
+        case types.CAROUSEl_DATA_SUCCESS:
+            return {
+                ...state,
+                carouselDataDetails: action.payload.ResponseData,
+                isLoading: false,
+                carouselData_success: true,
+
+            }
+        case types.CAROUSEl_DATA_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                carouselData_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.SEARCH_TEXT:
+            return {
+                ...state,
+                searchText: action.payload
             }
 
         default:

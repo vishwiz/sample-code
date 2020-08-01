@@ -20,10 +20,6 @@ get = async () => {
 };
 
 post = async (params) => {
-
-  console.log("url : ",baseURL + params.endurl);
-  console.log("requestData : ",params.requestData);
-
   try {
     const response = await fetch(baseURL + params.endurl, {
       method: 'POST',
@@ -34,13 +30,8 @@ post = async (params) => {
       body: JSON.stringify(params.requestData),
     });
     const data = await response.json();
-
-    console.log("data : ",data);
     return { data: data, status: response.status };
   } catch (error) {
-
-    console.log("error : ",error);
-
     return {
       data: "error",
       status: 404

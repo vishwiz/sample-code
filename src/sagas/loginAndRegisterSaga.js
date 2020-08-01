@@ -12,11 +12,9 @@ import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
 export function* registerUserAsync({
     payload
 }) {
-    console.log("post ", payload)
     try {
 
         const response = yield call(APIRequestAxios.postReq,payload);
-        console.log("response.status ", response.status)
         if (response.status === 200) {
 
             if (response.data.errorMessage === 'Otp sent you to registerd mobile no.') {
@@ -52,7 +50,6 @@ export function* registerUserAsync({
         }
 
     } catch (error) {
-        console.log("error 7553", error )
         yield put({
             type: 'REGISTER_USER_FAILURE',
             payload: {
@@ -73,7 +70,6 @@ export function* loginUserASYNC({
 
         if (response.status === 200) {
             if (response.data.errorMessage === 'OB_Success') {
-                console.log("1111111111")
                 yield put({
                     type: 'LOGIN_USER_SUCCESS',
                     payload: {
@@ -128,8 +124,6 @@ export function* varifyOTPASYNC({
     try {
 
         const response = yield call(APIRequestAxios.postReq, payload);
-
-        console.log("payload : ", payload)
 
         if (response.status === 200) {
             if (response.data.errorMessage === 'OTP Verified Sucessfully') {

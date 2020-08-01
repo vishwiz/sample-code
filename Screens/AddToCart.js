@@ -6,11 +6,13 @@ import {
     View,
     FlatList,
     Image,
-    TouchableOpacity
+    TouchableOpacity,
+    ImageBackground
 } from "react-native";
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
+import { addtoCartListCall, addtoCartListCompleteData } from '../src/actions/productListAction';
 const { width } = Dimensions.get('window');
 
 class AddToCart extends Component {
@@ -19,165 +21,312 @@ class AddToCart extends Component {
         this.state = {
             screenWidth: Dimensions.get('window').width,
             screenheight: Dimensions.get('window').height,
-            data: [],
-            refresh: false
+            addToCartListData: [],
+            refresh: false,
+            maximumNumberAlert: false
+
 
 
         }
+        this.addtoCartListCall = false
     }
 
     componentDidMount = () => {
-        let newObj = [
 
-            {
+        // let newObj = [
 
-                "productId": 1,
+        //     {
 
-                "maxQuantity": 4,
+        //         "productId": 1,
 
-                "name": "Boro Plus 10 RS",
+        //         "maxQuantity": 4,
 
-                "productImageUrl": "https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg",
+        //         "name": "Boro Plus 10 RS",
 
-                "unit": "Gm",
+        //         "productImageUrl": "https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg",
 
-                "discount": 0.5,
+        //         "unit": "Gm",
 
-                "quantity": 0,
+        //         "discount": 0.5,
 
-                "mrp": 10,
+        //         "quantity": 0,
 
-                "sellingPrice": 9.5,
+        //         "mrp": 10,
 
-                "isStock": true,
+        //         "sellingPrice": 9.5,
 
-                "productOption": "10",
+        //         "isStock": true,
 
-                "isVariantTrue": false,
-                
-                "isVisibile" : false,
+        //         "productOption": "10",
 
-                "productVariantList": [
+        //         "isVariantTrue": false,
 
-                    {
+        //         "isVisible": false,
 
-                        "productId": 17,
+        //         "addedQuantity": 0,
 
-                        "name": "Boro Plus 20",
+        //         "productVariantList": [
 
-                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+        //             {
 
-                        "unit": "Gm",
+        //                 "productId": 17,
 
-                        "discount": 2,
+        //                 "name": "Boro Plus 20",
 
-                        "quantity": 0,
+        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-                        "mrp": 20,
+        //                 "unit": "Gm",
 
-                        "sellingPrice": 18,
+        //                 "discount": 2,
 
-                        "isStock": true,
+        //                 "quantity": 0,
 
-                        "parentProductId": 1,
+        //                 "mrp": 20,
 
-                        "supplierId": null,
+        //                 "sellingPrice": 18,
 
-                        "productOption": "20",
+        //                 "isStock": true,
 
-                        "maxQuantity": 4,
+        //                 "parentProductId": 1,
 
-                        "istrue": false
+        //                 "supplierId": null,
 
-                    },
+        //                 "productOption": "20",
 
-                    {
+        //                 "maxQuantity": 4,
 
-                        "productId": 18,
+        //                 "istrue": false,
 
-                        "name": "Boro pus 50",
+        //                 "addedQuantity": 0,
 
-                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+        //             },
 
-                        "unit": "Gm",
+        //             {
 
-                        "discount": 4,
+        //                 "productId": 18,
 
-                        "quantity": 0,
+        //                 "name": "Boro pus 50",
 
-                        "mrp": 50,
+        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-                        "sellingPrice": 46,
+        //                 "unit": "Gm",
 
-                        "isStock": true,
+        //                 "discount": 4,
 
-                        "parentProductId": 1,
+        //                 "quantity": 0,
 
-                        "supplierId": null,
+        //                 "mrp": 50,
 
-                        "productOption": "50",
+        //                 "sellingPrice": 46,
 
-                        "maxQuantity": 4,
+        //                 "isStock": true,
 
-                        "istrue": false
+        //                 "parentProductId": 1,
 
-                    },
+        //                 "supplierId": null,
 
-                    {
+        //                 "productOption": "50",
 
-                        "productId": 19,
+        //                 "maxQuantity": 4,
 
-                        "name": "Boro Plus 100",
+        //                 "istrue": false,
 
-                        "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
+        //                 "addedQuantity": 0,
 
-                        "unit": "Gm",
+        //             },
 
-                        "discount": 8,
+        //             {
 
-                        "quantity": 0,
+        //                 "productId": 19,
 
-                        "mrp": 100,
+        //                 "name": "Boro Plus 100",
 
-                        "sellingPrice": 92,
+        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
 
-                        "isStock": true,
+        //                 "unit": "Gm",
 
-                        "parentProductId": 1,
+        //                 "discount": 8,
 
-                        "supplierId": null,
+        //                 "quantity": 0,
 
-                        "productOption": "100",
+        //                 "mrp": 100,
 
-                        "maxQuantity": 4,
+        //                 "sellingPrice": 92,
 
-                        "istrue": false
+        //                 "isStock": true,
 
-                    }
+        //                 "parentProductId": 1,
 
-                ],
+        //                 "supplierId": null,
 
+        //                 "productOption": "100",
 
+        //                 "maxQuantity": 4,
+
+        //                 "istrue": false,
+
+        //                 "addedQuantity": 0,
+
+        //             }
+
+        //         ],
+
+
+        //     }
+
+        // ]
+
+        // this.onAddToCartListSuccess(newObj)
+
+        // this.setState({ data: [...newObj] })
+        this.props.searchText
+        let params = {
+            "CultureId": 1,
+            "TalukaId": 1,
+            "SupplierId": 1,
+            "ProductSerachName": "boro plus",
+        }
+        this.setState(function (state, props) { return { isLoading: true } });
+        this.addtoCartListCall = true
+        this.props.addtoCartListCall({
+            endurl: '/GetProductListByProductSearchName', 
+            requestData: params,
+        })
+    }
+
+    componentWillReceiveProps(props) {
+        if (this.addtoCartListCall && !props.isLoading && props.addToCartList_success) {
+            this.addtoCartListCall = false
+            this.setState({
+                isLoading: false,
+            }, () => this.onAddToCartListSuccess(props.addToCartListDetails))
+        }
+
+        if (this.addtoCartListCall && props.errorMessage !== "") {
+            this.addtoCartListCall = false
+            this.setState({ isLoading: false })
+        }
+
+        return null;
+    }
+
+    onAddToCartListSuccess = (addToCartListDetails) => {
+        let viewCartData = this.props.addToCartListData
+        let newData = [...addToCartListDetails]
+
+        if (newData.length > 0) {
+            if (viewCartData.length > 0) {
+                viewCartData.forEach(element => {
+                    newData.forEach(newDataElement => {
+                        newDataElement.productId === element.productId ? newDataElement.addedQuantity = element.addedQuantity : null
+                        newDataElement.productVariantList.length > 0 ? newDataElement.productVariantList.forEach(innerElement => {
+                            innerElement.productId === element.productId ? innerElement.addedQuantity = element.addedQuantity : null
+                        }) : null
+                    })
+                })
+            } else {
+                newData.forEach(element => {
+                    element.isVisible = false
+                    element.addedQuantity = 0
+                    element.isVariantTrue = false
+                    element.productVariantList.length > 0 ?
+                        element.productVariantList.forEach(insideElement => {
+                            insideElement.istrue = false
+                            insideElement.addedQuantity = 0
+                        }) : null
+                })
             }
 
-        ]
+            this.setState({addToCartListData: [...newData]})
 
-        this.setState({ data: [...newObj] })
+        }
+        // addToCartListDetails.forEach(element => {
+        //     element.isVisible = false
+        //     element.addedQuantity = 0
+        //     element.isVariantTrue = false
+        //     element.productVariantList.length > 0 ?
+        //         element.productVariantList.forEach(insideElement => {
+        //             insideElement.istrue = false
+        //             insideElement.addedQuantity = 0
+        //         }) : null
+        // })
+
+        // if (newData.length === 0) {
+        //     newData = [...addToCartListDetails]
+        // } else {
+        //     let newTempData = [...addToCartListDetails]
+        //     newData.forEach(newDataElement => {
+        //         newDataElement.isVisible = false
+        //         newDataElement.isVariantTrue = false
+        //         newDataElement.productVariantList.length > 0 ?
+        //             newDataElement.productVariantList.forEach(insideElement => {
+        //                 insideElement.istrue = false
+        //                 // insideElement.addedQuantity = 0
+        //             }) : null
+        //         newTempData.forEach((element, index) => {
+        //             if (newDataElement.productId == element.productId) {
+        //                 newTempData.splice(index, 1)
+        //             }
+        //         })
+        //     })
+        //     newData = [...newData, ...newTempData]
+        // }
+        // this.props.addtoCartListCompleteData(newData)
+
+
+
     }
+
+    // onAddToCartListSuccess = (addToCartListDetails) => {
+    //     let newData = this.props.addToCartListData
+    //     addToCartListDetails.forEach(element => {
+    //         element.isVisible = false
+    //         element.addedQuantity = 0
+    //         element.isVariantTrue = false
+    //         element.productVariantList.length > 0 ?
+    //             element.productVariantList.forEach(insideElement => {
+    //                 insideElement.istrue = false
+    //                 insideElement.addedQuantity = 0
+    //             }) : null
+    //     })
+
+    //     if (newData.length === 0) {
+    //         newData = [...addToCartListDetails]
+    //     } else {
+    //         let newTempData = [...addToCartListDetails]
+    //         newData.forEach(newDataElement => {
+    //             newDataElement.isVisible = false
+    //             newDataElement.isVariantTrue = false
+    //             newDataElement.productVariantList.length > 0 ?
+    //                 newDataElement.productVariantList.forEach(insideElement => {
+    //                     insideElement.istrue = false
+    //                     // insideElement.addedQuantity = 0
+    //                 }) : null
+    //             newTempData.forEach((element, index) => {
+    //                 if (newDataElement.productId == element.productId) {
+    //                     newTempData.splice(index, 1)
+    //                 }
+    //             })
+    //         })
+    //         newData = [...newData, ...newTempData]
+    //     }
+    //     this.props.addtoCartListCompleteData(newData)
+    //     this.setState({ addToCartListData: [...newData] })
+
+
+    // }
+
 
     call = (item) => {
         return (
             <View style={styles.dropDownView}>
-                <TouchableOpacity style={[styles.dropdownButton, {backgroundColor: item.isVariantTrue ? "transparent" : "#1D800E" } ]}
+                <TouchableOpacity style={[styles.dropdownButton, { backgroundColor: item.isVariantTrue ? "transparent" : "#1D800E" }]}
                     onPress={() => this.update(item)}
                 >
-                    <Text style={{color: item.isVariantTrue ? "#000" : "#fff"}}>{`${item.productOption} ${item.unit}`}</Text>
+                    <Text style={{ color: item.isVariantTrue ? "#000" : "#fff" }}>{`${item.productOption} ${item.unit}`}</Text>
                 </TouchableOpacity>
                 {
                     item.productVariantList.length > 0 ?
-                        // <TouchableOpacity style={styles.dropdownButton}>
-                        //     <Text>{`${item.productVariantList.productOption} ${item.productVariantList.unit}`}</Text>
-                        // </TouchableOpacity>
                         <FlatList
                             data={item.productVariantList}
                             renderItem={(item) => this.renderDropDown(item.item, item.index)}
@@ -196,28 +345,77 @@ class AddToCart extends Component {
         )
     }
 
-    updateDropdownModal=(index,isVisibile)=>{
-        console.log("index,isVisibile ", index,isVisibile)
-        let obj = [...this.state.data]
-        // if(isVisibile){
-            obj.forEach((element,value)=>{
-                if(value == index && !isVisibile){
-                    element.isVisibile = true
-                }else{
-                    element.isVisibile = false
-                }
-            })
+    addToCartFunction = (obj, process) => {
+        delete obj.productVariantList
+        delete obj.isVisible
+        delete obj.isVariantTrue
+        delete obj.istrue
+        let objState = [...this.state.addToCartListData]
+        let createViewCart = this.props.addToCartListData
 
-            this.setState({data:[...obj]})
-        // }
+        console.log("this.props.addToCartListData ", this.props.addToCartListData);
+        if (obj.addedQuantity === obj.maxQuantity && process === "add") {
+            this.setState({ maximumNumberAlert: !this.state.maximumNumberAlert })
+        }
+        else {
+            if (obj.hasOwnProperty("parentProductId")) {
+                objState.forEach(element => {
+                    if (element.productId === obj.parentProductId) {
+                        element.productVariantList.forEach(insideElement => {
+                            if (insideElement.productId == obj.productId) {
+                                if (process == "add") {
+                                    insideElement.maxQuantity <= insideElement.addedQuantity ? null : insideElement.addedQuantity += 1
+                                } else {
+                                    insideElement.addedQuantity -= 1
+                                }
+                                obj.addedQuantity = insideElement.addedQuantity
+                            }
+                        })
+                    }
+                })
+            } else {
+                objState.forEach(element => {
+                    if (element.productId === obj.productId) {
+                        if (process == "add") {
+                            element.maxQuantity <= element.addedQuantity ? () => null : element.addedQuantity += 1
+                        } else {
+                            element.addedQuantity -= 1
+                        }
+                        obj.addedQuantity = element.addedQuantity
+                    }
+                })
+            }
+
+            if (createViewCart.some(item => item.productId === obj.productId)) {
+                createViewCart.forEach(elementRedux => {
+                    if (elementRedux.productId === obj.productId) {
+                        elementRedux.addedQuantity = obj.addedQuantity
+                    }
+                })
+            } else {
+                createViewCart.push(obj)
+            }
+
+
+            this.props.addtoCartListCompleteData(createViewCart)
+            this.setState({ addToCartListData: [...objState] })
+        }
     }
 
-    update = (item, index, ) => {
-        console.log("item,index ", item, index)
-        let obj = [...this.state.data]
-        if (item.hasOwnProperty("isVariantTrue")) {
+    updateDropdownModal = (index, isVisible) => {
+        let obj = [...this.state.addToCartListData]
+        obj.forEach((element, value) => {
+            if (value == index && !isVisible) {
+                element.isVisible = true
+            } else {
+                element.isVisible = false
+            }
+        })
+        this.setState({ addToCartListData: [...obj] })
+    }
 
-        }
+    update = (item, index,) => {
+        let obj = [...this.state.addToCartListData]
         obj.forEach(element => {
             if (item.hasOwnProperty("isVariantTrue")) {
                 element.isVariantTrue = false
@@ -239,12 +437,10 @@ class AddToCart extends Component {
                 })
             }
         })
-
-        this.setState({ data: [...obj] })
+        this.setState({ addToCartListData: [...obj] })
     }
 
     renderDropDown = (item, index) => {
-        // console.log("item ", item,index , main)
         return (
             <TouchableOpacity style={{
                 paddingBottom: 10,
@@ -260,13 +456,10 @@ class AddToCart extends Component {
     }
 
     renderProductListData = (item, index) => {
-        console.log("item main major", item , index)
         let obj = {}
         if (item.productVariantList.length > 0 && item.isVariantTrue) {
             item.productVariantList.forEach(element => {
-                console.log("isVariantTrue ", element.istrue);
                 if (element.istrue) {
-                    console.log("innnnnnn", element.mrp)
                     obj = { ...element }
                 }
             })
@@ -274,9 +467,22 @@ class AddToCart extends Component {
             obj = { ...item }
         }
         return (
-            <View style={{ borderBottomColor: "#000", borderBottomWidth: 1, paddingVertical: 15 }}>
+            <View style={{ borderBottomColor: "#000", borderBottomWidth: 1, paddingVertical: 15, backgroundColor: "#fff" }}>
                 <View style={styles.renderContainer}>
-                    <Image style={styles.card} source={{ uri: item.productImageUrl }} />
+                    <ImageBackground style={styles.card} source={{ uri: obj.productImageUrl }} >
+                        {
+                            obj.isStock ?
+                                obj.addedQuantity > 0 ?
+                                    <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
+                                        <View style={styles.innerImageView}>
+                                            <Text style={styles.innerImageText}>{obj.addedQuantity}</Text>
+                                        </View>
+                                    </ImageBackground> : null : <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
+                                    <View style={styles.innerImageView}>
+                                        <Text style={styles.innerImageText}>Not in Stocks</Text>
+                                    </View>
+                                </ImageBackground>}
+                    </ImageBackground>
                     <View style={{ flex: 1, height: "100%", }}>
                         <View style={{ justifyContent: "flex-start", alignContent: "flex-start" }}>
                             <Text style={styles.textFormatHeader}>{obj.name}</Text>
@@ -294,46 +500,71 @@ class AddToCart extends Component {
                     justifyContent: "space-between",
                     alignItems: "space-between",
                     paddingHorizontal: 10,
+                    paddingVertical: 10,
                     paddingBottom: 10,
                 }}>
                     <View style={{ width: "30%" }} />
                     <View style={styles.optionView}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
-                        <TouchableOpacity style={{ backgroundColor: "#1D800E" }}
+                        {
+                            item.productVariantList.length > 0 ?
+                                <TouchableOpacity style={{ backgroundColor: "#1D800E" }}
 
-                            onPress={()=>{
-                                console.log("index ", index);
-                                this.updateDropdownModal(index,item.isVisibile)}}
-                        >
-                            <Image style={{ width: 33, height: 37 }} source={require('../src/assests/Images/dropArrow11.png')} />
-                        </TouchableOpacity>
+                                    onPress={() => {
+                                        this.updateDropdownModal(index, item.isVisible)
+                                    }}
+                                >
+                                    <Image style={{ width: 33, height: 37 }} source={require('../src/assests/Images/dropArrow11.png')} />
+                                </TouchableOpacity>
+                                : null
+                        }
                     </View>
-                    <TouchableOpacity style={styles.addToCart}>
+                    {obj.addedQuantity === 0 ? <TouchableOpacity style={styles.addToCart}
+                        onPress={() => this.addToCartFunction(obj, "add")}
+                    >
                         <Text style={styles.textColor}>ADD TO CART</Text>
                     </TouchableOpacity>
+                        :
+                        <View style={{ flexDirection: "row", width: "35%", borderRadius: 3 }}>
+                            <TouchableOpacity style={styles.addAndDeduct}
+                                onPress={() => this.addToCartFunction(obj, "subs")}
+                            >
+                                <Text style={{ color: "grey", }}>-</Text>
+                            </TouchableOpacity>
+                            <View style={[styles.addAndDeduct, { backgroundColor: "transparent" }]}>
+                                <Text>{obj.addedQuantity}</Text>
+                            </View>
+                            <TouchableOpacity style={styles.addAndDeduct}
+                                onPress={() => this.addToCartFunction(obj, "add")}
+                            >
+                                <Text style={{ color: "grey" }}>+</Text>
+                            </TouchableOpacity>
+                        </View>}
                 </View>
-                {item.isVisibile ? this.call(item) : null}
+                {item.isVisible ? this.call(item) : null}
             </View>
         )
     }
 
     render() {
-        console.log("this.state.data ", this.state.data);
+        console.log("process ", this.state.addToCartListData);
         return (
             <View style={{ height: "100%", flex: 1 }}>
-                <FlatList
-                    data={this.state.data}
-                    renderItem={((item) => this.renderProductListData(item.item, item.index))}
-                    keyExtractor={(item, i) => i.toString()}
-                    extraData={this.state}
-                    showsVerticalScrollIndicator={false}
-                    removeClippedSubviews={false}
-                    horizontal={false}
-                    contentContainerStyle={{
-                        marginVertical: 5,
-                    }}
-                />
-
+                {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
+                    <FlatList
+                        data={this.state.addToCartListData}
+                        renderItem={((item) => this.renderProductListData(item.item, item.index))}
+                        keyExtractor={(item, i) => i.toString()}
+                        extraData={this.state}
+                        showsVerticalScrollIndicator={false}
+                        removeClippedSubviews={false}
+                        horizontal={false}
+                        contentContainerStyle={{
+                            marginVertical: 5,
+                        }}
+                    />
+                }
+                {this.state.maximumNumberAlert || this.props.errorMessage ? <ToastMessage message={this.state.maximumNumberAlert ? "exceded maximum number of limit" : this.props.errorMessage} /> : null}
             </View>
         )
     }
@@ -343,6 +574,19 @@ const styles = StyleSheet.create({
     card: {
         width: width * 0.34,
         height: width * 0.3,
+    },
+    cardInside: {
+        width: width * 0.34,
+        height: width * 0.3,
+        opacity: 0.7,
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    innerImageView: {
+        left: 20, top: -15, justifyContent: "center", alignSelf: "center", backgroundColor: "#fff", borderRadius: 20, width: 22
+    },
+    innerImageText: {
+        justifyContent: "center", alignSelf: "center", fontSize: 15,
     },
     renderContainer: {
         flex: 1,
@@ -358,17 +602,20 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "#C0C0C0",
         textDecorationLine: 'line-through',
-        textDecorationStyle: 'solid'
+        textDecorationStyle: 'solid',
+        paddingVertical: 5
     },
     textFormatDmart: {
         fontWeight: "bold",
         fontSize: 15,
         color: "#1D800E",
+        paddingVertical: 5
     },
     textFormatSave: {
         fontWeight: "bold",
         fontSize: 15,
         color: "#D05050",
+        paddingVertical: 5
     },
 
     textFormatHeader: {
@@ -383,6 +630,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 3,
+        borderColor: "#1D800E",
         height: 40,
         borderWidth: 1,
         flexDirection: "row",
@@ -396,7 +644,7 @@ const styles = StyleSheet.create({
         fontSize: 10,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 3,
+        // borderRadius: 3,
     },
     textColor: {
         color: "#fff"
@@ -416,8 +664,8 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         height: 50,
         width: 90,
-        fontWeight:"500",
-        borderRadius:3,
+        fontWeight: "500",
+        borderRadius: 3,
         justifyContent: "center",
         alignItems: "center"
     },
@@ -427,28 +675,27 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: 50,
         width: 90,
-        fontWeight:"500",
-        borderRadius:3
+        fontWeight: "500",
+        borderRadius: 3
 
 
+    },
+    addAndDeduct: {
+        width: "33.5%",
+        backgroundColor: "#DCDCDC",
+        height: 40,
+        fontSize: 10,
+        justifyContent: "center",
+        alignItems: "center",
     }
-    // optionViewContainer: {
-    //     flex: 1,
-    //     flexDirection: "row",
-    //     justifyContent: "space-between",
-    //     alignItems: "space-between",
-    //     paddingHorizontal: 10,
-    //     paddingBottom: 10
-    // }
-
 })
 
-// function mapStateToProps(state) {
-//     const { productListDetails, isLoading, errorMessage } = state.productList
-//     return {
-//         productListDetails, isLoading, errorMessage
-//     };
-// }
+function mapStateToProps(state) {
+    const { addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchText } = state.productList
+    return {
+        addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchText
+    };
+}
 
-// export default connect(mapStateToProps, { productListCall })(PRODUCTLIST);
-export default AddToCart
+export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData })(AddToCart);
+// export default AddToCart
