@@ -119,24 +119,24 @@ class SelectDeliveryType extends Component {
                         </View>
                         <View style={[styles.rightDeliveryContainer, { backgroundColor: "#d7dce5" }]}>
                             <View style={[styles.imageContainer, { backgroundColor: "#0f4760" }]}>
-                            <IconI name="ios-home-outline" size={55} color="white" />
+                                <IconI name="ios-home-outline" size={55} color="white" />
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity 
-                    style={{paddingHorizontal:8}}
-                    onPress={()=>console.log("on touch..!!")}
+                    <TouchableOpacity
+                        style={{ paddingHorizontal: 8 }}
+                        onPress={() => this.props.navigation.navigate("AddressBook")}
+                        activeOpacity={1}
                     >
-                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber} value={"A foundational component for inputting text into the app via a keyboard. Props provide configurability for several features, such as auto-correction, auto-capitalization, placeholder text, and different keyboard types, such as a numeric keypad."} phoneNumber={false} isDisable={true} />
+                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber} value={"A foundational c"} phoneNumber={false} isDisable={true} marquee={true} />
+
+                        <View style={{ alignSelf: "flex-end", marginRight: 10, top: -70 }}>
+                            <Text>
+                                EDIT/CHANGE
+                            </Text>
+                        </View>
                     </TouchableOpacity>
-
-
-
                 </View>
-
-
-
-
             </View>
         );
     }

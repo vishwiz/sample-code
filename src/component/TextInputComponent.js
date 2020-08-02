@@ -16,6 +16,17 @@ const TextInputComponent = (props) => {
                     props.phoneNumber ? <Text style={styles.prefix}>+91</Text> : null
                 }
                 {props.marquee ?
+
+                    <TextTicker
+                        style={{ fontSize: 12 }}
+                        duration={20000}
+                        loop
+                        bounce
+                        repeatSpacer={50}
+                    >
+                        {props.value}
+                    </TextTicker>
+                    :
                     <TextInput
                         style={{ height: 40, width: "100%", fontSize: 16 }}
                         editable={!props.isDisable}
@@ -30,17 +41,9 @@ const TextInputComponent = (props) => {
                         onBlur={() => onFocusHighlight(false)}
                         value={props.value}
                         keyboardType={props.keyboard_type}
+                        placeholder={props.placeholder}
                     />
-                    :
-                    <TextTicker
-                        style={{ fontSize: 12 }}
-                        duration={20000}
-                        loop
-                        bounce
-                        repeatSpacer={50}
-                    >
-                        Super long piece of text is long. The quick brown fox jumps over the lazy dog. fdgdfg gdgdf fgdfg rdgdfgdf grdg hdfh rdfhfukf  hdfhddtw  gdgfd jftjtf hfdfhdf.
-                  </TextTicker>
+
                 }
             </View>
         </KeyboardAvoidingView>
@@ -68,7 +71,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: "#f7f7f7"
+        backgroundColor: "#f4f4f4"
     },
     prefix: {
         paddingHorizontal: 5,

@@ -12,7 +12,6 @@ import { Header, Badge, Divider } from 'react-native-elements';
 
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconEv from 'react-native-vector-icons/EvilIcons';
-
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
 import ItemCardComponent from '../src/component/ItemCardComponent';
@@ -20,117 +19,14 @@ import ItemCardComponent from '../src/component/ItemCardComponent';
 import { connect } from 'react-redux';
 import { loginUser } from '../src/actions';
 
+import { removeAll, removeIndexElement, incrementDecrementValue, initializeViewCartData } from '../src/actions/deliveryAction';
+
 class ViewCart extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isLoading: false,
-            data: [
-
-                {
-                    "id": 1,
-                    "maxQuantity": 4,
-                    "name": "Ghadi Pawder 190 grams",
-                    "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                    "unit": "Gm",
-                    "discount": 1,
-                    "quantity": 1,
-                    "mrp": 10,
-                    "sellingPrice": 9,
-                    "totalSelllingPriceWithQuantity": 9,
-                    "totalSavingAmmount": 1
-                }, {
-                    "id": 2,
-                    "maxQuantity": 3,
-                    "name": "Ghadi sadsadas 190 grams",
-                    "productImageUrl": "https://rukminim1.flixcart.com/image/880/1056/k0h12fk0/shoe/m/c/r/372367-10-puma-peacoat-vibrant-orange-white-original-imafk8c4tvpkxadm.jpeg?q=50",
-                    "unit": "Gm",
-                    "discount": 30,
-                    "quantity": 2,
-                    "mrp": 100,
-                    "sellingPrice": 70,
-                    "totalSelllingPriceWithQuantity": 140,
-                    "totalSavingAmmount": 60
-
-                },
-                {
-                    "id": 3,
-                    "maxQuantity": 4,
-                    "name": "Ghadi Pawder 190 grams",
-                    "productImageUrl": "https://rukminim1.flixcart.com/image/880/1056/k0h12fk0/shoe/m/c/r/372367-10-puma-peacoat-vibrant-orange-white-original-imafk8c4bfdxyqhg.jpeg?q=50",
-                    "unit": "Gm",
-                    "discount": 1,
-                    "quantity": 1,
-                    "mrp": 10,
-                    "sellingPrice": 9,
-                    "totalSelllingPriceWithQuantity": 9,
-                    "totalSavingAmmount": 1
-                },
-                //  {
-                //     "id": 4,
-                //     "maxQuantity": 3,
-                //     "name": "Ghadi sadsadas 190 grams",
-                //     "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                //     "unit": "Gm",
-                //     "discount": 30,
-                //     "quantity": 2,
-                //     "mrp": 100,
-                //     "sellingPrice": 70,
-                //     "totalSelllingPriceWithQuantity": 140,
-                //     "totalSavingAmmount": 60
-
-                // },{
-                //     "id": 5,
-                //     "maxQuantity": 4,
-                //     "name": "Ghadi Pawder 190 grams",
-                //     "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                //     "unit": "Gm",
-                //     "discount": 1,
-                //     "quantity": 1,
-                //     "mrp": 10,
-                //     "sellingPrice": 9,
-                //     "totalSelllingPriceWithQuantity": 9,
-                //     "totalSavingAmmount": 1
-                // }, {
-                //     "id": 6,
-                //     "maxQuantity": 3,
-                //     "name": "Ghadi sadsadas 190 grams",
-                //     "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                //     "unit": "Gm",
-                //     "discount": 30,
-                //     "quantity": 2,
-                //     "mrp": 100,
-                //     "sellingPrice": 70,
-                //     "totalSelllingPriceWithQuantity": 140,
-                //     "totalSavingAmmount": 60
-
-                // },{
-                //     "id": 7,
-                //     "maxQuantity": 4,
-                //     "name": "Ghadi Pawder 190 grams",
-                //     "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                //     "unit": "Gm",
-                //     "discount": 1,
-                //     "quantity": 1,
-                //     "mrp": 10,
-                //     "sellingPrice": 9,
-                //     "totalSelllingPriceWithQuantity": 9,
-                //     "totalSavingAmmount": 1
-                // }, {
-                //     "id": 8,
-                //     "maxQuantity": 3,
-                //     "name": "Ghadi sadsadas 190 grams",
-                //     "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-                //     "unit": "Gm",
-                //     "discount": 30,
-                //     "quantity": 2,
-                //     "mrp": 100,
-                //     "sellingPrice": 70,
-                //     "totalSelllingPriceWithQuantity": 140,
-                //     "totalSavingAmmount": 60
-
-                // },
-            ],
+            data: this.props.OrderSummaryItemArray,
             totalItem: 0,
             totalPaymentedValue: 0,
             totalSaving: 0
@@ -149,16 +45,14 @@ class ViewCart extends Component {
 
     counterIncrementAndDecrement = (index, value) => {
 
-        let changedValue = this.state.data;
-        let t = this.state.totalPaymentedValue;
-        let st = this.state.totalSaving;
-        let it = this.state.totalItem;
+        let changedValue = this.props.OrderSummaryItemArray;
+        let t = this.props.totalPaymentedValue;
+        let st = this.props.totalSaving;
+        let it = this.props.totalItem;
 
 
         if (changedValue[index].quantity + value > changedValue[index].maxQuantity) {
-
-            Alert.alert("You have already added the maximum allowed quantity for this item.")
-
+            Alert.alert("","You have already added the maximum allowed quantity for this item.")
         } else {
 
             changedValue[index].totalSelllingPriceWithQuantity += value * changedValue[index].sellingPrice;
@@ -174,29 +68,25 @@ class ViewCart extends Component {
         if (changedValue[index].quantity === 0) {
             changedValue.splice(index, 1)
         }
-
-
-
-        this.setState({ data: changedValue, totalPaymentedValue: t, totalSaving: st, totalItem: it })
+        this.props.incrementDecrementValue({ data: changedValue, totalPaymentedValue: t, totalSaving: st, totalItem: it })
 
     }
 
     removeAll = () => {
-
-        this.setState({ data: [], totalPaymentedValue: 0, totalItem: 0 })
+        this.props.removeAll();
     }
 
     remove = (index) => {
 
-        let changedValue = this.state.data;
-
-        let t = this.state.totalPaymentedValue - changedValue[index].totalSelllingPriceWithQuantity;
-        let st = this.state.totalSaving - changedValue[index].totalSavingAmmount;
-        let it = this.state.totalItem - changedValue[index].quantity;
+        let changedValue = this.props.OrderSummaryItemArray;
+        let t = this.props.totalPaymentedValue - changedValue[index].totalSelllingPriceWithQuantity;
+        let st = this.props.totalSaving - changedValue[index].totalSavingAmmount;
+        let it = this.props.totalItem - changedValue[index].quantity;
 
         changedValue.splice(index, 1)
 
-        this.setState({
+
+        this.props.removeIndexElement({
             data: changedValue, totalItem: changedValue.length,
             totalPaymentedValue: t,
             totalSaving: st,
@@ -210,28 +100,15 @@ class ViewCart extends Component {
         let t = 0;
         let st = 0;
         let it = 0;
-        this.state.data.forEach(element => {
+        this.props.OrderSummaryItemArray.forEach(element => {
             t += element.totalSelllingPriceWithQuantity;
             st += element.quantity * element.discount;
             it += element.quantity;
 
         });
 
-        this.setState({ totalItem: it, totalPaymentedValue: t, totalSaving: st })
+        this.props.initializeViewCartData({ totalItem: it, totalPaymentedValue: t, totalSaving: st })
     }
-
-    calculateTotalPrice = () => {
-
-
-    }
-
-
-
-    numberFormat = (value) =>
-        new Intl.NumberFormat('en-IN', {
-            style: 'currency',
-            currency: 'INR'
-        }).format(value);
 
     render() {
 
@@ -257,9 +134,7 @@ class ViewCart extends Component {
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
 
                             <TouchableOpacity
-                                onPress={() => {
-                                    // this.props.navigation.navigate("ViewCart")
-                                }}
+                                onPress={() => { }}
                                 style={{ padding: 10 }}
                             >
                                 <View>
@@ -268,40 +143,31 @@ class ViewCart extends Component {
                             </TouchableOpacity>
 
 
-                            {this.state.totalItem ? <TouchableOpacity
-                                onPress={() => {
-                                    // this.props.navigation.navigate("ViewCart")
-                                }}
+                            <TouchableOpacity
+                                onPress={() => { }}
                                 style={{ padding: 10 }}
                             >
                                 <View>
                                     <IconEv name="cart" color="#548247" size={30} />
-
-                                    <Badge
-                                        status="success"
-                                        value={this.state.totalItem}
-                                        containerStyle={{ position: 'absolute', top: -10, right: -4 }}
-                                    />
-                                    <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -5, width: 100 }}>
-                                        ₹ {this.state.totalPaymentedValue}.00
-                                    </Text>
+                                    {this.props.totalItem ?
+                                        <>
+                                            <Badge
+                                                status="success"
+                                                value={this.props.totalItem}
+                                                containerStyle={{ position: 'absolute', top: -10, right: -4 }}
+                                            />
+                                            <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -8, width: 100 }}>
+                                                ₹ {this.props.totalPaymentedValue}.00
+                                            </Text>
+                                        </> :
+                                        null
+                                    }
                                 </View>
                             </TouchableOpacity>
 
-                                :
-                                null
-                            }
-
 
                             <TouchableOpacity
-                                onPress={() => {
-
-                                    // this.props.isLogged ?
-                                    //     Alert.alert("User Logged ..!!!")
-                                    //     :
-                                    //     this.setModalVisible(true)
-
-                                }}
+                                onPress={() => { }}
                                 style={{ padding: 10 }}
                             >
                                 <IconI name="ellipsis-vertical" color="#548247" size={20} />
@@ -319,7 +185,7 @@ class ViewCart extends Component {
                     this.props.login_failure ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
 
-                {!this.state.data.length ?
+                {!this.props.OrderSummaryItemArray.length ?
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
                         <IconEv name="cart" color="#548247" size={28} />
                         <Text>Your Shopping Cart is empty!</Text>
@@ -329,17 +195,17 @@ class ViewCart extends Component {
                     <View style={{ flex: 1 }}>
                         <View style={styles.upperContainer}>
                             <View style={styles.leftUpperContainer}>
-                                <Text style={{ fontSize: 13, fontWeight: "bold" }}>{this.state.totalItem} Items(s) in cart</Text>
-                                <Text style={{ fontSize: 9, color: 'red' }}>TOTAL SAVINGS {this.state.totalSaving}.00</Text>
+                                <Text style={{ fontSize: 13, fontWeight: "bold" }}>{this.props.totalItem} Items(s) in cart</Text>
+                                <Text style={{ fontSize: 9, color: 'red' }}>TOTAL SAVINGS {this.props.totalSaving}.00</Text>
                             </View>
 
                             <View style={styles.rightUpperContainer}>
-                                <Text style={{ color: "green", paddingRight: 24, fontWeight: "bold", fontSize: 15 }}>TOTAL PRICE {this.state.totalPaymentedValue}.00</Text>
+                                <Text style={{ color: "green", paddingRight: 24, fontWeight: "bold", fontSize: 15 }}>TOTAL PRICE {this.props.totalPaymentedValue}.00</Text>
                             </View>
                         </View>
 
                         <FlatList
-                            data={this.state.data}
+                            data={this.props.OrderSummaryItemArray}
                             ItemSeparatorComponent={() => <Divider style={{ backgroundColor: 'gray' }} />}
                             ListFooterComponent={() => <View style={{ height: 50, marginBottom: 50, backgroundColor: "white" }}>
                                 <Divider style={{ backgroundColor: 'gray' }} />
@@ -370,7 +236,7 @@ class ViewCart extends Component {
                                 counterIncrementAndDecrement={(index, value) => this.counterIncrementAndDecrement(index, value)}
                                 remove={(index) => this.remove(index)}
                             />}
-                            keyExtractor={item => item.id.toString() }
+                            keyExtractor={item => item.id.toString()}
                         />
 
 
@@ -405,21 +271,16 @@ const styles = StyleSheet.create({
         backgroundColor: "#e5e5e5",
         padding: 10,
         alignItems: "center"
-    },
-    leftUpperContainer: {
-
-    },
-    rightUpperContainer: {
-
-    },
+    }
 });
 
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage } = state.register;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
     };
 }
 
-export default connect(mapStateToProps, { loginUser })(ViewCart);
+export default connect(mapStateToProps, { loginUser, removeAll, removeIndexElement, incrementDecrementValue, initializeViewCartData })(ViewCart);

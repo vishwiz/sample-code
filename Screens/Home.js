@@ -63,15 +63,21 @@ class App extends Component {
                             >
                                 <View>
                                     <IconEv name="cart" color="#548247" size={30} />
+                                    {this.props.totalItem ?
+                                        <>
+                                            <Badge
+                                                status="success"
+                                                value={this.props.totalItem}
+                                                containerStyle={{ position: 'absolute', top: -10, right: -4 }}
+                                            />
+                                            <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -8, width: 100 }}>
+                                                ₹ {this.props.totalPaymentedValue}.00
+                                            </Text>
+                                        </> :
+                                        null
+                                    }
 
-                                    <Badge
-                                        status="success"
-                                        value="91"
-                                        containerStyle={{ position: 'absolute', top: -10, right: -4 }}
-                                    />
-                                    <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -10, width: 100 }}>
-                                        ₹ 2363.00
-                                    </Text>
+
                                 </View>
                             </TouchableHighlight>
 
@@ -140,9 +146,9 @@ class App extends Component {
                         </View>
                     </View>
                 </Modal>
-                <ProductList 
+                {/* <ProductList 
                 move={()=>this.props.navigation.navigate('AddToCart')}
-                />
+                /> */}
             </View>
         );
     }
@@ -150,19 +156,13 @@ class App extends Component {
 
 const styles = StyleSheet.create({
     centeredView: {
-        flex: 1,
-        // justifyContent: "center",
-        // alignItems: "center",
-        // backgroundColor: "#6e6e6e"
+        flex: 1
     },
     userView: {
         flexDirection: "row",
         padding: 10,
         justifyContent: "center",
-        textAlignVertical: "center",
-        // borderColor:"red",
-        // borderWidth:1,
-
+        textAlignVertical: "center"
     },
     modalViewCode: {
         flex: 1,
@@ -204,8 +204,12 @@ const styles = StyleSheet.create({
 
 
 function mapStateToProps(state) {
+    const { isLogged } = state.register;
+    const { totalItem, totalPaymentedValue } = state.userOrderAndDeliveryReducer;
+
+
     return {
-        isLogged: state.register.isLogged
+        isLogged, totalItem, totalPaymentedValue
     }
 
 }

@@ -19,8 +19,10 @@ import ThankYou from '../Screens/ThankYou';
 import AddToCart from '../Screens/AddToCart';
 import SelectPickUpPoint from '../Screens/SelectPIckUpPoint';
 import SelectDeliveryAddress from '../Screens/SelectDeliveryAddress';
-
-
+import PickUpPointList from '../Screens/PickUpPointList';
+import OrderSummary from '../Screens/OrderSummary';
+import AddressBook from '../Screens/AddressBook';
+import AddNewAddress from '../Screens/AddNewAddress';
 import DrawerContent from './DrawerContainer';
 
 
@@ -101,6 +103,28 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="SelectDeliveryAddress"
                 component={SelectDeliveryAddress}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="PickUpPointList"
+                component={PickUpPointList}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="OrderSummary"
+                component={OrderSummary}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="AddressBook"
+                component={AddressBook}
+                options={{ headerShown: false }}
+            />
+            <Stack.Screen
+                name="AddNewAddress"
+                component={AddNewAddress}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

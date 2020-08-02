@@ -11,6 +11,7 @@ import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconF from 'react-native-vector-icons/Entypo';
+import Popover from 'react-native-popover-view';
 
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -23,7 +24,8 @@ class SelectDeliveryType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullView: false
+            fullView: false,
+            showPopover: false
 
         };
     }
@@ -84,17 +86,38 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹1305.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Delivery Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black', fontWeight: "bold" }}>VIEW</Text>
+
+                            <Popover
+                                isVisible={this.state.showPopover}
+                                onRequestClose={() => {
+                                    this.setState({ showPopover: false })
+                                }}
+                                popoverStyle ={{backgroundColor : "#fff6b2"}}
+                                from={(
+                                    <TouchableOpacity
+                                        onPress={() => this.setState({ showPopover: true })}
+                                    >
+                                        <View style={{ flexDirection: "row", alignItems: "center" }}>
+                                            <IconA name="exclamationcircle" size={12} color="black" />
+
+                                            <Text style={{ fontSize: 12, color: 'black', fontWeight: "bold", marginLeft: 5 }}>VIEW</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}>
+                                <View style={{ paddingVertical: 10, paddingHorizontal : 15 }}>
+                                    <Text style={{ fontSize: 12, color:"black" }}>{`For Home  Delivery, we Charge Rs. 49.00 or 3.00% of the order value- whichever is higer.\nFor Free Delivery, Select Pick-up Point.`}</Text>
+                                </View>
+                            </Popover>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹252.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}.00</Text>
                         </View>
                         <View>
                             <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
@@ -234,8 +257,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage } = state.register;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
     };
 }
 

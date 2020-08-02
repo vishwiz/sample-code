@@ -24,7 +24,7 @@ postReq = async (params) => {
 
 getReq = async (params) => {
     try {
-        const response = await axios(baseURL + params.endurl, {
+        const response = await axios(params.endurl, {
             method: 'get',
             headers: {
                 Accept: 'application/json',
@@ -34,6 +34,8 @@ getReq = async (params) => {
             // data: params.requestData,
         });
         const data = await response.data;
+
+        
         return { data: data, status: response.status };
     } catch (error) {
         return {

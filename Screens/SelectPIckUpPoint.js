@@ -34,7 +34,7 @@ class SelectDeliveryType extends Component {
 
 
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <Header
                     placement="left"
                     leftComponent={
@@ -81,17 +81,20 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹1305.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Delivery Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black', fontWeight: "bold" }}>VIEW</Text>
+                            <Text style={{ fontSize: 12, color: 'black', fontWeight: "bold" }}>FREE!</Text>
                         </View>
-
+                        <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={{ fontSize: 12, color: 'black' }}>Amount Payable :</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
+                        </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹252.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}.00</Text>
                         </View>
                         <View>
                             <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
@@ -105,7 +108,7 @@ class SelectDeliveryType extends Component {
                 }
 
                 <Text
-                    style={{ fontSize: 12, padding: 10, color: "#494949" }}
+                    style={{ fontSize: 12, padding: 10, color: "black" }}
                 >You Select : </Text>
 
                 <View style={styles.bottomoContainer}>
@@ -123,19 +126,45 @@ class SelectDeliveryType extends Component {
                             </View>
                         </View>
                     </View>
-                    <TouchableOpacity 
-                    style={{paddingHorizontal:8}}
-                    onPress={()=>console.log("on touch..!!")}
+                    <TouchableOpacity
+                        style={{ paddingHorizontal: 8 }}
+                        onPress={() => this.props.navigation.navigate("PickUpPointList")}
+                        activeOpacity={1}
                     >
-                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber} value={"A foundational component for inputting text into the app via a keyboard. Props provide configurability for several features, such as auto-correction, auto-capitalization, placeholder text, and different keyboard types, such as a numeric keypad."} phoneNumber={false} isDisable={true} />
-                    </TouchableOpacity>
+                        <TextInputComponent
+                            title={"Select Pick Up Location"}
+                            keyboard_type={"default"}
+                            onChangeText={this.onChangeTextphoneNumber}
+                            value={!this.props.SavePickUpPointList?.name ? "Select pick up point" : `${this.props.SavePickUpPointList?.name}   ${this.props.SavePickUpPointList?.address}`}
+                            phoneNumber={false}
+                            isDisable={true}
+                            marquee={true}
+                        />
+                        <View style={{ alignSelf: "flex-end", marginRight: 10, top: -70 }}>
+                            <Text>
+                                EDIT/CHANGE
+                        </Text>
+                        </View>
 
+                    </TouchableOpacity>
 
 
                 </View>
 
 
 
+                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.SavePickUpPointList?.name ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            !this.props.SavePickUpPointList?.name ?
+                                () => { }
+                                :
+                                this.props.navigation.navigate("OrderSummary")
+                        }}
+                    >
+                        <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
+                    </TouchableOpacity>
+                </View>
 
             </View>
         );
@@ -161,7 +190,7 @@ const styles = StyleSheet.create({
     },
     lowerContainer: {
         justifyContent: "space-around",
-        height: 90,
+        height: 110,
         backgroundColor: "#9cb7b5",
         paddingHorizontal: 10,
         paddingVertical: 5
@@ -170,7 +199,6 @@ const styles = StyleSheet.create({
     leftDeliveryContainer: {
         flex: 5,
         padding: 10,
-        // justifyContent: "space-between",
     },
     rightDeliveryContainer: {
         flex: 2,
@@ -195,6 +223,7 @@ const styles = StyleSheet.create({
     },
     bottomoContainer: {
         // height: "42%",
+        // flex : 1,
         width: "95%",
         margin: 10,
         padding: 5,
@@ -208,8 +237,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage } = state.register;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList
     };
 }
 
