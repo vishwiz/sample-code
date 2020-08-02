@@ -21,7 +21,7 @@ const initialState = {
     carouselData_success: false,
     carouselData_failure: false,
 
-    searchText: ""
+    searchData: {}
 };
 
 export default (state = initialState, action) => {
@@ -109,7 +109,15 @@ export default (state = initialState, action) => {
         case types.SEARCH_TEXT:
             return {
                 ...state,
-                searchText: action.payload
+                searchData: action.payload
+            }
+
+        case types.CLEAR_LIST_DATA:
+            return {
+                ...state,
+                addToCartListDetails: [],
+                addToCartList_success: false,
+                addToCartList_failure: false,
             }
 
         default:

@@ -1,4 +1,4 @@
-import { PRODUCT_LIST, ADD_TO_CART, ADD_TO_CART_LIST_DATA , CAROUSEl_DATA, SEARCH_TEXT } from './types';
+import { PRODUCT_LIST, ADD_TO_CART, ADD_TO_CART_LIST_DATA , CAROUSEl_DATA, SEARCH_TEXT , CLEAR_LIST_DATA} from './types';
 
 export const productListCall = (payload) => {
 
@@ -36,6 +36,14 @@ export const searchTextValue = (payload) => {
 
     return {
         type: SEARCH_TEXT,
+        payload: payload
+    }
+}
+
+export const clearListData = (payload) => {
+
+    return {
+        type: CLEAR_LIST_DATA,
         payload: payload
     }
 }

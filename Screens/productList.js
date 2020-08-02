@@ -36,7 +36,7 @@ class ProductList extends Component {
         }
         this.setState(function (state, props) { return { isLoading: true } });
         this.props.productListCall({
-            endurl: '/GetCategoryList',
+            endurl: '/BrandDetailList',
             requestData: params,
         })
         this.props.carouselDataCall({
@@ -66,15 +66,19 @@ class ProductList extends Component {
 
     renderPromotionData = (data) => (
         <TouchableOpacity onPress={() => {
-            // this.props.searchTextValue(data.name)
+            this.props.searchTextValue({
+                name: data.name,
+                pathName: "promotion",
+                id: data.promotionId
+            })
             this.props.move()
         }}
-            key={data.coverImageUri}
+            key={data.promotionId}
         >
 
             <Image
                 style={styles.card}
-                source={{ uri: data.coverImageUri }}
+                source={{ uri: data.promtionImageUrl }}
             />
         </TouchableOpacity>
     );
@@ -84,6 +88,7 @@ class ProductList extends Component {
             {
                 index === 0 ?
                     <Carousel
+                        // pagination={PaginationLight}
                         renderItem={this.renderPromotionData}
                         data={this.state.promotionData}
                         loop
@@ -93,7 +98,16 @@ class ProductList extends Component {
             <View style={styles.productHeader}>
                 <Text style={styles.productListHeader}>{item.name}</Text>
             </View>
-            <View style={styles.productImage}>
+            <TouchableOpacity
+                onPress={() => {
+                    this.props.searchTextValue({
+                        name: item.name,
+                        pathName: "brand",
+                        id: item.brandDetailId
+                    })
+                    this.props.move()
+                }}
+                style={styles.productImage}>
                 <Image
                     style={{ width: this.state.screenWidth, height: 140 }}
                     source={
@@ -102,13 +116,14 @@ class ProductList extends Component {
                         }
                     }
                 />
-            </View>
+            </TouchableOpacity>
 
         </View>)
     }
     render() {
         return (
             <View style={{ height: "100%", flex: 1 }}>
+
                 {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
                     <FlatList
                         data={this.state.productListData}
@@ -190,4 +205,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, { productListCall, carouselDataCall, searchTextValue })(ProductList);
-// export default PRODUCTLIST

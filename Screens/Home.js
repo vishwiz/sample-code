@@ -17,6 +17,7 @@ import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
 import { resetUserData } from "../src/actions";
 import ProductList from "./productList"
+import Search from "./search"
 
 
 class App extends Component {
@@ -146,9 +147,12 @@ class App extends Component {
                         </View>
                     </View>
                 </Modal>
-                {/* <ProductList 
-                move={()=>this.props.navigation.navigate('AddToCart')}
-                /> */}
+                <Search
+                    move={() => this.props.navigation.navigate('AddToCart')}
+                />
+                <ProductList
+                    move={() => this.props.navigation.navigate('AddToCart')}
+                />
             </View>
         );
     }
