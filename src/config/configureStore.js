@@ -12,7 +12,7 @@ const isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['navigation']
+    // whitelist: ['navigation']
 };
 
 

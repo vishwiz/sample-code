@@ -25,6 +25,16 @@ class ChangePassword extends Component {
         };
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.navigate("Home");
+        return true;
+    }
+
+
+
 
     onChangeTextphoneNumber = (value) => {
         this.setState({ pinPassword: value });

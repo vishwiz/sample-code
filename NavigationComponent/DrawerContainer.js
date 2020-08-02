@@ -7,12 +7,12 @@ class DisplayAnImage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LinearGradient colors={['black', 'white']} style={[styles.linearGradient]}>
+        <LinearGradient colors={['gray', 'white']} style={[styles.linearGradient]}>
           <Text style={styles.buttonText}>
-            Sign in with Facebook
+            {/* Sign in with Facebook */}
            </Text>
         </LinearGradient>
-        <Text>adsadasdsa</Text>
+        {/* <Text>adsadasdsa</Text> */}
 
       </View>
     );
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
 
-    height: 200
+    height:"100%"
   },
   buttonText: {
     fontSize: 18,
