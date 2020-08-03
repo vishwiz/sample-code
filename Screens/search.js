@@ -92,7 +92,6 @@ class Search extends Component {
         this.setState({ searchText: text })
     }
     render() {
-        console.log("props ", this.props.addToCartListDetails)
         return (
             <View>
                 <View style={styles.container}>

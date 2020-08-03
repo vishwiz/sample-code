@@ -78,6 +78,7 @@ class ProductList extends Component {
 
             <Image
                 style={styles.card}
+                resizeMode={'stretch'}
                 source={{ uri: data.promtionImageUrl }}
             />
         </TouchableOpacity>
@@ -87,13 +88,16 @@ class ProductList extends Component {
         return (<View style={styles.flatListContainer}>
             {
                 index === 0 ?
+                <View style={{ paddingBottom: 20,}}>
                     <Carousel
                         // pagination={PaginationLight}
                         renderItem={this.renderPromotionData}
                         data={this.state.promotionData}
                         loop
                         autoplay
-                    /> : null
+                    /> 
+                    </View>
+                    : null
             }
             <View style={styles.productHeader}>
                 <Text style={styles.productListHeader}>{item.name}</Text>
@@ -109,10 +113,10 @@ class ProductList extends Component {
                 }}
                 style={styles.productImage}>
                 <Image
-                    style={{ width: this.state.screenWidth, height: 140 }}
+                    style={{ width: this.state.screenWidth, height: 190 }}
                     source={
                         {
-                            uri: `${item.categoryImageUrl}`,
+                            uri: `${item.brandDetailImageUrl}`,
                         }
                     }
                 />
@@ -152,7 +156,7 @@ const styles = StyleSheet.create({
     },
     productHeader: {
         paddingHorizontal: 15,
-        paddingVertical: 10,
+        paddingBottom:5
     },
     productListHeader: {
         fontWeight: "bold",
@@ -161,7 +165,7 @@ const styles = StyleSheet.create({
     },
     productImage: {
         resizeMode: "cover",
-        height: 190,
+        // height: 190,
 
     },
     flatListContainer: {
@@ -178,7 +182,7 @@ const styles = StyleSheet.create({
     },
     card: {
         width: width,
-        height: width * 0.5,
+        height: width * 0.4,
     },
     cornerLabel: {
         position: 'absolute',

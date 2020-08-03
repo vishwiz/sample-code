@@ -49,14 +49,9 @@ export function* handlePinCodeCall({
     payload
 }) {
 
-    console.log("payload handlePinCodeCall: ", payload)
 
     try {
         const response = yield call(APIRequestAxios.getReq, payload);
-
-    console.log("response ", response.data.data[0])
-
-
         if (response.status === 200) {
 
             yield put({

@@ -17,9 +17,9 @@ import IconA from 'react-native-vector-icons/AntDesign';
 import { connect } from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
-import { Header, Badge , Divider} from 'react-native-elements';
-import { addtoCartListCall, addtoCartListCompleteData , clearListData } from '../src/actions/productListAction';
-import { create } from "react-test-renderer";
+import { Header, Badge, Divider } from 'react-native-elements';
+import { addtoCartListCall, addtoCartListCompleteData, clearListData } from '../src/actions/productListAction';
+import { incrementDecrementValue } from '../src/actions/deliveryAction';
 const { width } = Dimensions.get('window');
 
 class AddToCart extends Component {
@@ -68,7 +68,7 @@ class AddToCart extends Component {
 
         //         "isVisible": false,
 
-        //         "addedQuantity": 0,
+        //         "quantity": 0,
 
         //         "productVariantList": [
 
@@ -102,7 +102,7 @@ class AddToCart extends Component {
 
         //                 "istrue": false,
 
-        //                 "addedQuantity": 0,
+        //                 "quantity": 0,
 
         //             },
 
@@ -136,7 +136,7 @@ class AddToCart extends Component {
 
         //                 "istrue": false,
 
-        //                 "addedQuantity": 0,
+        //                 "quantity": 0,
 
         //             },
 
@@ -170,7 +170,7 @@ class AddToCart extends Component {
 
         //                 "istrue": false,
 
-        //                 "addedQuantity": 0,
+        //                 "quantity": 0,
 
         //             }
 
@@ -216,34 +216,46 @@ class AddToCart extends Component {
     }
 
     onAddToCartListSuccess = (addToCartListDetails) => {
-        let viewCartData = this.props.addToCartListData
+        let viewCartData = this.props.OrderSummaryItemArray
         let newData = [...addToCartListDetails]
         let totalProducts = 0
         let totalAmount = 0
         newData.forEach(element => {
             element.isVisible = false
-            element.addedQuantity = 0
+            element.quantity = 0
             element.isVariantTrue = false
+            element.totalSelllingPriceWithQuantity = 0
+            element.totalSavingAmmount = 0
             element.productVariantList.length > 0 ?
                 element.productVariantList.forEach(insideElement => {
                     insideElement.istrue = false
-                    insideElement.addedQuantity = 0
+                    insideElement.quantity = 0
+                    insideElement.totalSelllingPriceWithQuantity = 0
+                    insideElement.totalSavingAmmount = 0
                 }) : null
         })
         if (newData.length > 0) {
             if (viewCartData.length > 0) {
                 viewCartData.forEach(element => {
-                    totalProducts += element.addedQuantity
-                    totalAmount +=  element.addedQuantity * element.sellingPrice
+                    totalProducts += element.quantity
+                    totalAmount += element.quantity * element.sellingPrice
                     newData.forEach(newDataElement => {
-                        newDataElement.productId === element.productId ? newDataElement.addedQuantity = element.addedQuantity : null
+                        if (newDataElement.productId === element.productId) {
+                            newDataElement.quantity = element.quantity
+                            newDataElement.totalSelllingPriceWithQuantity = element.totalSelllingPriceWithQuantity
+                            newDataElement.totalSavingAmmount = element.totalSavingAmmount
+                        }
                         newDataElement.productVariantList.length > 0 ? newDataElement.productVariantList.forEach(innerElement => {
-                            innerElement.productId === element.productId ? innerElement.addedQuantity = element.addedQuantity : null
+                            if (innerElement.productId === element.productId) {
+                                innerElement.quantity = element.quantity
+                                innerElement.totalSelllingPriceWithQuantity = element.totalSelllingPriceWithQuantity
+                                innerElement.totalSavingAmmount = element.totalSavingAmmount
+                            }
                         }) : null
                     })
                 })
             }
-            this.setState({ addToCartListData: [...newData] , totalItem: totalProducts ,totalPaymentedValue : totalAmount})
+            this.setState({ addToCartListData: [...newData], totalItem: totalProducts, totalPaymentedValue: totalAmount })
 
         }
     }
@@ -283,12 +295,10 @@ class AddToCart extends Component {
         delete obj.isVariantTrue
         delete obj.istrue
         let objState = [...this.state.addToCartListData]
-        let createViewCart = this.props.addToCartListData
+        let createViewCart = this.props.OrderSummaryItemArray
         let totalProducts = 0
         let totalAmount = 0
-
-        console.log("this.props.addToCartListData ", this.props.addToCartListData);
-        if (obj.addedQuantity === obj.maxQuantity && process === "add") {
+        if (obj.quantity === obj.maxQuantity && process === "add") {
             Alert.alert("You have already added the maximum allowed quantity for this item.")
         }
         else {
@@ -298,11 +308,15 @@ class AddToCart extends Component {
                         element.productVariantList.forEach(insideElement => {
                             if (insideElement.productId == obj.productId) {
                                 if (process == "add") {
-                                    insideElement.maxQuantity <= insideElement.addedQuantity ? null : insideElement.addedQuantity += 1
+                                    insideElement.maxQuantity <= insideElement.quantity ? null : insideElement.quantity += 1
                                 } else {
-                                    insideElement.addedQuantity -= 1
+                                    insideElement.quantity -= 1
                                 }
-                                obj.addedQuantity = insideElement.addedQuantity
+                                insideElement.totalSelllingPriceWithQuantity = insideElement.quantity * insideElement.sellingPrice;
+                                insideElement.totalSavingAmmount = insideElement.quantity * insideElement.discount;
+                                obj.quantity = insideElement.quantity;
+                                obj.totalSelllingPriceWithQuantity = insideElement.totalSelllingPriceWithQuantity;
+                                obj.totalSavingAmmount = insideElement.totalSavingAmmount;
                             }
                         })
                     }
@@ -311,42 +325,49 @@ class AddToCart extends Component {
                 objState.forEach(element => {
                     if (element.productId === obj.productId) {
                         if (process == "add") {
-                            element.maxQuantity <= element.addedQuantity ? () => null : element.addedQuantity += 1
+                            element.maxQuantity <= element.quantity ? () => null : element.quantity += 1
                         } else {
-                            element.addedQuantity -= 1
+                            element.quantity -= 1
                         }
-                        obj.addedQuantity = element.addedQuantity
+                        element.totalSelllingPriceWithQuantity = element.quantity * element.sellingPrice;
+                        element.totalSavingAmmount = element.quantity * element.discount;
+                        obj.quantity = element.quantity;
+                        obj.totalSelllingPriceWithQuantity = element.totalSelllingPriceWithQuantity;
+                        obj.totalSavingAmmount = element.totalSavingAmmount;
                     }
                 })
             }
 
             if (createViewCart.some(item => item.productId === obj.productId)) {
                 createViewCart.forEach(elementRedux => {
-                   
+
                     if (elementRedux.productId === obj.productId) {
-                        elementRedux.addedQuantity = obj.addedQuantity
+                        elementRedux.quantity = obj.quantity
+                        elementRedux.totalSelllingPriceWithQuantity = obj.totalSelllingPriceWithQuantity
+                        elementRedux.totalSavingAmmount = obj.totalSavingAmmount
                     }
-                    // console.log("inside ", elementRedux.addedQuantity)
-                    totalProducts += elementRedux.addedQuantity
-                    totalAmount +=  elementRedux.addedQuantity * elementRedux.sellingPrice
+                    totalProducts += elementRedux.quantity
+                    totalAmount += elementRedux.totalSelllingPriceWithQuantity
                 })
             } else {
                 createViewCart.push(obj)
-                if(createViewCart.length>0){
+                if (createViewCart.length > 0) {
                     createViewCart.forEach(elementRedux => {
-                        totalProducts += elementRedux.addedQuantity
-                        totalAmount +=  elementRedux.addedQuantity * elementRedux.sellingPrice
+                        totalProducts += elementRedux.quantity
+                        totalAmount += elementRedux.totalSelllingPriceWithQuantity
                     })
-                }else{
-                    totalProducts += obj.addedQuantity
-                totalAmount +=  obj.addedQuantity * obj.sellingPrice
+                } else {
+                    totalProducts += obj.quantity
+                    totalAmount += obj.totalSelllingPriceWithQuantity
                 }
-                
+
             }
 
-            console.log("checking on ",totalProducts , obj)
-            this.props.addtoCartListCompleteData(createViewCart)
-            this.setState({ addToCartListData: [...objState], totalItem: totalProducts ,totalPaymentedValue : totalAmount })
+            // this.props.addtoCartListCompleteData(createViewCart)
+            
+            this.props.incrementDecrementValue({ data: createViewCart, totalPaymentedValue: totalAmount, totalItem: totalProducts })
+            this.setState({ addToCartListData: [...objState],})
+            //  totalItem: totalProducts, totalPaymentedValue: totalAmount 
         }
     }
 
@@ -415,15 +436,15 @@ class AddToCart extends Component {
             obj = { ...item }
         }
         return (
-            <View style={{ borderBottomColor: "#000", backgroundColor: "#fff" ,paddingBottom:10 }}>
+            <View style={{ borderBottomColor: "#000", backgroundColor: "#fff", paddingBottom: 10 }}>
                 <View style={styles.renderContainer}>
                     <ImageBackground style={styles.card} source={{ uri: obj.productImageUrl }} >
                         {
                             obj.isStock ?
-                                obj.addedQuantity > 0 ?
+                                obj.quantity > 0 ?
                                     <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
                                         <View style={styles.innerImageView}>
-                                            <Text style={styles.innerImageText}>{obj.addedQuantity}</Text>
+                                            <Text style={styles.innerImageText}>{obj.quantity}</Text>
                                         </View>
                                     </ImageBackground> : null : <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
                                     <View style={styles.innerImageView}>
@@ -435,10 +456,10 @@ class AddToCart extends Component {
                         <View style={{ justifyContent: "flex-start", alignContent: "flex-start" }}>
                             <Text style={styles.textFormatHeader}>{obj.name}</Text>
                         </View>
-                        <View style={{ justifyContent: "flex-end", alignItems: "flex-end" }}>
-                            <Text style={styles.textFormatMrp}>MRP {'\u20B9'} {obj.mrp}.00</Text>
-                            <Text style={styles.textFormatDmart}>DMART {'\u20B9'} {obj.sellingPrice}.00</Text>
-                            <Text style={styles.textFormatSave}>Save {'\u20B9'} {obj.discount}.00</Text>
+                        <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
+                            <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}.00`}</Text>
+                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "DMART"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}.00`}</Text>
+                            <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discount}.00`}</Text>
                         </View>
                     </View>
                 </View>
@@ -451,13 +472,15 @@ class AddToCart extends Component {
                     paddingVertical: 10,
                     paddingBottom: 10,
                 }}>
-                    <View style={{ width: "30%" , padding:8}} />
+                    <View style={{ width: "30%", padding: 8 }} />
                     <View style={styles.optionView}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
                         {
                             item.productVariantList.length > 0 ?
-                                <TouchableOpacity style={{ backgroundColor: "#1D800E", borderTopRightRadius: 5, 
-                                borderBottomRightRadius: 5}}
+                                <TouchableOpacity style={{
+                                    backgroundColor: "#1D800E", borderTopRightRadius: 5,
+                                    borderBottomRightRadius: 5
+                                }}
 
                                     onPress={() => {
                                         this.updateDropdownModal(index, item.isVisible)
@@ -468,20 +491,20 @@ class AddToCart extends Component {
                                 : null
                         }
                     </View>
-                    {obj.addedQuantity === 0 ? <TouchableOpacity style={styles.addToCart}
+                    {obj.quantity === 0 ? <TouchableOpacity style={styles.addToCart}
                         onPress={() => this.addToCartFunction(obj, "add")}
                     >
                         <Text style={styles.textColor}>ADD TO CART</Text>
                     </TouchableOpacity>
                         :
-                        <View style={{ flexDirection: "row", width: "35%", borderRadius: 3 }}>
+                        <View style={{ flexDirection: "row", width: "30%", borderRadius: 3 }}>
                             <TouchableOpacity style={styles.deduct}
                                 onPress={() => this.addToCartFunction(obj, "subs")}
                             >
                                 <IconA name="minus" size={15} color="#548247" />
                             </TouchableOpacity>
                             <View style={[styles.addAndDeduct, { backgroundColor: "transparent" }]}>
-                                <Text>{obj.addedQuantity}</Text>
+                                <Text>{obj.quantity}</Text>
                             </View>
                             <TouchableOpacity style={styles.add}
                                 onPress={() => this.addToCartFunction(obj, "add")}
@@ -497,7 +520,6 @@ class AddToCart extends Component {
     }
 
     render() {
-        console.log("process ", this.state.addToCartListData);
         return (
             <View style={{ height: "100%", flex: 1 }}>
                 <Header
@@ -508,7 +530,8 @@ class AddToCart extends Component {
                             style={{ padding: 10 }}
                             onPress={() => {
                                 this.props.clearListData()
-                                this.props.navigation.goBack()}}>
+                                this.props.navigation.goBack()
+                            }}>
                             <IconI name="chevron-back" size={25} color="#548247" />
                         </TouchableHighlight>
                     }
@@ -521,9 +544,11 @@ class AddToCart extends Component {
 
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
 
-                            {this.state.totalItem ? <TouchableOpacity
+                            {this.props.totalItem ? <TouchableOpacity
                                 onPress={() => {
-                                    // this.props.navigation.navigate("ViewCart")
+                                    // this.props.incrementDecrementValue({ data: this.props.addToCartListData  })
+                                    this.props.navigation.navigate("ViewCart")
+                                    
                                 }}
                                 style={{ padding: 10 }}
                             >
@@ -532,11 +557,11 @@ class AddToCart extends Component {
 
                                     <Badge
                                         status="success"
-                                        value={this.state.totalItem}
+                                        value={this.props.totalItem}
                                         containerStyle={{ position: 'absolute', top: -10, right: -4 }}
                                     />
                                     <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -5, width: 100 }}>
-                                        ₹ {this.state.totalPaymentedValue}.00
+                                        ₹ {this.props.totalPaymentedValue}.00
                                     </Text>
                                 </View>
                             </TouchableOpacity>
@@ -589,11 +614,11 @@ class AddToCart extends Component {
 
 const styles = StyleSheet.create({
     card: {
-        width: width * 0.34,
+        width: width * 0.32,
         height: width * 0.3,
     },
     cardInside: {
-        width: width * 0.34,
+        width: width * 0.32,
         height: width * 0.3,
         opacity: 0.7,
         justifyContent: "center",
@@ -619,19 +644,19 @@ const styles = StyleSheet.create({
         color: "#C0C0C0",
         textDecorationLine: 'line-through',
         textDecorationStyle: 'solid',
-        paddingVertical: 5
+        paddingVertical: 1
     },
     textFormatDmart: {
         fontWeight: "bold",
         fontSize: 15,
         color: "#1D800E",
-        paddingVertical: 5
+        paddingVertical: 1
     },
     textFormatSave: {
         fontWeight: "bold",
         fontSize: 15,
         color: "#D05050",
-        paddingVertical: 5
+        paddingVertical: 1
     },
 
     textFormatHeader: {
@@ -645,7 +670,7 @@ const styles = StyleSheet.create({
         backgroundColor: "transparent",
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 5 ,
+        borderRadius: 5,
         borderColor: "#1D800E",
         // height: 40,
         borderWidth: 1,
@@ -654,9 +679,9 @@ const styles = StyleSheet.create({
         alignContent: "flex-end",
     },
     addToCart: {
-        width: "30%",
+        width: "27%",
         backgroundColor: "#1D800E",
-        padding: 10,
+        padding: 8,
         // fontSize: 10,
         justifyContent: "center",
         alignItems: "center",
@@ -666,7 +691,7 @@ const styles = StyleSheet.create({
         color: "#fff"
     },
     quantityView: {
-        flex: 1, justifyContent: "center", alignItems: "center", padding:7
+        flex: 1, justifyContent: "center", alignItems: "center", padding: 7
     },
     dropDownView: {
         // height: 50,
@@ -716,22 +741,23 @@ const styles = StyleSheet.create({
         width: "33%",
         justifyContent: "center",
         alignItems: "center",
-        padding: 10, 
-        borderColor: "#e0e0e0", 
-        borderRightWidth: 1, 
-        backgroundColor: "#e0e0e0", 
-        borderTopLeftRadius: 5, 
+        padding: 10,
+        borderColor: "#e0e0e0",
+        borderRightWidth: 1,
+        backgroundColor: "#e0e0e0",
+        borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5
     }
 
 })
 
 function mapStateToProps(state) {
-    const { addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchData } = state.productList
+    const { addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData } = state.productList
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        addToCartListDetails, isLoading, errorMessage, addToCartListData, addToCartList_success, searchData
+        addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
     };
 }
 
-export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData, clearListData })(AddToCart);
+export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData, clearListData, incrementDecrementValue })(AddToCart);
 // export default AddToCart

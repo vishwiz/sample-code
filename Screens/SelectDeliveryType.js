@@ -66,8 +66,6 @@ class SelectDeliveryType extends Component {
                     </View>
                     <TouchableOpacity
                         onPress={() => {
-
-                            console.log("on touch..!!!")
                             this.setState({ fullView: !this.state.fullView })
                         }}
                     >

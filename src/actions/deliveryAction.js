@@ -54,8 +54,6 @@ export const pincodeCall = (payload) => {
 }
 
 export const addAddress = (payload) => {
-
-    console.log("payload : ", payload);
     
     return {
         type: ADD_ADDRESS,

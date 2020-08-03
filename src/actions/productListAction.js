@@ -16,13 +16,13 @@ export const addtoCartListCall = (payload) => {
     }
 }
 
-export const addtoCartListCompleteData = (payload) => {
+// export const addtoCartListCompleteData = (payload) => {
 
-    return {
-        type: ADD_TO_CART_LIST_DATA,
-        payload: payload
-    }
-}
+//     return {
+//         type: ADD_TO_CART_LIST_DATA,
+//         payload: payload
+//     }
+// }
 
 export const carouselDataCall = (payload) => {
 

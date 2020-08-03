@@ -166,7 +166,7 @@ class OrderSummary extends Component {
                                 </View>
                             </View>}
                             renderItem={(item, index) => this._renderFlatList(item, index)}
-                            keyExtractor={item => item.id.toString()}
+                            keyExtractor={item => item.productId.toString()}
                         />
 
 

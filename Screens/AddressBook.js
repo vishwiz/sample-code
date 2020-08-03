@@ -27,7 +27,6 @@ class SelectDeliveryType extends Component {
 
 
     renderItem = ({ item }) => {
-        console.log("item : ", item)
         return (
             <View style={{ padding: 10, borderColor: "gray", borderWidth: 1, borderRadius: 5, marginVertical:8, backgroundColor :"white" }}>
                 <Text>{item.fullName}</Text>

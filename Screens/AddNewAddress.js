@@ -113,8 +113,6 @@ class RegisterScreen extends Component {
     }
 
     render() {
-
-        console.log("address details : ",this.props.addressDetailsValue)
         const {
             fullName,
             address,

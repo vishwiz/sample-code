@@ -46,10 +46,8 @@ class PickUpPointList extends Component {
 
     _renderFlatList = (item) => {
 
-        console.log(item.item)
-
-        item.item.name = "Shop No. 21, Sicily Park CHSL, Plot No. 54, Sector No. 12-B, Koperkhairane, Navi Mumbai Maharashtra 400709";
-        item.item.address  = `Navi Mumbai Maharashtra 400709`;
+        // item.item.name = "Shop No. 21, Sicily Park CHSL, Plot No. 54, Sector No. 12-B, Koperkhairane, Navi Mumbai Maharashtra 400709";
+        // item.item.address  = `Navi Mumbai Maharashtra 400709`;
 
 
         return (
@@ -61,10 +59,10 @@ class PickUpPointList extends Component {
             >
                 <View style={styles.flatListRender}>
                     <Text style={styles.textValue}>
-                        {`Shop No. 21, Sicily Park CHSL, Plot No. 54, Sector No. 12-B, Koperkhairane, Navi Mumbai Maharashtra 400709`}
+                        {item.item.name}
                     </Text>
                     <Text style={styles.textValue}>
-                        {`Navi Mumbai Maharashtra 400709`}
+                        {item.item.address}
                     </Text>
                 </View>
             </TouchableOpacity>

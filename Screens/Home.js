@@ -37,8 +37,6 @@ class App extends Component {
     }
 
     render() {
-
-
         return (
             <View style={styles.centeredView}>
                 <Header
@@ -209,11 +207,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     const { isLogged } = state.register;
-    const { totalItem, totalPaymentedValue } = state.userOrderAndDeliveryReducer;
+    const { totalItem, totalPaymentedValue, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
 
 
     return {
-        isLogged, totalItem, totalPaymentedValue
+        isLogged, totalItem, totalPaymentedValue, OrderSummaryItemArray
     }
 
 }

@@ -236,7 +236,7 @@ class ViewCart extends Component {
                                 counterIncrementAndDecrement={(index, value) => this.counterIncrementAndDecrement(index, value)}
                                 remove={(index) => this.remove(index)}
                             />}
-                            keyExtractor={item => item.id.toString()}
+                            keyExtractor={item => item.productId.toString()}
                         />
 
 

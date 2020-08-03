@@ -15,7 +15,7 @@ const initialState = {
     addToCartList_success: false,
     addToCartList_failure: false,
 
-    addToCartListData: [],
+    // addToCartListData: [],
 
     carouselDataDetails: [],
     carouselData_success: false,
@@ -76,11 +76,11 @@ export default (state = initialState, action) => {
                 errorMessage: action.payload.ErrorMessage
             }
 
-        case types.ADD_TO_CART_LIST_DATA:
-            return {
-                ...state,
-                addToCartListData: action.payload
-            }
+        // case types.ADD_TO_CART_LIST_DATA:
+        //     return {
+        //         ...state,
+        //         addToCartListData: action.payload
+        //     }
 
         case types.CAROUSEl_DATA:
             return {
