@@ -8,7 +8,8 @@ import {
     Image,
     ScrollView,
     TouchableOpacity,
-    Text
+    Text,
+    BackHandler
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -25,6 +26,9 @@ import { loginUser } from '../src/actions';
 class LoginScreen extends Component {
     constructor(props) {
         super(props);
+
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
         this.state = {
             phoneNumber: '',
             flagPhone: false,
@@ -32,6 +36,16 @@ class LoginScreen extends Component {
             flagPin: false,
             isLoading: false
         };
+    }
+
+  
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+
+    onBackPress = ()=> {
+        this.props.navigation.goBack();
+        return true;
     }
 
     onChangeTextphoneNumber = (value) => {

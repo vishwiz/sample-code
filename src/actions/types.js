@@ -56,5 +56,4 @@ export const SEARCH_TEXT = "SEARCH_TEXT";
 
 export const RESET = "RESET";
 export const ADD_ADDRESS = "ADD_ADDRESS";
-
 export const CLEAR_LIST_DATA = "CLEAR_LIST_DATA";

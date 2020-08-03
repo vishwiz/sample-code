@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, Text, KeyboardAvoidingView, Platform, Image, ScrollView } from "react-native";
+import {
+    Alert, StyleSheet, View, TouchableHighlight, Text, KeyboardAvoidingView, Platform,
+    BackHandler
+    , ScrollView
+} from "react-native";
 import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -15,12 +19,23 @@ class ForgetPassword extends Component {
 
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
         this.state = {
             phoneNumber: this.props.route.params.phoneNumber,
             flagPhone: false,
             isLoading: false
         };
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
+
 
 
     onChangeTextphoneNumber = (value) => {
@@ -106,7 +121,7 @@ class ForgetPassword extends Component {
                             {`One Time Password (OTP) will be send to your registered phone number.`}
                         </Text>
                         <TextInputComponent title={"ENTER REGISTERED PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={phoneNumber} phoneNumber={true} isDisable={true} />
-                       
+
                         <Button
                             title="Solid Button"
                             title="RESET PASSWORD"
