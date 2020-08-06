@@ -52,7 +52,7 @@ class ViewCart extends Component {
 
 
         if (changedValue[index].quantity + value > changedValue[index].maxQuantity) {
-            Alert.alert("","You have already added the maximum allowed quantity for this item.")
+            Alert.alert("", "You have already added the maximum allowed quantity for this item.")
         } else {
 
             changedValue[index].totalSelllingPriceWithQuantity += value * changedValue[index].sellingPrice;
@@ -134,16 +134,7 @@ class ViewCart extends Component {
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
 
                             <TouchableOpacity
-                                onPress={() => { }}
-                                style={{ padding: 10 }}
-                            >
-                                <View>
-                                    <IconEv name="search" color="#548247" size={25} />
-                                </View>
-                            </TouchableOpacity>
-
-
-                            <TouchableOpacity
+                                activeOpacity={1}
                                 onPress={() => { }}
                                 style={{ padding: 10 }}
                             >
@@ -236,13 +227,19 @@ class ViewCart extends Component {
                                 counterIncrementAndDecrement={(index, value) => this.counterIncrementAndDecrement(index, value)}
                                 remove={(index) => this.remove(index)}
                             />}
-                            keyExtractor={item => item.productId.toString()}
+                            keyExtractor={(item, i) => i.toString()}
                         />
 
 
                         <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
                             <TouchableOpacity
-                                onPress={() => this.props.navigation.navigate("SelectDeliveryType")}
+                                onPress={() => {
+                                    (this.props.totalPaymentedValue >= 50) ?
+                                        this.props.navigation.navigate("SelectDeliveryType")
+                                        :
+                                        Alert.alert("", " Minimum order value is Rs. 1000 \n Please add more items.")
+
+                                }}
                             >
                                 <Text style={{ color: "white", fontSize: 14 }}>PROCEED TO CHECKOUT</Text>
                             </TouchableOpacity>

@@ -135,12 +135,26 @@ class OrderSummary extends Component {
                         borderRadius: 5,
                         marginVertical: 10
                     }}>
-                        <Text>You Selected: <Text>Self Pick Up</Text></Text>
+                        <Text>You Selected :
+                            <Text>
+                                {this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? " Self Pick Up" : " Home Delivery"}
+                            </Text>
+                        </Text>
                         <View style={{ marginVertical: 10 }}>
                             <Divider style={{ backgroundColor: 'black' }} />
                         </View>
-                        <Text>You Selected: <Text>Self Pick Up</Text></Text>
-                        <Text>You Selected: <Text>Self Pick Up</Text></Text>
+                        {
+                            this.props.route.params.deliveryType == "PICKUP_DELIVERY" ?
+                                <View>
+                                    <Text>Self Pick Up Point : <Text>{this.props.SavePickUpPointList?.name}</Text></Text>
+                                    <Text>Address : <Text>{this.props.SavePickUpPointList?.address}</Text></Text>
+                                </View>
+                                :
+                                <View>
+                                    <Text>Name : <Text>{this.props.selectedAddress?.fullName}</Text></Text>
+                                    <Text>Address : <Text>{`${this.props.selectedAddress?.address} ${this.props.selectedAddress?.landmark} ${this.props.selectedAddress?.pinCode} ${this.props.selectedAddress?.area} ${this.props.selectedAddress?.state}  `}</Text></Text>
+                                </View>
+                        }
 
                     </View>
                     <View
@@ -210,9 +224,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage } = state.register;
-    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress
     };
 }
 

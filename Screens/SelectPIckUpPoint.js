@@ -159,7 +159,7 @@ class SelectDeliveryType extends Component {
                             !this.props.SavePickUpPointList?.name ?
                                 () => { }
                                 :
-                                this.props.navigation.navigate("OrderSummary")
+                                this.props.navigation.navigate("OrderSummary",{deliveryType : "PICKUP_DELIVERY"})
                         }}
                     >
                         <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>

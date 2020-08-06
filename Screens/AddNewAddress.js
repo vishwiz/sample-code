@@ -96,6 +96,7 @@ class RegisterScreen extends Component {
                     this.props.addAddress({
                         addressDetails: addressDetails,
                     });
+                    this.props.navigation.navigate("AddressBook");
 
                 }
             },
@@ -231,7 +232,11 @@ class RegisterScreen extends Component {
 
                             <View style={{ marginTop: 20, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
                                 <TouchableOpacity
-                                    onPress={() => this._validation()}
+                                    onPress={() => {
+
+                                        this._validation()
+
+                                    }}
                                 >
                                     <Text style={{ color: "white", fontSize: 14 }}>SAVE TO ADDRESS BOOK</Text>
                                 </TouchableOpacity>

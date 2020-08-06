@@ -164,7 +164,7 @@ class SelectDeliveryType extends Component {
                 <View style={{ width: 300, alignSelf: "center", padding: 20 }}>
                     <Divider style={{ backgroundColor: 'black' }} />
                     <View style={{ alignSelf: "center", borderColor: "gray", borderWidth: 1, height: 30, width: 30, padding: 5, borderRadius: 15, top: -15, backgroundColor: "white", }}>
-                        <Text>OR</Text>
+                        <Text style={{fontSize : 12}}>OR</Text>
                     </View>
                 </View>
 

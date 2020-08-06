@@ -32,9 +32,8 @@ class SelectDeliveryType extends Component {
 
     render() {
 
-
         return (
-            <View>
+            <View style={{flex:1}}>
                 <Header
                     placement="left"
                     leftComponent={
@@ -128,7 +127,10 @@ class SelectDeliveryType extends Component {
                         onPress={() => this.props.navigation.navigate("AddressBook")}
                         activeOpacity={1}
                     >
-                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber} value={"A foundational c"} phoneNumber={false} isDisable={true} marquee={true} />
+                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber}
+                            value={!this.props.selectedAddress?.fullName ? "Tap to add an address" : `${this.props.selectedAddress?.fullName}   ${this.props.selectedAddress?.address} ${this.props.selectedAddress?.landmark} ${this.props.selectedAddress?.pinCode} ${this.props.selectedAddress?.area} ${this.props.selectedAddress?.state} `}
+                            phoneNumber={false} isDisable={true} marquee={true}
+                        />
 
                         <View style={{ alignSelf: "flex-end", marginRight: 10, top: -70 }}>
                             <Text>
@@ -137,6 +139,21 @@ class SelectDeliveryType extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
+
+
+                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.selectedAddress?.fullName ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            !this.props.selectedAddress?.fullName ?
+                                () => { }
+                                :
+                                this.props.navigation.navigate("OrderSummary",{deliveryType : "HOME_DELIVERY"})
+                        }}
+                    >
+                        <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
+                    </TouchableOpacity>
+                </View>
+
             </View>
         );
     }
@@ -207,9 +224,9 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, login_failure, errorMessage } = state.register;
+    const { selectedAddress } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage
+        selectedAddress
     };
 }
 

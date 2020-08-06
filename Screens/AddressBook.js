@@ -14,7 +14,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 //for redux
 import { connect } from 'react-redux';
-import { loginUser } from '../src/actions';
+import { selectAddress } from '../src/actions/deliveryAction';
 
 class SelectDeliveryType extends Component {
     constructor(props) {
@@ -28,21 +28,33 @@ class SelectDeliveryType extends Component {
 
     renderItem = ({ item }) => {
         return (
-            <View style={{ padding: 10, borderColor: "gray", borderWidth: 1, borderRadius: 5, marginVertical:8, backgroundColor :"white" }}>
-                <Text>{item.fullName}</Text>
-                <Text>{item.address}</Text>
-                <Text>{item.area}, {item.city}, {item.state}</Text>
-                <Text style={{ fontWeight: "bold" }}>{item.pinCode}</Text>
 
-                <Text>Landmark : {item.landmark}</Text>
+            <TouchableOpacity
+                activeOpacity={.8}
+                onPress={() => {
+                    this.props.navigation.goBack();
+                    this.props.selectAddress({
+                        selectedAddress: item,
+                    });
+                }}
+            >
+                <View style={{ padding: 10, borderColor: "gray", borderWidth: 1, borderRadius: 5, marginVertical: 8, backgroundColor: "white" }}>
+                    <Text>{item.fullName}</Text>
+                    <Text>{item.address}</Text>
+                    <Text>{item.area}, {item.city}, {item.state}</Text>
+                    <Text style={{ fontWeight: "bold" }}>{item.pinCode}</Text>
+                    <Text>Landmark : {item.landmark}</Text>
 
-            </View >
+                </View >
+            </TouchableOpacity>
         )
 
     }
 
 
     render() {
+
+        console.log("this.props.addressDetailsValue : ", this.props.addressDetailsValue)
 
 
         return (
@@ -72,11 +84,13 @@ class SelectDeliveryType extends Component {
                     <FlatList
                         data={this.props.addressDetailsValue}
                         renderItem={this.renderItem}
-                        keyExtractor={item => item.id}
+                        keyExtractor={(item, i) => i.toString()}
                         ListFooterComponent={
                             <TouchableOpacity
                                 activeOpacity={.8}
-                                onPress={() => this.props.navigation.navigate("AddNewAddress")}
+                                onPress={() => {
+                                    this.props.navigation.navigate("AddNewAddress")
+                                }}
                             >
                                 <View style={styles.addNewAddress}>
                                     <Text style={{ color: "#548247" }}>ADD NEW ADDRESS</Text>
@@ -97,6 +111,8 @@ class SelectDeliveryType extends Component {
 
 const styles = StyleSheet.create({
     containerStyle: {
+        backgroundColor: "gray",
+        marginBottom: 100,
         padding: 15
     },
 
@@ -122,4 +138,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { loginUser })(SelectDeliveryType);
+export default connect(mapStateToProps, { selectAddress })(SelectDeliveryType);
