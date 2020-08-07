@@ -4,6 +4,7 @@ import {
     call
 } from 'redux-saga/effects';
 import APIRequestAxios from '../config/networking';
+import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
 
 
 export function* handleProductList({
@@ -119,8 +120,48 @@ export function* handleCarouselData({
     }
 }
 
-export const productListSaga= [
-     takeLatest('PRODUCT_LIST', handleProductList),
-     takeLatest('ADD_TO_CART', handleAddToCartList),
-     takeLatest('CAROUSEl_DATA', handleCarouselData)
+export function* handlePlaceOrder({
+    payload
+}) {
+    try {
+
+        const response = yield call(APIRequestAxios.postReq, payload);
+        if (response.status === 200) {
+
+            yield put({
+                type: 'PLACE_ORDER_SUCCESS',
+                payload: {
+                    ResponseData: response.data,
+                },
+            });
+            RootNavigation.navigate('PaymentScreen', { directionTo: "ThankYou" });
+        } else {
+
+            yield put({
+                type: 'PLACE_ORDER_FAILURE',
+                payload: {
+                    ResponseData: {},
+                    Error: true,
+                    ErrorMessage: 'Something went wrong..!!!',
+                },
+            });
+        }
+
+    } catch (error) {
+        yield put({
+            type: 'PLACE_ORDER_FAILURE',
+            payload: {
+                ResponseData: [],
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
+
+export const productListSaga = [
+    takeLatest('PRODUCT_LIST', handleProductList),
+    takeLatest('ADD_TO_CART', handleAddToCartList),
+    takeLatest('CAROUSEl_DATA', handleCarouselData),
+    takeLatest('PLACE_ORDER', handlePlaceOrder)
 ]

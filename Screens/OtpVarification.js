@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, TouchableOpacity, KeyboardAvoidingView, Platform, Text, ScrollView } from "react-native";
+import { BackHandler, StyleSheet, View, TouchableHighlight, TouchableOpacity, KeyboardAvoidingView, Platform, Text, ScrollView } from "react-native";
 import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -16,12 +16,22 @@ class OtpVarification extends Component {
 
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             OtpPassword: "",
             flagOtp: false,
             isLoading: false
         };
     }
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.navigate("Home");
+        return true;
+    }
+
+
 
 
     onChangeTextPassword = (value) => {

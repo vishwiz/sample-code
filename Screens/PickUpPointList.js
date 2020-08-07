@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, Text, FlatList, Platform, Image, TouchableOpacity } from "react-native";
+import { Alert, StyleSheet, View, TouchableHighlight, Text, FlatList, BackHandler, Image, TouchableOpacity } from "react-native";
 import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -13,11 +13,22 @@ class PickUpPointList extends Component {
 
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
 
             isLoading: false
         };
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
+
+
 
     componentDidMount() {
 

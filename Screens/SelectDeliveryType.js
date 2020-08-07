@@ -5,7 +5,8 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     Text,
-    Alert
+    Alert,
+    BackHandler
 } from 'react-native';
 import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -23,6 +24,8 @@ import { loginUser } from '../src/actions';
 class SelectDeliveryType extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
         this.state = {
             fullView: false,
             showPopover: false
@@ -30,6 +33,13 @@ class SelectDeliveryType extends Component {
         };
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
 
 
 
@@ -95,7 +105,7 @@ class SelectDeliveryType extends Component {
                                 onRequestClose={() => {
                                     this.setState({ showPopover: false })
                                 }}
-                                popoverStyle ={{backgroundColor : "#fff6b2"}}
+                                popoverStyle={{ backgroundColor: "#fff6b2" }}
                                 from={(
                                     <TouchableOpacity
                                         onPress={() => this.setState({ showPopover: true })}
@@ -107,8 +117,8 @@ class SelectDeliveryType extends Component {
                                         </View>
                                     </TouchableOpacity>
                                 )}>
-                                <View style={{ paddingVertical: 10, paddingHorizontal : 15 }}>
-                                    <Text style={{ fontSize: 12, color:"black" }}>{`For Home  Delivery, we Charge Rs. 49.00 or 3.00% of the order value- whichever is higer.\nFor Free Delivery, Select Pick-up Point.`}</Text>
+                                <View style={{ paddingVertical: 10, paddingHorizontal: 15 }}>
+                                    <Text style={{ fontSize: 12, color: "black" }}>{`For Home  Delivery, we Charge Rs. 49.00 or 3.00% of the order value- whichever is higer.\nFor Free Delivery, Select Pick-up Point.`}</Text>
                                 </View>
                             </Popover>
                         </View>
@@ -164,7 +174,7 @@ class SelectDeliveryType extends Component {
                 <View style={{ width: 300, alignSelf: "center", padding: 20 }}>
                     <Divider style={{ backgroundColor: 'black' }} />
                     <View style={{ alignSelf: "center", borderColor: "gray", borderWidth: 1, height: 30, width: 30, padding: 5, borderRadius: 15, top: -15, backgroundColor: "white", }}>
-                        <Text style={{fontSize : 12}}>OR</Text>
+                        <Text style={{ fontSize: 12 }}>OR</Text>
                     </View>
                 </View>
 

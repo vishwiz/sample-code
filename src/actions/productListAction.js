@@ -1,4 +1,4 @@
-import { PRODUCT_LIST, ADD_TO_CART, ADD_TO_CART_LIST_DATA , CAROUSEl_DATA, SEARCH_TEXT , CLEAR_LIST_DATA} from './types';
+import { PRODUCT_LIST, ADD_TO_CART, PLACE_ORDER , CAROUSEl_DATA, SEARCH_TEXT , CLEAR_LIST_DATA} from './types';
 
 export const productListCall = (payload) => {
 
@@ -16,13 +16,13 @@ export const addtoCartListCall = (payload) => {
     }
 }
 
-// export const addtoCartListCompleteData = (payload) => {
+export const placeOrderCall = (payload) => {
 
-//     return {
-//         type: ADD_TO_CART_LIST_DATA,
-//         payload: payload
-//     }
-// }
+    return {
+        type: PLACE_ORDER,
+        payload: payload
+    }
+}
 
 export const carouselDataCall = (payload) => {
 

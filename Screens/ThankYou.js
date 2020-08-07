@@ -4,7 +4,8 @@ import {
     View,
     TouchableHighlight,
     TouchableOpacity,
-    Text
+    Text,
+    BackHandler
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -16,10 +17,21 @@ import LottieView from 'lottie-react-native';
 class LoginScreen extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
 
         };
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.navigate("Home")
+        return true;
+    }
+
+
 
     componentDidMount() {
         this.animation.play();

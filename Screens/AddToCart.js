@@ -9,7 +9,8 @@ import {
     TouchableOpacity,
     TouchableHighlight,
     ImageBackground,
-    Alert
+    Alert,
+    BackHandler
 } from "react-native";
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconEv from 'react-native-vector-icons/EvilIcons';
@@ -25,6 +26,7 @@ const { width } = Dimensions.get('window');
 class AddToCart extends Component {
     constructor(props) {
         super(props)
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             screenWidth: Dimensions.get('window').width,
             screenheight: Dimensions.get('window').height,
@@ -36,154 +38,16 @@ class AddToCart extends Component {
         this.addtoCartListCall = false
     }
 
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.clearListData()
+        this.props.navigation.goBack();
+        return true;
+    }
+
     componentDidMount = () => {
-
-        // let newObj = [
-
-        //     {
-
-        //         "productId": 1,
-
-        //         "maxQuantity": 4,
-
-        //         "name": "Boro Plus 10 RS",
-
-        //         "productImageUrl": "https://user-images.githubusercontent.com/6414178/73920321-2357b680-4900-11ea-89d5-2e8cbecec9f6.jpg",
-
-        //         "unit": "Gm",
-
-        //         "discount": 0.5,
-
-        //         "quantity": 0,
-
-        //         "mrp": 10,
-
-        //         "sellingPrice": 9.5,
-
-        //         "isStock": true,
-
-        //         "productOption": "10",
-
-        //         "isVariantTrue": false,
-
-        //         "isVisible": false,
-
-        //         "quantity": 0,
-
-        //         "productVariantList": [
-
-        //             {
-
-        //                 "productId": 17,
-
-        //                 "name": "Boro Plus 20",
-
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-
-        //                 "unit": "Gm",
-
-        //                 "discount": 2,
-
-        //                 "quantity": 0,
-
-        //                 "mrp": 20,
-
-        //                 "sellingPrice": 18,
-
-        //                 "isStock": true,
-
-        //                 "parentProductId": 1,
-
-        //                 "supplierId": null,
-
-        //                 "productOption": "20",
-
-        //                 "maxQuantity": 4,
-
-        //                 "istrue": false,
-
-        //                 "quantity": 0,
-
-        //             },
-
-        //             {
-
-        //                 "productId": 18,
-
-        //                 "name": "Boro pus 50",
-
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-
-        //                 "unit": "Gm",
-
-        //                 "discount": 4,
-
-        //                 "quantity": 0,
-
-        //                 "mrp": 50,
-
-        //                 "sellingPrice": 46,
-
-        //                 "isStock": true,
-
-        //                 "parentProductId": 1,
-
-        //                 "supplierId": null,
-
-        //                 "productOption": "50",
-
-        //                 "maxQuantity": 4,
-
-        //                 "istrue": false,
-
-        //                 "quantity": 0,
-
-        //             },
-
-        //             {
-
-        //                 "productId": 19,
-
-        //                 "name": "Boro Plus 100",
-
-        //                 "productImageUrl": "https://elasticbeanstalk-ap-south-1-250191911360.s3.ap-south-1.amazonaws.com/Image/coriander.png",
-
-        //                 "unit": "Gm",
-
-        //                 "discount": 8,
-
-        //                 "quantity": 0,
-
-        //                 "mrp": 100,
-
-        //                 "sellingPrice": 92,
-
-        //                 "isStock": true,
-
-        //                 "parentProductId": 1,
-
-        //                 "supplierId": null,
-
-        //                 "productOption": "100",
-
-        //                 "maxQuantity": 4,
-
-        //                 "istrue": false,
-
-        //                 "quantity": 0,
-
-        //             }
-
-        //         ],
-
-
-        //     }
-
-        // ]
-
-        // this.onAddToCartListSuccess(newObj)
-
-        // this.setState({ data: [...newObj] })
         let params = {
             "CultureId": 1,
             "TalukaId": 1,
@@ -759,5 +623,5 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { addtoCartListCall, addtoCartListCompleteData, clearListData, incrementDecrementValue })(AddToCart);
+export default connect(mapStateToProps, { addtoCartListCall, clearListData, incrementDecrementValue })(AddToCart);
 // export default AddToCart

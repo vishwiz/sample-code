@@ -10,7 +10,8 @@ import {
     Image,
     Text,
     ScrollView,
-    TouchableOpacity
+    TouchableOpacity,
+    BackHandler
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -24,6 +25,7 @@ import { pincodeCall, addAddress } from '../src/actions/deliveryAction';
 class RegisterScreen extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             fullName: '',
             address: '',
@@ -42,6 +44,15 @@ class RegisterScreen extends Component {
             isLoading: false,
         };
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
+
 
     onChangeTextName = (value) => {
         this.setState({ fullName: value });

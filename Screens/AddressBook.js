@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Text,
     Alert,
-    FlatList
+    FlatList,
+    BackHandler
 } from 'react-native';
 import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -19,10 +20,19 @@ import { selectAddress } from '../src/actions/deliveryAction';
 class SelectDeliveryType extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             fullView: false
 
         };
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
     }
 
 

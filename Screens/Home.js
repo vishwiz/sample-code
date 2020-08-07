@@ -5,7 +5,8 @@ import {
     Text,
     TouchableHighlight,
     TouchableOpacity,
-    View
+    View,
+    Image
 } from "react-native";
 import IconE from 'react-native-vector-icons/Entypo';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -49,7 +50,14 @@ class App extends Component {
                         >
                             <IconE name="menu" size={20} color="#548247" />
                         </TouchableHighlight>}
-                    centerComponent={{ text: 'DMart', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }}
+                    centerComponent={
+                        // { text: 'DMart', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }
+                        <Image
+                                style={styles.imageStyle}
+                                // resizeMode={'contain'}
+                                source={require('../src/assests/Images/feelful_logo.png')}
+                            />
+                    }
                     rightComponent={
 
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -159,6 +167,15 @@ class App extends Component {
 const styles = StyleSheet.create({
     centeredView: {
         flex: 1
+    },
+    imageStyle: {
+        width: '50%',
+        height: 50,
+        // alignSelf: 'center',
+        // marginBottom: 30,
+        // borderWidth:1,
+        // borderColor:"red"
+
     },
     userView: {
         flexDirection: "row",

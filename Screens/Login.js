@@ -147,7 +147,7 @@ class LoginScreen extends Component {
                         <Image
                             style={styles.imageStyle}
                             resizeMode={'contain'}
-                            source={require('../src/assests/Images/logo.png')}
+                            source={require('../src/assests/Images/feelful_logo.png')}
                         />
                         <TextInputComponent
                             title={'PHONE NUMBER'}

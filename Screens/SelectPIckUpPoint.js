@@ -151,20 +151,17 @@ class SelectDeliveryType extends Component {
 
                 </View>
 
-
-
-                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.SavePickUpPointList?.name ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            !this.props.SavePickUpPointList?.name ?
-                                () => { }
-                                :
-                                this.props.navigation.navigate("OrderSummary",{deliveryType : "PICKUP_DELIVERY"})
-                        }}
-                    >
-                        <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                    style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.SavePickUpPointList?.name ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                        !this.props.SavePickUpPointList?.name ?
+                            () => { }
+                            :
+                            this.props.navigation.navigate("OrderSummary", { deliveryType: "PICKUP_DELIVERY" })
+                    }}
+                >
+                    <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
+                </TouchableOpacity>
 
             </View>
         );

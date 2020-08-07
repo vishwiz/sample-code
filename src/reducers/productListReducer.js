@@ -21,6 +21,10 @@ const initialState = {
     carouselData_success: false,
     carouselData_failure: false,
 
+    placeOrderDetails: [],
+    placeOrder_success: false,
+    placeOrder_failure: false,
+
     searchData: {}
 };
 
@@ -76,12 +80,29 @@ export default (state = initialState, action) => {
                 errorMessage: action.payload.ErrorMessage
             }
 
-        // case types.ADD_TO_CART_LIST_DATA:
-        //     return {
-        //         ...state,
-        //         addToCartListData: action.payload
-        //     }
-
+            case types.PLACE_ORDER:
+                return {
+                    ...state,
+                    isLoading: true,
+                    placeOrder_success: false,
+                    placeOrder_failure: false,
+                    errorMessage: ""
+                }
+            case types.PLACE_ORDER_SUCCESS:
+                return {
+                    ...state,
+                    placeOrderDetails: action.payload.ResponseData,
+                    isLoading: false,
+                    placeOrder_success: true,
+    
+                }
+            case types.PLACE_ORDER_FAILURE:
+                return {
+                    ...state,
+                    isLoading: false,
+                    placeOrder_failure: true,
+                    errorMessage: action.payload.ErrorMessage
+                }
         case types.CAROUSEl_DATA:
             return {
                 ...state,

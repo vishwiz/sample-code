@@ -6,7 +6,8 @@ import {
     TouchableOpacity,
     Text,
     FlatList,
-    Alert
+    Alert,
+    BackHandler
 } from 'react-native';
 import { Header, Badge, Divider } from 'react-native-elements';
 
@@ -24,6 +25,7 @@ import { removeAll, removeIndexElement, incrementDecrementValue, initializeViewC
 class ViewCart extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
             data: this.props.OrderSummaryItemArray,
@@ -32,6 +34,15 @@ class ViewCart extends Component {
             totalSaving: 0
         };
     }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
+
 
 
     static getDerivedStateFromProps(props, state) {
@@ -231,19 +242,18 @@ class ViewCart extends Component {
                         />
 
 
-                        <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
-                            <TouchableOpacity
-                                onPress={() => {
-                                    (this.props.totalPaymentedValue >= 50) ?
-                                        this.props.navigation.navigate("SelectDeliveryType")
-                                        :
-                                        Alert.alert("", " Minimum order value is Rs. 1000 \n Please add more items.")
+                        <TouchableOpacity
+                            style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                            onPress={() => {
+                                (this.props.totalPaymentedValue >= 50) ?
+                                    this.props.navigation.navigate("SelectDeliveryType")
+                                    :
+                                    Alert.alert("", " Minimum order value is Rs. 1000 \n Please add more items.")
 
-                                }}
-                            >
-                                <Text style={{ color: "white", fontSize: 14 }}>PROCEED TO CHECKOUT</Text>
-                            </TouchableOpacity>
-                        </View>
+                            }}
+                        >
+                            <Text style={{ color: "white", fontSize: 14 }}>PROCEED TO CHECKOUT</Text>
+                        </TouchableOpacity>
 
 
                     </View>

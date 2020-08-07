@@ -23,6 +23,7 @@ import PickUpPointList from '../Screens/PickUpPointList';
 import OrderSummary from '../Screens/OrderSummary';
 import AddressBook from '../Screens/AddressBook';
 import AddNewAddress from '../Screens/AddNewAddress';
+import PaymentScreen from '../Screens/Payment';
 import DrawerContent from './DrawerContainer';
 
 
@@ -122,9 +123,16 @@ function HomeStack({ navigation }) {
                 component={AddressBook}
                 options={{ headerShown: false }}
             />
+
             <Stack.Screen
                 name="AddNewAddress"
                 component={AddNewAddress}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="PaymentScreen"
+                component={PaymentScreen}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

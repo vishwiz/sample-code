@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Alert, StyleSheet, View, TouchableHighlight, ToastAndroid, KeyboardAvoidingView, Platform, Image, ScrollView } from "react-native";
+import { Alert, StyleSheet, View, TouchableHighlight, ToastAndroid, KeyboardAvoidingView, Platform, Image, ScrollView, BackHandler } from "react-native";
 import { Header, Button } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 
@@ -15,6 +15,8 @@ class ChangePassword extends Component {
 
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
         this.state = {
             confirmPinPassword: "",
             pinPassword: "",
@@ -29,7 +31,7 @@ class ChangePassword extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
     onBackPress = () => {
-        this.props.navigation.navigate("Home");
+        this.props.navigation.navigate("Login")
         return true;
     }
 

@@ -7,7 +7,8 @@ import {
     Text,
     FlatList,
     Image,
-    ScrollView
+    ScrollView,
+    BackHandler
 } from 'react-native';
 import { Header, Badge, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -21,10 +22,19 @@ import { loginUser } from '../src/actions';
 class OrderSummary extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
 
         };
+    }
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
     }
 
 
@@ -49,7 +59,6 @@ class OrderSummary extends Component {
                         resizeMode={"contain"}
 
                     />
-
                 </View>
                 <View style={{ marginLeft: 20, flex: 1 }}>
                     <Text>{item.item.name}</Text>
@@ -188,18 +197,12 @@ class OrderSummary extends Component {
 
 
                 </ScrollView>
-
-                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
                     <TouchableOpacity
-                        onPress={() => this.props.navigation.navigate("SelectDeliveryType")}
+                    style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                        onPress={() => this.props.navigation.navigate("PaymentScreen")}
                     >
                         <Text style={{ color: "white", fontSize: 14 }}>PROCEED TO MAKE PAYMENT</Text>
                     </TouchableOpacity>
-                </View>
-
-
-
-
             </View>
 
         );

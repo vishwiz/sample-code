@@ -5,7 +5,8 @@ import {
     TouchableHighlight,
     TouchableOpacity,
     Text,
-    Alert
+    Alert,
+    BackHandler
 } from 'react-native';
 import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -21,6 +22,7 @@ import { loginUser } from '../src/actions';
 class SelectDeliveryType extends Component {
     constructor(props) {
         super(props);
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             fullView: false
 
@@ -28,12 +30,18 @@ class SelectDeliveryType extends Component {
     }
 
 
-
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
+    }
 
     render() {
 
         return (
-            <View style={{flex:1}}>
+            <View style={{ flex: 1 }}>
                 <Header
                     placement="left"
                     leftComponent={
@@ -140,19 +148,17 @@ class SelectDeliveryType extends Component {
                     </TouchableOpacity>
                 </View>
 
-
-                <View style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.selectedAddress?.fullName ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            !this.props.selectedAddress?.fullName ?
-                                () => { }
-                                :
-                                this.props.navigation.navigate("OrderSummary",{deliveryType : "HOME_DELIVERY"})
-                        }}
-                    >
-                        <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity
+                    style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.selectedAddress?.fullName ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                    onPress={() => {
+                        !this.props.selectedAddress?.fullName ?
+                            () => { }
+                            :
+                            this.props.navigation.navigate("OrderSummary", { deliveryType: "HOME_DELIVERY" })
+                    }}
+                >
+                    <Text style={{ color: "white", fontSize: 14 }}>VIEW ORDER SUMMARY</Text>
+                </TouchableOpacity>
 
             </View>
         );

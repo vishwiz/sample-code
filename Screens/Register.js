@@ -9,6 +9,7 @@ import {
   Platform,
   Image,
   ScrollView,
+  BackHandler
 } from 'react-native';
 import { Header } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
@@ -25,6 +26,7 @@ import { registerUser } from '../src/actions';
 class RegisterScreen extends Component {
   constructor(props) {
     super(props);
+    BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
     this.state = {
       firstName: '',
       flagFirst: false,
@@ -39,6 +41,14 @@ class RegisterScreen extends Component {
       checked: false,
       isLoading: false,
     };
+  }
+
+  componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+  }
+  onBackPress = () => {
+    this.props.navigation.goBack();
+    return true;
   }
 
   onChangeTextfirstName = (value) => {
@@ -91,7 +101,7 @@ class RegisterScreen extends Component {
               "Pleade agree to our T&C to register",
               ToastAndroid.SHORT,
               ToastAndroid.BOTTOM
-          );
+            );
           } else {
             this.setState(function (state, props) { return { isLoading: true } });
             this.props.registerUser({
@@ -154,7 +164,7 @@ class RegisterScreen extends Component {
         {
           (this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
         }
-        
+
         <KeyboardAvoidingView
           style={styles.container}
           behavior={'height'}
@@ -165,7 +175,7 @@ class RegisterScreen extends Component {
             <Image
               style={styles.imageStyle}
               resizeMode={'contain'}
-              source={require('../src/assests/Images/logo.png')}
+              source={require('../src/assests/Images/feelful_logo.png')}
             />
 
             <TextInputComponent
