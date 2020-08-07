@@ -31,18 +31,17 @@ class SelectDeliveryType extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
     onBackPress = () => {
-        this.props.navigation.goBack();
+        this.props.navigation.navigate("SelectDeliveryAddress");
         return true;
     }
 
 
     renderItem = ({ item }) => {
         return (
-
             <TouchableOpacity
                 activeOpacity={.8}
                 onPress={() => {
-                    this.props.navigation.goBack();
+                    this.props.navigation.navigate("SelectDeliveryAddress");
                     this.props.selectAddress({
                         selectedAddress: item,
                     });
@@ -64,18 +63,15 @@ class SelectDeliveryType extends Component {
 
     render() {
 
-        console.log("this.props.addressDetailsValue : ", this.props.addressDetailsValue)
-
-
         return (
-            <View>
+            <View style={{ flex: 1}}>
                 <Header
                     placement="left"
                     leftComponent={
                         <TouchableHighlight
                             activeOpacity={0}
                             style={{ padding: 10 }}
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() => this.props.navigation.navigate("SelectDeliveryAddress")}>
                             <IconI name="chevron-back" size={25} color="#548247" />
                         </TouchableHighlight>
                     }
@@ -87,9 +83,7 @@ class SelectDeliveryType extends Component {
                         backgroundColor: 'white',
                     }}
                 />
-
                 <Spinner visible={this.state.isLoading} color="green" />
-
                 <View style={styles.containerStyle}>
                     <FlatList
                         data={this.props.addressDetailsValue}
@@ -99,7 +93,8 @@ class SelectDeliveryType extends Component {
                             <TouchableOpacity
                                 activeOpacity={.8}
                                 onPress={() => {
-                                    this.props.navigation.navigate("AddNewAddress")
+                                    this.props.navigation.goBack();
+                                    this.props.navigation.navigate("AddNewAddress");
                                 }}
                             >
                                 <View style={styles.addNewAddress}>
@@ -121,7 +116,7 @@ class SelectDeliveryType extends Component {
 
 const styles = StyleSheet.create({
     containerStyle: {
-        backgroundColor: "gray",
+        // backgroundColor: "gray",
         marginBottom: 100,
         padding: 15
     },

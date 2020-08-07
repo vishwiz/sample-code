@@ -24,9 +24,36 @@ class SelectDeliveryType extends Component {
         super(props);
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
-            fullView: false
+            fullView: false,
+            deliveryCharges : this._deliveryCharges()
 
         };
+    }
+
+    _deliveryCharges = () =>{
+        let deliveryCharges;
+
+        if(Number(this.props.totalPaymentedValue) <= 100){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUPTo100;
+        }else if(Number(this.props.totalPaymentedValue) <= 200){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo200;
+
+        }else if(Number(this.props.totalPaymentedValue) <= 500){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo500;
+
+        }else if(Number(this.props.totalPaymentedValue) <= 1000){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo1000;
+
+        }else if(Number(this.props.totalPaymentedValue) <= 2000){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo2000;
+
+        }else if(Number(this.props.totalPaymentedValue) <= 5000){
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo5000;
+
+        }else {
+            deliveryCharges = "0";
+        }
+        return deliveryCharges;
     }
 
 
@@ -88,7 +115,7 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹1305.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
@@ -98,12 +125,12 @@ class SelectDeliveryType extends Component {
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹252.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.state.deliveryCharges}.00</Text>
                         </View>
                         <View>
-                            <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
+                            {/* <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
                                 Tax of 206.53 included in total amount
-                                </Text>
+                                </Text> */}
                         </View>
 
                     </View>
@@ -122,7 +149,7 @@ class SelectDeliveryType extends Component {
                             <View style={{ height: 25 }}>
                                 <Text style={{ fontSize: 10, color: 'gray', fontStyle: 'italic' }}>{`(Our Recommendation)`}</Text>
                             </View>
-                            <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY CHARGES 57.90</Text>
+                            <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY CHARGES {this.state.deliveryCharges}.00</Text>
                         </View>
                         <View style={[styles.rightDeliveryContainer, { backgroundColor: "#d7dce5" }]}>
                             <View style={[styles.imageContainer, { backgroundColor: "#0f4760" }]}>
@@ -231,8 +258,12 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { selectedAddress } = state.userOrderAndDeliveryReducer;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList } = state.userOrderAndDeliveryReducer;
+
+    const { productSettings } = state.productList;
+
     return {
-        selectedAddress
+        selectedAddress, productSettings, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList
     };
 }
 

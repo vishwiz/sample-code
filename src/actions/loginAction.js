@@ -1,4 +1,4 @@
-import { REGISTER_USER, RESET, LOGIN_USER, VARIFY_OTP, RESEND_OTP, FORGET_PASSWORD, CHANGE_PASSWORD } from './types';
+import { REGISTER_USER, RESET, LOGIN_USER, VARIFY_OTP, RESEND_OTP, FORGET_PASSWORD, CHANGE_PASSWORD, LOGOUT_USER } from './types';
 
 export const registerUser = (payload) => {
 
@@ -18,6 +18,14 @@ export const loginUser = (payload) => {
 
     return {
         type: LOGIN_USER,
+        payload: payload
+    }
+
+}
+export const logOutUser = (payload) => {
+
+    return {
+        type: LOGOUT_USER,
         payload: payload
     }
 

@@ -245,11 +245,11 @@ class ViewCart extends Component {
                         <TouchableOpacity
                             style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
                             onPress={() => {
-                                (this.props.totalPaymentedValue >= 50) ?
+                                if (this.props.isLogged) {
                                     this.props.navigation.navigate("SelectDeliveryType")
-                                    :
-                                    Alert.alert("", " Minimum order value is Rs. 1000 \n Please add more items.")
-
+                                } else {
+                                    this.props.navigation.navigate("Login")
+                                }
                             }}
                         >
                             <Text style={{ color: "white", fontSize: 14 }}>PROCEED TO CHECKOUT</Text>
@@ -283,10 +283,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, login_failure, errorMessage } = state.register;
+    const { isLoading, login_failure, errorMessage , isLogged} = state.register;
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray,isLogged
     };
 }
 

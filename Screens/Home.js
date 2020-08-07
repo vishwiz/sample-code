@@ -16,7 +16,7 @@ import IconEv from 'react-native-vector-icons/EvilIcons';
 import Modal from 'react-native-modal';
 import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
-import { resetUserData } from "../src/actions";
+import { resetUserData, productSettings , logOutUser} from "../src/actions";
 import ProductList from "./productList"
 import Search from "./search"
 
@@ -33,7 +33,15 @@ class App extends Component {
 
     componentDidMount() {
 
-        this.props.resetUserData();
+        this.props.productSettings({
+            endurl: '/GetProductSetting',
+            requestData: {
+                "TalukaId": 1,
+                "CultureId": 1,
+                "SupplierId": 1
+            }
+        });
+
 
     }
 
@@ -53,10 +61,10 @@ class App extends Component {
                     centerComponent={
                         // { text: 'DMart', style: { color: '#548247', fontWeight: "bold", fontSize: 18 } }
                         <Image
-                                style={styles.imageStyle}
-                                // resizeMode={'contain'}
-                                source={require('../src/assests/Images/feelful_logo.png')}
-                            />
+                            style={styles.imageStyle}
+                            // resizeMode={'contain'}
+                            source={require('../src/assests/Images/feelful_logo.png')}
+                        />
                     }
                     rightComponent={
 
@@ -91,11 +99,7 @@ class App extends Component {
 
                             <TouchableHighlight
                                 onPress={() => {
-
-                                    this.props.isLogged ?
-                                        Alert.alert("User Logged ..!!!")
-                                        :
-                                        this.setModalVisible(true)
+                                    this.setModalVisible(true)
                                 }}
                                 style={{ padding: 10 }}
                             >
@@ -117,40 +121,65 @@ class App extends Component {
                     animationOut={"fadeOutRight"}
                     onBackdropPress={() => this.setState({ modalVisible: false })}>
                     <View style={styles.modalViewCode}>
-                        <View style={styles.modalView}>
-                            <TouchableOpacity
-                                activeOpacity={0.1}
-                                onPress={() => {
-                                    this.setState({ modalVisible: false }, () => {
-                                        this.props.navigation.navigate('Login')
-                                    })
-                                }}>
-                                <View style={styles.userView} >
-                                    <IconA name="login"
-                                        color="green"
-                                        size={20}
-                                    />
-                                    <Text style={styles.modalText}>SIGN IN</Text>
 
-                                </View>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                activeOpacity={0.1}
-                                onPress={() => {
-                                    this.setState({ modalVisible: false }, () => {
-                                        this.props.navigation.navigate('Register')
-                                    })
-                                }}>
-                                <View style={styles.userView}>
-                                    <IconA name="adduser"
-                                        color="green"
-                                        size={20}
-                                    />
-                                    <Text style={styles.modalText}>REGISTER</Text>
-                                </View>
+                        {
+                            this.props.isLogged ?
+                                <View style={styles.modalView}>
 
-                            </TouchableOpacity>
-                        </View>
+                                    <TouchableOpacity
+                                        activeOpacity={0.1}
+                                        onPress={() => {
+                                            this.setState({ modalVisible: false }, () => {
+                                                this.props.logOutUser()
+                                            })
+                                        }}>
+                                        <View style={styles.userView} >
+                                            <IconA name="logout"
+                                                color="green"
+                                                size={20}
+                                            />
+                                            <Text style={styles.modalText}>SIGN OUT</Text>
+
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
+                                :
+                                <View style={styles.modalView}>
+                                    <TouchableOpacity
+                                        activeOpacity={0.1}
+                                        onPress={() => {
+                                            this.setState({ modalVisible: false }, () => {
+                                                this.props.navigation.navigate('Login')
+                                            })
+                                        }}>
+                                        <View style={styles.userView} >
+                                            <IconA name="login"
+                                                color="green"
+                                                size={20}
+                                            />
+                                            <Text style={styles.modalText}>SIGN IN</Text>
+
+                                        </View>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        activeOpacity={0.1}
+                                        onPress={() => {
+                                            this.setState({ modalVisible: false }, () => {
+                                                this.props.navigation.navigate('Register')
+                                            })
+                                        }}>
+                                        <View style={styles.userView}>
+                                            <IconA name="adduser"
+                                                color="green"
+                                                size={20}
+                                            />
+                                            <Text style={styles.modalText}>REGISTER</Text>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>
+                        }
+
                     </View>
                 </Modal>
                 <Search
@@ -233,4 +262,4 @@ function mapStateToProps(state) {
 
 }
 
-export default connect(mapStateToProps, { resetUserData })(App);
+export default connect(mapStateToProps, { resetUserData, productSettings, logOutUser })(App);

@@ -107,7 +107,6 @@ class RegisterScreen extends Component {
                     this.props.addAddress({
                         addressDetails: addressDetails,
                     });
-                    this.props.navigation.navigate("AddressBook");
 
                 }
             },

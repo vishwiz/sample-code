@@ -65,10 +65,6 @@ class PaymentScreen extends Component {
             "CultureId": 1
         }
 
-        // this.props.placeOrderCall({
-        //     endurl: '/PlaceOrder',
-        //     requestData: params,
-        // })
     }
 
     render() {
