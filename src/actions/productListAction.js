@@ -1,4 +1,4 @@
-import { PRODUCT_LIST, ADD_TO_CART, PLACE_ORDER , CAROUSEl_DATA, SEARCH_TEXT , PRODUCT_SETTING, CLEAR_LIST_DATA} from './types';
+import { PRODUCT_LIST, ADD_TO_CART, PLACE_ORDER , CAROUSEl_DATA, SEARCH_TEXT , PRODUCT_SETTING, CLEAR_LIST_DATA, MY_ORDERS} from './types';
 
 export const productListCall = (payload) => {
 
@@ -52,6 +52,14 @@ export const productSettings = (payload) => {
 
     return {
         type: PRODUCT_SETTING,
+        payload: payload
+    }
+}
+
+export const myOrdersCall = (payload) => {
+
+    return {
+        type: MY_ORDERS,
         payload: payload
     }
 }

@@ -12,6 +12,7 @@ import IconE from 'react-native-vector-icons/Entypo';
 import IconI from 'react-native-vector-icons/Ionicons';
 import IconA from 'react-native-vector-icons/AntDesign';
 import IconEv from 'react-native-vector-icons/EvilIcons';
+import IconAF from 'react-native-vector-icons/FontAwesome5';
 
 import Modal from 'react-native-modal';
 import { Header, Badge } from 'react-native-elements';
@@ -32,8 +33,12 @@ class App extends Component {
         this.setState({ modalVisible: visible });
     }
 
+    // componentWillMount = ()=>{
+    //     this.props.clearListData()
+    // }
     componentDidMount() {
-        this.props.clearListData()
+        // console.log("Hiiii")
+        
         this.props.productSettings({
             endurl: '/GetProductSetting',
             requestData: {
@@ -47,6 +52,7 @@ class App extends Component {
     }
 
     render() {
+        // this.props.clearListData()
         return (
             <View style={styles.centeredView}>
                 <Header
@@ -126,7 +132,22 @@ class App extends Component {
                         {
                             this.props.isLogged ?
                                 <View style={styles.modalView}>
+                                     <TouchableOpacity
+                                        activeOpacity={0.1}
+                                        onPress={() => {
+                                            this.setState({ modalVisible: false }, () => {
+                                                this.props.navigation.navigate('MyOrders')
+                                            })
+                                        }}>
+                                        <View style={styles.userView} >
+                                            <IconAF name="box-open"
+                                                color="green"
+                                                size={15}
+                                            />
+                                            <Text style={styles.modalText}>MY ORDERS</Text>
 
+                                        </View>
+                                    </TouchableOpacity>
                                     <TouchableOpacity
                                         activeOpacity={0.1}
                                         onPress={() => {

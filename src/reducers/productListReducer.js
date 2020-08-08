@@ -28,6 +28,11 @@ const initialState = {
     productSettings: baseProductSettings,
     product_settings_success: false,
     product_settings_failure: false,
+
+    myOrdersDetails: [],
+    myOrders_success: false,
+    myOrders_failure: false,
+
     searchData: {}
 };
 
@@ -104,6 +109,30 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 placeOrder_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.MY_ORDERS:
+            return {
+                ...state,
+                isLoading: true,
+                myOrders_success: false,
+                myOrders_failure: false,
+                errorMessage: ""
+            }
+        case types.MY_ORDERS_SUCCESS:
+            return {
+                ...state,
+                myOrdersDetails: action.payload.ResponseData,
+                isLoading: false,
+                myOrders_success: true,
+
+            }
+        case types.MY_ORDERS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                myOrders_failure: true,
                 errorMessage: action.payload.ErrorMessage
             }
         case types.CAROUSEl_DATA:

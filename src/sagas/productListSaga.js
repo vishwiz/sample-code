@@ -199,6 +199,44 @@ export function* handleProductSettings({
     }
 }
 
+export function* handleMyOrders({
+    payload
+}) {
+    try {
+
+        const response = yield call(APIRequestAxios.postReq, payload);
+        if (response.status === 200) {
+
+            yield put({
+                type: 'MY_ORDERS_SUCCESS',
+                payload: {
+                    ResponseData: response.data,
+                },
+            });
+
+        } else {
+
+            yield put({
+                type: 'MY_ORDERS_FAILURE',
+                payload: {
+                    ResponseData: {},
+                    Error: true,
+                    ErrorMessage: 'Something went wrong..!!!',
+                },
+            });
+        }
+
+    } catch (error) {
+        yield put({
+            type: 'MY_ORDERS_FAILURE',
+            payload: {
+                ResponseData: [],
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
 
 export const productListSaga = [
     takeLatest('PRODUCT_LIST', handleProductList),
@@ -206,4 +244,6 @@ export const productListSaga = [
     takeLatest('CAROUSEl_DATA', handleCarouselData),
     takeLatest('PLACE_ORDER', handlePlaceOrder),
     takeLatest('PRODUCT_SETTING', handleProductSettings),
+    takeLatest('MY_ORDERS', handleMyOrders)
+
 ]

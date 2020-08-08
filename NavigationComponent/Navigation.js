@@ -24,6 +24,7 @@ import OrderSummary from '../Screens/OrderSummary';
 import AddressBook from '../Screens/AddressBook';
 import AddNewAddress from '../Screens/AddNewAddress';
 import PaymentScreen from '../Screens/Payment';
+import MyOrders from '../Screens/MyOrder'
 import DrawerContent from './DrawerContainer';
 
 
@@ -133,6 +134,12 @@ function HomeStack({ navigation }) {
             <Stack.Screen
                 name="PaymentScreen"
                 component={PaymentScreen}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name="MyOrders"
+                component={MyOrders}
                 options={{ headerShown: false }}
             />
         </Stack.Navigator>

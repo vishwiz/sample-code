@@ -324,7 +324,7 @@ class AddToCart extends Component {
                         </View>
                         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
                             <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}.00`}</Text>
-                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "DMART"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}.00`}</Text>
+                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "FeelFuL"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}.00`}</Text>
                             <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}.00`}</Text>
                         </View>
                     </View>
@@ -424,6 +424,7 @@ class AddToCart extends Component {
                                 onPress={() => {
                                     // this.props.incrementDecrementValue({ data: this.props.addToCartListData  })
                                     this.props.navigation.navigate("ViewCart")
+                                    this.props.clearListData()
 
                                 }}
                                 style={{ padding: 10 }}
