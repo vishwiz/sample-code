@@ -1,6 +1,6 @@
 import {
     PICK_UP_POINT_LIST, SAVE_PICK_UP_POINT_LIST, PIN_CODE_CALL, ADD_ADDRESS, SELECT_ADDRESS,
-    REMOVE_ALL, REMOVE_INDEX_ELEMENT, INCREMENT_DECREMENT_VALUE, INITIALIZE_VIEWCART_DATA
+    REMOVE_ALL, REMOVE_INDEX_ELEMENT, INCREMENT_DECREMENT_VALUE, INITIALIZE_VIEWCART_DATA, GET_ADDRESS
 } from './types';
 
 export const pickUpPointList = (payload) => {
@@ -56,10 +56,16 @@ export const pincodeCall = (payload) => {
 }
 
 export const addAddress = (payload) => {
-
-    console.log("payload : ", payload)
     return {
         type: ADD_ADDRESS,
+        payload: payload
+    }
+}
+
+export const getAddress = (payload) => {
+
+    return {
+        type: GET_ADDRESS,
         payload: payload
     }
 }

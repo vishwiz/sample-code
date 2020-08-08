@@ -15,7 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 //for redux
 import { connect } from 'react-redux';
-import { selectAddress } from '../src/actions/deliveryAction';
+import { selectAddress, getAddress } from '../src/actions';
 
 class SelectDeliveryType extends Component {
     constructor(props) {
@@ -34,6 +34,16 @@ class SelectDeliveryType extends Component {
         this.props.navigation.navigate("SelectDeliveryAddress");
         return true;
     }
+    componentDidMount() {
+        this.props.getAddress({
+            endurl: '/GetUserAddress',
+            requestData: {
+                "UserId": this.props.loginDetails?.userId
+            },
+        })
+
+
+    }
 
 
     renderItem = ({ item }) => {
@@ -48,11 +58,11 @@ class SelectDeliveryType extends Component {
                 }}
             >
                 <View style={{ padding: 10, borderColor: "gray", borderWidth: 1, borderRadius: 5, marginVertical: 8, backgroundColor: "white" }}>
-                    <Text>{item.fullName}</Text>
+                    <Text>{item.addressType}</Text>
                     <Text>{item.address}</Text>
-                    <Text>{item.area}, {item.city}, {item.state}</Text>
-                    <Text style={{ fontWeight: "bold" }}>{item.pinCode}</Text>
-                    <Text>Landmark : {item.landmark}</Text>
+                    {/* <Text>{item.area}, {item.city}, {item.state}</Text>
+                    <Text style={{ fontWeight: "bold" }}>{item.pinCode}</Text> */}
+                    <Text>Landmark : {item.landMark}</Text>
 
                 </View >
             </TouchableOpacity>
@@ -63,7 +73,7 @@ class SelectDeliveryType extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1}}>
+            <View style={{ flex: 1 }}>
                 <Header
                     placement="left"
                     leftComponent={
@@ -135,11 +145,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, login_failure, errorMessage } = state.register;
+    const { isLoading, login_failure, errorMessage, loginDetails } = state.register;
     const { addressDetailsValue } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, addressDetailsValue
+        isLoading, login_failure, errorMessage, addressDetailsValue, loginDetails
     };
 }
 
-export default connect(mapStateToProps, { selectAddress })(SelectDeliveryType);
+export default connect(mapStateToProps, { selectAddress, getAddress })(SelectDeliveryType);

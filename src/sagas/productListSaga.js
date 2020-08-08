@@ -199,32 +199,6 @@ export function* handleProductSettings({
     }
 }
 
-export function* handleAddAdress({
-    payload
-}) {
-    try {
-
-        yield put({
-            type: 'ADD_ADDRESS_SUCCESS',
-            payload: {
-                ResponseData: payload,
-            },
-        });
-
-        RootNavigation.navigate("AddressBook");
-
-
-    }catch (error) {
-        yield put({
-            type: 'ADD_ADDRESS_FAILURE',
-            payload: {
-                ResponseData: [],
-                Error: true,
-                ErrorMessage: 'Something went wrong..!!!',
-            },
-        });
-    }
-}
 
 export const productListSaga = [
     takeLatest('PRODUCT_LIST', handleProductList),
@@ -232,7 +206,4 @@ export const productListSaga = [
     takeLatest('CAROUSEl_DATA', handleCarouselData),
     takeLatest('PLACE_ORDER', handlePlaceOrder),
     takeLatest('PRODUCT_SETTING', handleProductSettings),
-    takeLatest('ADD_ADDRESS', handleAddAdress)
-
-
 ]

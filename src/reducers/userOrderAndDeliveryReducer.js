@@ -14,8 +14,15 @@ const initialState = {
     totalItem: 0,
     totalPaymentedValue: 0,
     totalSaving: 0,
+
+
     addressDetailsValue: [],
-    selectedAddress: {}
+    addAddress_success: false,
+    addAddress_failure: false,
+    getAddress_success: false,
+    getAddress_failure: false,
+
+    selectedAddress: {},
 
 };
 
@@ -111,13 +118,68 @@ export default (state = initialState, action) => {
                 pinCodeDetails: {}
             }
 
-        case types.ADD_ADDRESS_SUCCESS:
-            let value = state.addressDetailsValue;
-            value.push(action.payload.ResponseData.addressDetails);
+
+        case types.ADD_ADDRESS:
             return {
                 ...state,
-                addressDetailsValue: value
+                isLoading: true,
+                addAddress_success: false,
+                addAddress_failure: false
             }
+        case types.ADD_ADDRESS_SUCCESS:
+            return {
+                ...state,
+                addAddress_success: true,
+                addAddress_failure: false,
+                isLoading: false
+            }
+        case types.ADD_ADDRESS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                addAddress_success: false,
+                addAddress_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.GET_ADDRESS:
+            return {
+                ...state,
+                isLoading: true,
+                getAddress_success: false,
+                getAddress_failure: false,
+
+            }
+
+        case types.GET_ADDRESS_SUCCESS:
+
+            let defaultAddress = {};
+            action.payload.ResponseData.forEach(element => {
+                if (element.isDefault) {
+                    defaultAddress = element
+                }
+            });
+
+            // defaultAddress = action.payload.ResponseData[0];
+
+            return {
+                ...state,
+                addressDetailsValue: action.payload.ResponseData,
+                isLoading: false,
+                getAddress_success: false,
+                getAddress_failure: false,
+                selectedAddress: defaultAddress
+            }
+
+        case types.GET_ADDRESS_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                getAddress_success: false,
+                getAddress_failure: false,
+                errorMessage: action.payload.ErrorMessage
+            }
+
 
         case types.SELECT_ADDRESS:
             return {

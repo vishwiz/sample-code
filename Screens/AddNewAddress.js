@@ -13,7 +13,7 @@ import {
     TouchableOpacity,
     BackHandler
 } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Header, CheckBox } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import TextInputComponent from '../src/component/TextInputComponent';
 import ErrorComponent from '../src/component/ErrorComponent';
@@ -35,7 +35,9 @@ class RegisterScreen extends Component {
             city: '',
             state: '',
             mobileNo: '',
-
+            homeAddressCheck: true,
+            officeAddressCheck: false,
+            defaultAddressCheck: false,
             flagName: false,
             flagAddress: false,
             flagPinCode: false,
@@ -78,34 +80,41 @@ class RegisterScreen extends Component {
     };
 
     _validation = () => {
-        var f = this.state.fullName.length > 3;
+        // var f = this.state.fullName.length > 3;
         var l = this.state.address.length > 0;
-        var m = this.state.mobileNo.length == 10;
+        // var m = this.state.mobileNo.length == 10;
         var p = this.state.pinCode.length == 6;
 
         this.setState(
             {
-                flagName: !f,
+                // flagName: !f,
                 flagAddress: !l,
                 flagPinCode: !p,
-                flagMobile: !m,
+                // flagMobile: !m,
             },
             () => {
-                if (f & l & m & p) {
-                    let addressDetails = {
-                        "UserId": 0,
-                        "fullName": this.state.fullName,
-                        "address": this.state.address,
-                        "landmark": this.state.landmark,
-                        "pinCode": this.state.pinCode,
-                        "area": this.props.pinCodeDetails?.office_name,
-                        "city": this.props.pinCodeDetails?.district,
-                        "state": this.props.pinCodeDetails?.state_name,
-                        "mobileNo": this.state.mobileNo
-                    };
+                if (l & p) {
+                    let addressType;
+                    if (this.state.officeAddressCheck) {
+                        addressType = "Office Address";
+
+                    } else {
+                        addressType = "Home Address";
+                    }
+
+                    this.setState({ isLoading: true })
 
                     this.props.addAddress({
-                        addressDetails: addressDetails,
+                        endurl: '/SaveUserAddress',
+                        requestData: {
+                            "addressId": 7,
+                            "addressType": addressType,
+                            "address": `${this.state.address} ${this.state.pinCode} ${this.props.pinCodeDetails?.office_name} ${this.props.pinCodeDetails?.district} ${this.props.pinCodeDetails?.state_name} `,
+                            "landMark": this.state.landmark,
+                            "isDeleted": true,
+                            "userId": this.props.loginDetails?.userId,
+                            "isDefault": this.state.defaultAddressCheck
+                        },
                     });
 
                 }
@@ -113,7 +122,9 @@ class RegisterScreen extends Component {
         );
     };
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props) {
+
+        console.log("props : ", props.isLoading, props.errorMessage);
         if (!props.isLoading) {
             return {
                 isLoading: false,
@@ -160,7 +171,7 @@ class RegisterScreen extends Component {
                 <Spinner visible={this.state.isLoading} color="green" />
 
                 {
-                    (this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.props.addAddress_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
                 <View >
 
@@ -171,7 +182,31 @@ class RegisterScreen extends Component {
                         <ScrollView showsVerticalScrollIndicator={false}
                             keyboardShouldPersistTaps={'handled'}
                         >
-                            <TextInputComponent
+                            <View style={{ flexDirection: "row" }}>
+                                <CheckBox
+                                    title="Home Address"
+                                    checkedColor="#548247"
+                                    containerStyle={{
+                                        backgroundColor: 'transparent',
+                                        marginLeft: -5,
+                                    }}
+                                    checked={this.state.homeAddressCheck}
+                                    onPress={() => this.setState({ homeAddressCheck: !this.state.homeAddressCheck, officeAddressCheck: !this.state.officeAddressCheck })}
+                                />
+                                <CheckBox
+                                    title="Office Address"
+                                    checkedColor="#548247"
+                                    containerStyle={{
+                                        backgroundColor: 'transparent',
+                                        marginLeft: -5,
+                                    }}
+                                    checked={this.state.officeAddressCheck}
+                                    onPress={() => this.setState({ officeAddressCheck: !this.state.officeAddressCheck, homeAddressCheck: !this.state.homeAddressCheck })}
+                                />
+                            </View>
+
+
+                            {/* <TextInputComponent
                                 title={'ENTER FULL NAME*'}
                                 keyboard_type={'default'}
                                 onChangeText={this.onChangeTextName}
@@ -180,7 +215,7 @@ class RegisterScreen extends Component {
                             />
                             {flagName ? (
                                 <ErrorComponent title={'Enter at least 3 characters'} />
-                            ) : null}
+                            ) : null} */}
                             <TextInputComponent
                                 title={'ADDRESS*'}
                                 keyboard_type={'default'}
@@ -199,7 +234,7 @@ class RegisterScreen extends Component {
                                 isDisable={false}
                             />
                             <TextInputComponent
-                                title={'PIN CODE'}
+                                title={'PIN CODE*'}
                                 keyboard_type={'number-pad'}
                                 onChangeText={this.onChangeTextPinCode}
                                 value={pinCode}
@@ -230,7 +265,7 @@ class RegisterScreen extends Component {
                                 value={this.props.pinCodeDetails?.state_name}
                                 isDisable={true}
                             />
-                            <TextInputComponent
+                            {/* <TextInputComponent
                                 title={'YOUR MOBILE NUMBER*'}
                                 keyboard_type={'number-pad'}
                                 onChangeText={this.onChangeTextMobileNO}
@@ -238,9 +273,19 @@ class RegisterScreen extends Component {
                                 isDisable={false}
                                 phoneNumber={true}
 
+                            /> */}
+                            <CheckBox
+                                title="Default Address"
+                                checkedColor="#548247"
+                                containerStyle={{
+                                    backgroundColor: 'transparent',
+                                    marginLeft: -5,
+                                }}
+                                checked={this.state.defaultAddressCheck}
+                                onPress={() => this.setState({ defaultAddressCheck: !this.state.defaultAddressCheck })}
                             />
 
-                            <View style={{ marginTop: 20, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
+                            <View style={{ backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
                                 <TouchableOpacity
                                     onPress={() => {
 
@@ -286,9 +331,10 @@ const styles = StyleSheet.create({
 });
 
 function mapStateToProps(state) {
-    const { pinCodeDetails, addressDetailsValue } = state.userOrderAndDeliveryReducer;
+    const { loginDetails } = state.register;
+    const { pinCodeDetails, addressDetailsValue, isLoading, addAddress_failure, errorMessage } = state.userOrderAndDeliveryReducer;
     return {
-        pinCodeDetails, addressDetailsValue
+        pinCodeDetails, addressDetailsValue, loginDetails, isLoading, addAddress_failure, errorMessage
     };
 }
 

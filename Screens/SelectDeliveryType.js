@@ -26,8 +26,6 @@ class SelectDeliveryType extends Component {
         super(props);
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 
-        console.log("this.props.productSettings : ", this.props.productSettings)
-
         this.state = {
             fullView: false,
             showPopover: false

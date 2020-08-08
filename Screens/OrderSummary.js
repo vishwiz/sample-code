@@ -23,8 +23,10 @@ class OrderSummary extends Component {
     constructor(props) {
         super(props);
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+
         this.state = {
             isLoading: false,
+            deliveryCharges : this._deliveryCharges()
 
         };
     }
@@ -45,6 +47,35 @@ class OrderSummary extends Component {
             };
         }
         return null;
+    }
+
+    _deliveryCharges = () => {
+
+        console.log("logindetails : ",this.props.loginDetails?.firstName)
+
+        let deliveryCharges;
+
+        if (Number(this.props.totalPaymentedValue) <= 100) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUPTo100;
+        } else if (Number(this.props.totalPaymentedValue) <= 200) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo200;
+
+        } else if (Number(this.props.totalPaymentedValue) <= 500) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo500;
+
+        } else if (Number(this.props.totalPaymentedValue) <= 1000) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo1000;
+
+        } else if (Number(this.props.totalPaymentedValue) <= 2000) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo2000;
+
+        } else if (Number(this.props.totalPaymentedValue) <= 5000) {
+            deliveryCharges = this.props.productSettings.DeliveryChargeUpTo5000;
+
+        } else {
+            deliveryCharges = "0";
+        }
+        return deliveryCharges;
     }
 
     _renderFlatList = (item, index) => {
@@ -114,7 +145,7 @@ class OrderSummary extends Component {
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "black" }}>Delivery Charges : </Text>
-                        <Text style={{ fontWeight: "bold" }}>₹0.00</Text>
+                        <Text style={{ fontWeight: "bold" }}>₹{this.state.deliveryCharges}.00</Text>
                     </View>
                     <View style={{ marginVertical: 5 }}>
                         <Divider style={{ backgroundColor: 'black' }} />
@@ -160,8 +191,8 @@ class OrderSummary extends Component {
                                 </View>
                                 :
                                 <View>
-                                    <Text>Name : <Text>{this.props.selectedAddress?.fullName}</Text></Text>
-                                    <Text>Address : <Text>{`${this.props.selectedAddress?.address} ${this.props.selectedAddress?.landmark} ${this.props.selectedAddress?.pinCode} ${this.props.selectedAddress?.area} ${this.props.selectedAddress?.state}  `}</Text></Text>
+                                    <Text>Name : <Text>{this.props.loginDetails?.firstName} {this.props.loginDetails?.lastName}</Text></Text>
+                                    <Text>Address : <Text>{`${this.props.selectedAddress?.address}`}</Text></Text>
                                 </View>
                         }
 
@@ -233,9 +264,11 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage, loginDetails, isLogged } = state.register;
+    const { productSettings } = state.productList;
+
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress, loginDetails, isLogged
+        isLoading, productSettings,login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress, loginDetails, isLogged
     };
 }
 

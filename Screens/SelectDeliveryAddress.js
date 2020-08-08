@@ -17,7 +17,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 //for redux
 import { connect } from 'react-redux';
-import { loginUser } from '../src/actions';
+import { loginUser, getAddress } from '../src/actions';
 
 class SelectDeliveryType extends Component {
     constructor(props) {
@@ -25,37 +25,46 @@ class SelectDeliveryType extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             fullView: false,
-            deliveryCharges : this._deliveryCharges()
+            deliveryCharges: this._deliveryCharges()
 
         };
     }
 
-    _deliveryCharges = () =>{
+    _deliveryCharges = () => {
         let deliveryCharges;
 
-        if(Number(this.props.totalPaymentedValue) <= 100){
+        if (Number(this.props.totalPaymentedValue) <= 100) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUPTo100;
-        }else if(Number(this.props.totalPaymentedValue) <= 200){
+        } else if (Number(this.props.totalPaymentedValue) <= 200) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUpTo200;
 
-        }else if(Number(this.props.totalPaymentedValue) <= 500){
+        } else if (Number(this.props.totalPaymentedValue) <= 500) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUpTo500;
 
-        }else if(Number(this.props.totalPaymentedValue) <= 1000){
+        } else if (Number(this.props.totalPaymentedValue) <= 1000) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUpTo1000;
 
-        }else if(Number(this.props.totalPaymentedValue) <= 2000){
+        } else if (Number(this.props.totalPaymentedValue) <= 2000) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUpTo2000;
 
-        }else if(Number(this.props.totalPaymentedValue) <= 5000){
+        } else if (Number(this.props.totalPaymentedValue) <= 5000) {
             deliveryCharges = this.props.productSettings.DeliveryChargeUpTo5000;
 
-        }else {
+        } else {
             deliveryCharges = "0";
         }
         return deliveryCharges;
     }
+    componentDidMount() {
+        this.props.getAddress({
+            endurl: '/GetUserAddress',
+            requestData: {
+                "UserId": this.props.loginDetails?.userId
+            },
+        })
 
+
+    }
 
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
@@ -66,6 +75,8 @@ class SelectDeliveryType extends Component {
     }
 
     render() {
+
+        console.log("selectedAddress : ",this.props.selectedAddress)
 
         return (
             <View style={{ flex: 1 }}>
@@ -163,7 +174,7 @@ class SelectDeliveryType extends Component {
                         activeOpacity={1}
                     >
                         <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber}
-                            value={!this.props.selectedAddress?.fullName ? "Tap to add an address" : `${this.props.selectedAddress?.fullName}   ${this.props.selectedAddress?.address} ${this.props.selectedAddress?.landmark} ${this.props.selectedAddress?.pinCode} ${this.props.selectedAddress?.area} ${this.props.selectedAddress?.state} `}
+                            value={!this.props.selectedAddress?.addressId ? "Tap to add an address" : `${this.props.selectedAddress?.address} `}
                             phoneNumber={false} isDisable={true} marquee={true}
                         />
 
@@ -176,9 +187,9 @@ class SelectDeliveryType extends Component {
                 </View>
 
                 <TouchableOpacity
-                    style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.selectedAddress?.fullName ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                    style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: !this.props.selectedAddress?.userId ? "gray" : "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
-                        !this.props.selectedAddress?.fullName ?
+                        !this.props.selectedAddress?.userId ?
                             () => { }
                             :
                             this.props.navigation.navigate("OrderSummary", { deliveryType: "HOME_DELIVERY" })
@@ -220,7 +231,6 @@ const styles = StyleSheet.create({
     leftDeliveryContainer: {
         flex: 5,
         padding: 10,
-        // justifyContent: "space-between",
     },
     rightDeliveryContainer: {
         flex: 2,
@@ -244,7 +254,6 @@ const styles = StyleSheet.create({
         borderRadius: 2
     },
     bottomoContainer: {
-        // height: "42%",
         width: "95%",
         margin: 10,
         padding: 5,
@@ -257,14 +266,13 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { selectedAddress } = state.userOrderAndDeliveryReducer;
-    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList } = state.userOrderAndDeliveryReducer;
-
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, selectedAddress } = state.userOrderAndDeliveryReducer;
+    const { loginDetails } = state.register;
     const { productSettings } = state.productList;
 
     return {
-        selectedAddress, productSettings, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList
+        selectedAddress, productSettings, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, loginDetails
     };
 }
 
-export default connect(mapStateToProps, { loginUser })(SelectDeliveryType);
+export default connect(mapStateToProps, { loginUser, getAddress })(SelectDeliveryType);
