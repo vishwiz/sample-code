@@ -16,6 +16,7 @@ import IconEv from 'react-native-vector-icons/EvilIcons';
 import Modal from 'react-native-modal';
 import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
+import { addtoCartListCall, addtoCartListCompleteData, clearListData } from '../src/actions/productListAction';
 import { resetUserData, productSettings , logOutUser} from "../src/actions";
 import ProductList from "./productList"
 import Search from "./search"
@@ -32,7 +33,7 @@ class App extends Component {
     }
 
     componentDidMount() {
-
+        this.props.clearListData()
         this.props.productSettings({
             endurl: '/GetProductSetting',
             requestData: {
@@ -257,4 +258,4 @@ function mapStateToProps(state) {
 
 }
 
-export default connect(mapStateToProps, { resetUserData, productSettings, logOutUser })(App);
+export default connect(mapStateToProps, { resetUserData, productSettings, logOutUser, clearListData })(App);

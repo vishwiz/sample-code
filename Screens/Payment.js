@@ -31,39 +31,55 @@ class PaymentScreen extends Component {
     }
 
     placeOrderCall = () => {
-        console.log("OrderSummaryItemArray ", this.props.OrderSummaryItemArray)
+        console.log("OrderSummaryItemArray ", this.props.loginDetails.userId)
+        let paramsArrayList = []
+        this.props.OrderSummaryItemArray.forEach(element => {
+            let obj = {
+                "OrderItemId": 0,
+                "OrderId": 0,
+                "ProductId": 0,
+                "Quantity": 0,
+                "Name": "string",
+                "Unit": "string",
+                "Discount": 0,
+                "MRP": 0,
+                "SellingPrice": 0,
+                "ProductOption": "string",
+                "DiscountPer": 0
+            }
+            obj.ProductId = element.productId
+            obj.Quantity = element.quantity
+            obj.Name = element.name
+            obj.Unit = element.unit
+            obj.Discount = element.totalSavingAmmount
+            obj.MRP = element.mrp
+            obj.SellingPrice = element.sellingPrice
+            obj.ProductOption = element.productOption
+            obj.DiscountPer = element.discountPer
+            paramsArrayList.push(obj)
+
+        })
+
         let params = {
-            "OrderItemList": [
-                {
-                    "OrderItemId": 0,
-                    "OrderId": 0,
-                    "ProductId": 0,
-                    "Quantity": 0,
-                    "Name": "string",
-                    "Unit": "string",
-                    "Discount": 0,
-                    "MRP": 0,
-                    "SellingPrice": 0,
-                    "ProductOption": "string",
-                    "DiscountPer": 0
-                }
-            ],
+            "OrderItemList": [...paramsArrayList],
             "OrderId": 0,
-            "UserId": 0,
+            "UserId": this.props.loginDetails.userId,
             "OrderStatus": 0,
             "DeliveryCharges": 0,
-            "DeliveryTypeId": 0,
+            "DeliveryTypeId": this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? 2 : 1,
             "PaymentMode": 0,
-            "TotalAmount": 0,
-            "TotalDiscount": 0,
+            "TotalAmount": this.props.totalPaymentedValue,
+            "TotalDiscount": this.props.totalSaving,
             "TotalPayble": 0,
             "TalukaId": 1,
             "SupplierId": 1,
-            "OrderDate": "2020-08-06T18:56:08.844Z",
+            "OrderDate": new Date(),
             "OderMessage": "",
             "UserAddressId": 0,
             "CultureId": 1
         }
+
+        console.log("params ",params)
 
     }
 
@@ -106,10 +122,11 @@ class PaymentScreen extends Component {
     }
 }
 function mapStateToProps(state) {
+    const {loginDetails} = state.register;
     const { isLoading, errorMessage, } = state.productList
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
+        isLoading, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, loginDetails
     };
 }
 export default connect(mapStateToProps, { placeOrderCall })(PaymentScreen);

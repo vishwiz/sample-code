@@ -240,8 +240,8 @@ class RegisterScreen extends Component {
 
                             />
 
-                            <View style={{ marginTop: 20, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
                                 <TouchableOpacity
+                                style={{ marginTop: 20, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
                                     onPress={() => {
 
                                         this._validation()
@@ -250,7 +250,6 @@ class RegisterScreen extends Component {
                                 >
                                     <Text style={{ color: "white", fontSize: 14 }}>SAVE TO ADDRESS BOOK</Text>
                                 </TouchableOpacity>
-                            </View>
                             <View style={{ height: 100 }}>
 
                             </View>

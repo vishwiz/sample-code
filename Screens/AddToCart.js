@@ -332,13 +332,13 @@ class AddToCart extends Component {
                 <View style={{
                     flex: 1,
                     flexDirection: "row",
-                    justifyContent: "space-between",
-                    alignItems: "space-between",
+                    justifyContent: "flex-end",
+                    alignItems: "flex-end",
                     paddingHorizontal: 10,
-                    paddingVertical: 10,
+                    // paddingVertical: 10,
                     paddingBottom: 10,
                 }}>
-                    <View style={{ width: "30%", padding: 8 }} />
+
                     <View style={[styles.optionView, { borderColor: obj.isStock ? "#1D800E" : "grey", }]}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
                         {
@@ -359,13 +359,19 @@ class AddToCart extends Component {
                                 : null
                         }
                     </View>
-                    {obj.quantity === 0 ? <TouchableOpacity
-                        activeOpacity={1}
-                        style={[styles.addToCart, { backgroundColor: obj.isStock ? "#1D800E" : "grey" }]}
-                        onPress={() => obj.isStock ? this.addToCartFunction(obj, "add") : null}
-                    >
-                        <Text style={styles.textColor}>ADD TO CART</Text>
-                    </TouchableOpacity>
+                    {/* <View style={{ padding: 5 }} /> */}
+                    {obj.quantity === 0 ?
+                        <View style={[styles.addToCart, { backgroundColor: obj.isStock ? "#1D800E" : "grey" }]}>
+                            <TouchableOpacity
+                                activeOpacity={1}
+
+                                onPress={() => obj.isStock ? this.addToCartFunction(obj, "add") : null}
+                            >
+                                <View style={{justifyContent: "center", alignItems: "center", padding: 8,paddingHorizontal:15 }}>
+                                    <Text style={[styles.textColor]}>ADD TO CART</Text>
+                                </View>
+                            </TouchableOpacity>
+                        </View>
                         :
                         <View style={{ flexDirection: "row", width: "30%", borderRadius: 3 }}>
                             <TouchableOpacity style={styles.deduct}
@@ -546,10 +552,10 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-end",
         alignContent: "flex-end",
+        marginRight:7
     },
     addToCart: {
-        width: "27%",
-        padding: 8,
+        // width: "30%",
         // fontSize: 10,
         justifyContent: "center",
         alignItems: "center",
