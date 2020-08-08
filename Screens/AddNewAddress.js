@@ -285,17 +285,14 @@ class RegisterScreen extends Component {
                                 onPress={() => this.setState({ defaultAddressCheck: !this.state.defaultAddressCheck })}
                             />
 
-                            <View style={{ backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}>
-                                <TouchableOpacity
-                                    onPress={() => {
-
-                                        this._validation()
-
-                                    }}
-                                >
-                                    <Text style={{ color: "white", fontSize: 14 }}>SAVE TO ADDRESS BOOK</Text>
-                                </TouchableOpacity>
-                            </View>
+                            <TouchableOpacity
+                                style={{ marginTop: 20, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
+                                onPress={() => {
+                                    this._validation()
+                                }}
+                            >
+                                <Text style={{ color: "white", fontSize: 14 }}>SAVE TO ADDRESS BOOK</Text>
+                            </TouchableOpacity>
                             <View style={{ height: 100 }}>
 
                             </View>

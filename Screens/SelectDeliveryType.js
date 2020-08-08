@@ -189,7 +189,7 @@ class SelectDeliveryType extends Component {
 
                 <TouchableOpacity
                     onPress={() => {
-                        if (Number(this.props.productSettings.HomeDeliveryMinimumOrderAmount) < Number(this.props.totalPaymentedValue)) {
+                        if (Number(this.props.productSettings.HomeDeliveryMinimumOrderAmount) > Number(this.props.totalPaymentedValue)) {
                             Alert.alert("", `For Home Delivery Minimum Order Amount Rs. ${this.props.productSettings.HomeDeliveryMinimumOrderAmount}` )
                         } else {
                             this.props.navigation.navigate("SelectDeliveryAddress", { headerValue: "SELECT DELIVERY ADDRESS" })
