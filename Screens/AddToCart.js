@@ -228,9 +228,9 @@ class AddToCart extends Component {
             }
 
             // this.props.addtoCartListCompleteData(createViewCart)
-            
+
             this.props.incrementDecrementValue({ data: createViewCart, totalPaymentedValue: totalAmount, totalItem: totalProducts })
-            this.setState({ addToCartListData: [...objState],})
+            this.setState({ addToCartListData: [...objState], })
             //  totalItem: totalProducts, totalPaymentedValue: totalAmount 
         }
     }
@@ -306,15 +306,17 @@ class AddToCart extends Component {
                         {
                             obj.isStock ?
                                 obj.quantity > 0 ?
-                                    <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
+                                    <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/cart.png')} >
                                         <View style={styles.innerImageView}>
                                             <Text style={styles.innerImageText}>{obj.quantity}</Text>
                                         </View>
-                                    </ImageBackground> : null : <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
-                                    <View style={styles.innerImageView}>
-                                        <Text style={styles.innerImageText}>Not in Stocks</Text>
-                                    </View>
-                                </ImageBackground>}
+                                    </ImageBackground> : null :
+                                // <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/depositphotos_323434424-stock-video-green-shopping-cart-neon-blink.jpg')} >
+                                <View style={[styles.cardInside, { backgroundColor: "grey" }]}>
+                                    <Text style={{ color: "#fff" }}>Not in Stocks</Text>
+                                </View>
+                            // </ImageBackground>
+                        }
                     </ImageBackground>
                     <View style={{ flex: 1, height: "100%", }}>
                         <View style={{ justifyContent: "flex-start", alignContent: "flex-start" }}>
@@ -337,17 +339,19 @@ class AddToCart extends Component {
                     paddingBottom: 10,
                 }}>
                     <View style={{ width: "30%", padding: 8 }} />
-                    <View style={styles.optionView}>
+                    <View style={[styles.optionView, { borderColor: obj.isStock ? "#1D800E" : "grey", }]}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
                         {
                             item.productVariantList.length > 0 ?
-                                <TouchableOpacity style={{
-                                    backgroundColor: "#1D800E", borderTopRightRadius: 5,
-                                    borderBottomRightRadius: 5
-                                }}
+                                <TouchableOpacity
+                                    activeOpacity={1}
+                                    style={{
+                                        backgroundColor: obj.isStock ? "#1D800E" : "grey", borderTopRightRadius: 5,
+                                        borderBottomRightRadius: 5
+                                    }}
 
                                     onPress={() => {
-                                        this.updateDropdownModal(index, item.isVisible)
+                                        obj.isStock ? this.updateDropdownModal(index, item.isVisible) : null
                                     }}
                                 >
                                     <Image style={{ width: 30, height: 34 }} source={require('../src/assests/Images/dropArrow11.png')} />
@@ -355,8 +359,10 @@ class AddToCart extends Component {
                                 : null
                         }
                     </View>
-                    {obj.quantity === 0 ? <TouchableOpacity style={styles.addToCart}
-                        onPress={() => this.addToCartFunction(obj, "add")}
+                    {obj.quantity === 0 ? <TouchableOpacity
+                        activeOpacity={1}
+                        style={[styles.addToCart, { backgroundColor: obj.isStock ? "#1D800E" : "grey" }]}
+                        onPress={() => obj.isStock ? this.addToCartFunction(obj, "add") : null}
                     >
                         <Text style={styles.textColor}>ADD TO CART</Text>
                     </TouchableOpacity>
@@ -412,7 +418,7 @@ class AddToCart extends Component {
                                 onPress={() => {
                                     // this.props.incrementDecrementValue({ data: this.props.addToCartListData  })
                                     this.props.navigation.navigate("ViewCart")
-                                    
+
                                 }}
                                 style={{ padding: 10 }}
                             >
@@ -446,7 +452,7 @@ class AddToCart extends Component {
                                 }}
                                 style={{ padding: 10 }}
                             >
-                                <IconI name="ellipsis-vertical" color="#548247" size={20} />
+                                {/* <IconI name="ellipsis-vertical" color="#548247" size={20} /> */}
                             </TouchableOpacity>
 
                         </View>
@@ -484,15 +490,15 @@ const styles = StyleSheet.create({
     cardInside: {
         width: width * 0.32,
         height: width * 0.3,
-        opacity: 0.7,
+        opacity: 0.8,
         justifyContent: "center",
         alignItems: "center"
     },
     innerImageView: {
-        left: 20, top: -15, justifyContent: "center", alignSelf: "center", backgroundColor: "#fff", borderRadius: 20, width: 22
+        left: 30, top: -30, justifyContent: "center", alignSelf: "center", backgroundColor: "#A82828", borderRadius: 20, width: 22
     },
     innerImageText: {
-        justifyContent: "center", alignSelf: "center", fontSize: 15,
+        justifyContent: "center", alignSelf: "center", fontSize: 15, color: "#fff"
     },
     renderContainer: {
         flex: 1,
@@ -535,7 +541,6 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 5,
-        borderColor: "#1D800E",
         // height: 40,
         borderWidth: 1,
         flexDirection: "row",
@@ -544,7 +549,6 @@ const styles = StyleSheet.create({
     },
     addToCart: {
         width: "27%",
-        backgroundColor: "#1D800E",
         padding: 8,
         // fontSize: 10,
         justifyContent: "center",

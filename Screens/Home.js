@@ -169,13 +169,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     imageStyle: {
-        width: '50%',
-        height: 50,
-        // alignSelf: 'center',
-        // marginBottom: 30,
-        // borderWidth:1,
-        // borderColor:"red"
-
+        width: 40,
+        height: 60,
     },
     userView: {
         flexDirection: "row",

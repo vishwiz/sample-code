@@ -29,12 +29,16 @@ class ProductList extends Component {
     }
 
     componentDidMount = () => {
+       this.functionCall()
+    }
+
+    functionCall= ()=>{
         let params = {
             CultureId: 1,
             TalukaId: 1,
             SupplierId: 1
         }
-        this.setState(function (state, props) { return { isLoading: true } });
+        this.setState(function (state, props) { return { isLoading: true, productListData: [],  promotionData: []} });
         this.props.productListCall({
             endurl: '/BrandDetailList',
             requestData: params,
@@ -135,6 +139,8 @@ class ProductList extends Component {
                         keyExtractor={(item, i) => i.toString()}
                         extraData={this.state}
                         horizontal={false}
+                        onRefresh = {this.functionCall}
+                        refreshing = {this.state.isLoading}
                         contentContainerStyle={{
                             marginVertical: 5,
                         }}

@@ -14,12 +14,8 @@ postReq = async (params) => {
         });
         const data = await response.data;
 
-        console.log("data : ", data)
-
         return { data: data, status: response.status };
     } catch (error) {
-        console.log("error : ", error)
-
         return {
             data: "error",
             status: 404

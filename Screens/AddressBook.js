@@ -63,10 +63,6 @@ class SelectDeliveryType extends Component {
 
 
     render() {
-
-        console.log("this.props.addressDetailsValue : ", this.props.addressDetailsValue)
-
-
         return (
             <View>
                 <Header
