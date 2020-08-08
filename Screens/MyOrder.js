@@ -17,49 +17,23 @@ import IconI from 'react-native-vector-icons/Ionicons';
 import { myOrdersCall } from '../src/actions/productListAction';
 import { connect } from 'react-redux';
 
-// const Data = [
-//     {
-//         "orderId": 1,
-//         "userId": 1,
-//         "orderStatus": 0,
-//         "deliveryCharges": 2,
-//         "deliveryTypeId": 0,
-//         "paymentMode": 0,
-//         "totalAmount": 276,
-//         "totalDiscount": 23,
-//         "totalPayble": 20,
-//         "talukaId": 0,
-//         "supplierId": null,
-//         "orderDate": null,
-//         "oderMessage": null,
-//         "userAddressId": null,
-//         "cultureId": 0
-//     },
-//     {
-//         "orderId": 2,
-//         "userId": 1,
-//         "orderStatus": 0,
-//         "deliveryCharges": 2,
-//         "deliveryTypeId": 0,
-//         "paymentMode": 1,
-//         "totalAmount": 10,
-//         "totalDiscount": 2,
-//         "totalPayble": 19,
-//         "talukaId": 0,
-//         "supplierId": null,
-//         "orderDate": null,
-//         "oderMessage": null,
-//         "userAddressId": null,
-//         "cultureId": 0
-//     }
-// ]
 class MyOrders extends Component {
     constructor(props) {
         super(props)
+        BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
             myOrders : []
         }
+    }
+
+
+    componentWillUnmount() {
+        BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    }
+    onBackPress = () => {
+        this.props.navigation.goBack();
+        return true;
     }
 
     componentDidMount = ()=>{
