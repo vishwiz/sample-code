@@ -1,5 +1,5 @@
 import * as types from '../actions/types';
-// {PRODUCT_LIST ,PRODUCT_LIST_SUCCESS, PRODUCT_LIST_FAILURE} 
+import baseProductSettings from '../../baseSettings';
 
 
 
@@ -25,6 +25,9 @@ const initialState = {
     placeOrder_success: false,
     placeOrder_failure: false,
 
+    productSettings: baseProductSettings,
+    product_settings_success: false,
+    product_settings_failure: false,
     searchData: {}
 };
 
@@ -80,29 +83,29 @@ export default (state = initialState, action) => {
                 errorMessage: action.payload.ErrorMessage
             }
 
-            case types.PLACE_ORDER:
-                return {
-                    ...state,
-                    isLoading: true,
-                    placeOrder_success: false,
-                    placeOrder_failure: false,
-                    errorMessage: ""
-                }
-            case types.PLACE_ORDER_SUCCESS:
-                return {
-                    ...state,
-                    placeOrderDetails: action.payload.ResponseData,
-                    isLoading: false,
-                    placeOrder_success: true,
-    
-                }
-            case types.PLACE_ORDER_FAILURE:
-                return {
-                    ...state,
-                    isLoading: false,
-                    placeOrder_failure: true,
-                    errorMessage: action.payload.ErrorMessage
-                }
+        case types.PLACE_ORDER:
+            return {
+                ...state,
+                isLoading: true,
+                placeOrder_success: false,
+                placeOrder_failure: false,
+                errorMessage: ""
+            }
+        case types.PLACE_ORDER_SUCCESS:
+            return {
+                ...state,
+                placeOrderDetails: action.payload.ResponseData,
+                isLoading: false,
+                placeOrder_success: true,
+
+            }
+        case types.PLACE_ORDER_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                placeOrder_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
         case types.CAROUSEl_DATA:
             return {
                 ...state,
@@ -124,6 +127,35 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 carouselData_failure: true,
+                errorMessage: action.payload.ErrorMessage
+            }
+
+        case types.PRODUCT_SETTING:
+            return {
+                ...state,
+                isLoading: true,
+                product_settings_success: false,
+                product_settings_failure: false,
+                errorMessage: ""
+            }
+        case types.PRODUCT_SETTING_SUCCESS:
+
+            let data = {};
+            action.payload.ResponseData.forEach(element => {
+                data[element.settingName] = element.settingValue;
+            });
+            return {
+                ...state,
+                productSettings: data,
+                isLoading: false,
+                product_settings_success: true,
+
+            }
+        case types.PRODUCT_SETTING_FAILURE:
+            return {
+                ...state,
+                isLoading: false,
+                product_settings_failure: true,
                 errorMessage: action.payload.ErrorMessage
             }
 

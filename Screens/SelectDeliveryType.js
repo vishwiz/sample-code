@@ -26,6 +26,8 @@ class SelectDeliveryType extends Component {
         super(props);
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
 
+        console.log("this.props.productSettings : ", this.props.productSettings)
+
         this.state = {
             fullView: false,
             showPopover: false
@@ -34,6 +36,8 @@ class SelectDeliveryType extends Component {
     }
 
     componentWillUnmount() {
+
+
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
     onBackPress = () => {
@@ -143,7 +147,14 @@ class SelectDeliveryType extends Component {
                 >Tap to select one of the delivery modes</Text>
 
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("SelectPickUpPoint", { headerValue: "SELECT PICK UP POINT" })}
+                    onPress={() => {
+                        if (Number(this.props.productSettings.StoreCollectMinimumOrderAmount) > Number(this.props.totalPaymentedValue)) {
+                            Alert.alert("", `For Self Up Minimum Order Amount Rs. ${this.props.productSettings.StoreCollectMinimumOrderAmount}` )
+
+                        } else {
+                            this.props.navigation.navigate("SelectPickUpPoint", { headerValue: "SELECT PICK UP POINT" })
+                        }
+                    }}
                 >
 
                     <View style={styles.deliveryContainer}>
@@ -179,8 +190,13 @@ class SelectDeliveryType extends Component {
                 </View>
 
                 <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate("SelectDeliveryAddress", { headerValue: "SELECT DELIVERY ADDRESS" })}
-
+                    onPress={() => {
+                        if (Number(this.props.productSettings.HomeDeliveryMinimumOrderAmount) < Number(this.props.totalPaymentedValue)) {
+                            Alert.alert("", `For Home Delivery Minimum Order Amount Rs. ${this.props.productSettings.HomeDeliveryMinimumOrderAmount}` )
+                        } else {
+                            this.props.navigation.navigate("SelectDeliveryAddress", { headerValue: "SELECT DELIVERY ADDRESS" })
+                        }
+                    }}
                 >
                     <View style={[styles.deliveryContainer, { marginTop: -10 }]}>
                         <View style={styles.leftDeliveryContainer}>
@@ -265,9 +281,11 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
 
     const { isLoading, login_failure, errorMessage } = state.register;
+    const { productSettings } = state.productList;
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray,
+        productSettings
     };
 }
 

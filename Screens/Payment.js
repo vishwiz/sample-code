@@ -60,15 +60,11 @@ class PaymentScreen extends Component {
             "TalukaId": 1,
             "SupplierId": 1,
             "OrderDate": "2020-08-06T18:56:08.844Z",
-            "OderMessage": "string",
+            "OderMessage": "",
             "UserAddressId": 0,
             "CultureId": 1
         }
 
-        // this.props.placeOrderCall({
-        //     endurl: '/PlaceOrder',
-        //     requestData: params,
-        // })
     }
 
     render() {

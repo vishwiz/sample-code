@@ -111,9 +111,9 @@ export default (state = initialState, action) => {
                 pinCodeDetails: {}
             }
 
-        case types.ADD_ADDRESS:
+        case types.ADD_ADDRESS_SUCCESS:
             let value = state.addressDetailsValue;
-            value.push(action.payload.addressDetails);
+            value.push(action.payload.ResponseData.addressDetails);
             return {
                 ...state,
                 addressDetailsValue: value

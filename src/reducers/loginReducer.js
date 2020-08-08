@@ -2,6 +2,7 @@ import {
     REGISTER_USER,
     RESET,
     LOGIN_USER,
+    LOGOUT_USER,
     REGISTER_USER_SUCCESS,
     REGISTER_USER_FAILURE,
     LOGIN_USER_SUCCESS,
@@ -104,6 +105,13 @@ export default (state = initialState, action) => {
                 login_failure: true,
                 errorMessage: action.payload.ErrorMessage,
                 isLoading: false
+            }
+
+        case LOGOUT_USER:
+            return {
+                ...state,
+                isLogged: false,
+                loginDetails: {}
             }
 
         case VARIFY_OTP:

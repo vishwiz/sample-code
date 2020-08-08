@@ -159,9 +159,80 @@ export function* handlePlaceOrder({
     }
 }
 
+
+export function* handleProductSettings({
+    payload
+}) {
+    try {
+
+        const response = yield call(APIRequestAxios.postReq, payload);
+        if (response.status === 200) {
+
+            yield put({
+                type: 'PRODUCT_SETTING_SUCCESS',
+                payload: {
+                    ResponseData: response.data,
+                },
+            });
+
+        } else {
+
+            yield put({
+                type: 'PRODUCT_SETTING_FAILURE',
+                payload: {
+                    ResponseData: {},
+                    Error: true,
+                    ErrorMessage: 'Something went wrong..!!!',
+                },
+            });
+        }
+
+    } catch (error) {
+        yield put({
+            type: 'PRODUCT_SETTING_FAILURE',
+            payload: {
+                ResponseData: [],
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
+
+export function* handleAddAdress({
+    payload
+}) {
+    try {
+
+        yield put({
+            type: 'ADD_ADDRESS_SUCCESS',
+            payload: {
+                ResponseData: payload,
+            },
+        });
+
+        RootNavigation.navigate("AddressBook");
+
+
+    }catch (error) {
+        yield put({
+            type: 'ADD_ADDRESS_FAILURE',
+            payload: {
+                ResponseData: [],
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
+
 export const productListSaga = [
     takeLatest('PRODUCT_LIST', handleProductList),
     takeLatest('ADD_TO_CART', handleAddToCartList),
     takeLatest('CAROUSEl_DATA', handleCarouselData),
-    takeLatest('PLACE_ORDER', handlePlaceOrder)
+    takeLatest('PLACE_ORDER', handlePlaceOrder),
+    takeLatest('PRODUCT_SETTING', handleProductSettings),
+    takeLatest('ADD_ADDRESS', handleAddAdress)
+
+
 ]

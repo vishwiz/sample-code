@@ -177,7 +177,7 @@ class AddToCart extends Component {
                                     insideElement.quantity -= 1
                                 }
                                 insideElement.totalSelllingPriceWithQuantity = insideElement.quantity * insideElement.sellingPrice;
-                                insideElement.totalSavingAmmount = insideElement.quantity * insideElement.discount;
+                                insideElement.totalSavingAmmount = insideElement.quantity * insideElement.discountPer;
                                 obj.quantity = insideElement.quantity;
                                 obj.totalSelllingPriceWithQuantity = insideElement.totalSelllingPriceWithQuantity;
                                 obj.totalSavingAmmount = insideElement.totalSavingAmmount;
@@ -194,7 +194,7 @@ class AddToCart extends Component {
                             element.quantity -= 1
                         }
                         element.totalSelllingPriceWithQuantity = element.quantity * element.sellingPrice;
-                        element.totalSavingAmmount = element.quantity * element.discount;
+                        element.totalSavingAmmount = element.quantity * element.discountPer;
                         obj.quantity = element.quantity;
                         obj.totalSelllingPriceWithQuantity = element.totalSelllingPriceWithQuantity;
                         obj.totalSavingAmmount = element.totalSavingAmmount;
@@ -325,7 +325,7 @@ class AddToCart extends Component {
                         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
                             <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}.00`}</Text>
                             <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "DMART"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}.00`}</Text>
-                            <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discount}.00`}</Text>
+                            <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}.00`}</Text>
                         </View>
                     </View>
                 </View>
