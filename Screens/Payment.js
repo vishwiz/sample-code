@@ -79,7 +79,7 @@ class PaymentScreen extends Component {
             "CultureId": 1
         }
 
-        console.log("params ",params)
+        console.log("params ", params)
 
     }
 
@@ -122,7 +122,7 @@ class PaymentScreen extends Component {
     }
 }
 function mapStateToProps(state) {
-    const {loginDetails} = state.register;
+    const { loginDetails } = state.register;
     const { isLoading, errorMessage, } = state.productList
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {

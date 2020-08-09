@@ -140,10 +140,10 @@ class AddToCart extends Component {
                             renderItem={(item) => this.renderDropDown(item.item, item.index)}
                             keyExtractor={(item, i) => i.toString()}
                             // extraData={this.state}
-                            horizontal={false}
-                            numColumns={4}
+                            horizontal={true}
+                            // numColumns={4}
                             contentContainerStyle={{
-                                marginVertical: 5,
+                                // marginVertical: 5,
                             }}
                         />
                         :
@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         borderRadius: 5,
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
     },
     dropDownViewFlatlist: {
         borderWidth: 1,
