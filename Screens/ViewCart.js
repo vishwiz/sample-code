@@ -168,12 +168,12 @@ class ViewCart extends Component {
                             </TouchableOpacity>
 
 
-                            <TouchableOpacity
+                            {/* <TouchableOpacity
                                 onPress={() => { }}
                                 style={{ padding: 10 }}
                             >
                                 <IconI name="ellipsis-vertical" color="#548247" size={20} />
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
 
                         </View>
                     }
@@ -248,7 +248,7 @@ class ViewCart extends Component {
                                 if (this.props.isLogged) {
                                     this.props.navigation.navigate("SelectDeliveryType")
                                 } else {
-                                    this.props.navigation.navigate("Login")
+                                    this.props.navigation.navigate("Login", { register: true })
                                 }
                             }}
                         >
@@ -283,10 +283,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
 
-    const { isLoading, login_failure, errorMessage , isLogged} = state.register;
+    const { isLoading, login_failure, errorMessage, isLogged } = state.register;
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray,isLogged
+        isLoading, login_failure, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, isLogged
     };
 }
 

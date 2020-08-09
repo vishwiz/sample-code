@@ -18,7 +18,7 @@ import Modal from 'react-native-modal';
 import { Header, Badge } from 'react-native-elements';
 import { connect } from "react-redux";
 import { addtoCartListCall, addtoCartListCompleteData, clearListData } from '../src/actions/productListAction';
-import { resetUserData, productSettings , logOutUser} from "../src/actions";
+import { resetUserData, productSettings, logOutUser } from "../src/actions";
 import ProductList from "./productList"
 import Search from "./search"
 
@@ -38,7 +38,7 @@ class App extends Component {
     // }
     componentDidMount() {
         // console.log("Hiiii")
-        
+
         this.props.productSettings({
             endurl: '/GetProductSetting',
             requestData: {
@@ -132,7 +132,7 @@ class App extends Component {
                         {
                             this.props.isLogged ?
                                 <View style={styles.modalView}>
-                                     <TouchableOpacity
+                                    <TouchableOpacity
                                         activeOpacity={0.1}
                                         onPress={() => {
                                             this.setState({ modalVisible: false }, () => {
@@ -171,7 +171,7 @@ class App extends Component {
                                         activeOpacity={0.1}
                                         onPress={() => {
                                             this.setState({ modalVisible: false }, () => {
-                                                this.props.navigation.navigate('Login')
+                                                this.props.navigation.navigate('Login', { register: false })
                                             })
                                         }}>
                                         <View style={styles.userView} >

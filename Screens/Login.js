@@ -11,7 +11,7 @@ import {
     Text,
     BackHandler
 } from 'react-native';
-import { Header } from 'react-native-elements';
+import { Header, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import TextInputComponent from '../src/component/TextInputComponent';
@@ -38,12 +38,12 @@ class LoginScreen extends Component {
         };
     }
 
-  
+
     componentWillUnmount() {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
 
-    onBackPress = ()=> {
+    onBackPress = () => {
         this.props.navigation.goBack();
         return true;
     }
@@ -135,6 +135,28 @@ class LoginScreen extends Component {
                 {
                     this.props.login_failure ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
+                {
+                    this.props.route.params.register ?
+                        <View style={{padding:20}}>
+                            <TouchableOpacity
+                                onPress={() => this.props.navigation.navigate("Register")}
+                                style={{ borderColor: "#548247", width: "100%", borderWidth: 1, alignItems: "center", height: 40, justifyContent: "center", borderRadius: 5 }}>
+                                <Text style={{ color: "#548247" }}>REGISTER</Text>
+                            </TouchableOpacity>
+                            <View style={{ width: 300, alignSelf: "center", padding: 20, marginTop: 20 }}>
+                                <Divider style={{ backgroundColor: 'black' }} />
+                                <View style={{ alignSelf: "center", borderColor: "gray", borderWidth: 1, height: 30, width: 30, padding: 5, borderRadius: 15, top: -15, backgroundColor: "white", }}>
+                                    <Text style={{ fontSize: 12 }}>OR</Text>
+                                </View>
+                            </View>
+                        </View>
+                        :
+                        <Image
+                            style={styles.imageStyle}
+                            resizeMode={'contain'}
+                            source={require('../src/assests/Images/feelful_logo.png')}
+                        />
+                }
 
 
                 <KeyboardAvoidingView
@@ -142,13 +164,9 @@ class LoginScreen extends Component {
                     behavior={'position'}
                     keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
                     <ScrollView
-                        keyboardShouldPersistTaps={'handled'}
+                        keyboardShouldPersistTaps={'always'}
                     >
-                        <Image
-                            style={styles.imageStyle}
-                            resizeMode={'contain'}
-                            source={require('../src/assests/Images/feelful_logo.png')}
-                        />
+
                         <TextInputComponent
                             title={'PHONE NUMBER'}
                             keyboard_type={'number-pad'}
@@ -204,6 +222,7 @@ const styles = StyleSheet.create({
     },
     container: {
         margin: 20,
+        marginTop:-30
     },
     imageStyle: {
         width: '50%',
