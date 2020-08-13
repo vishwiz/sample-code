@@ -1,18 +1,29 @@
 
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, StatusBar } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient'
+import LinearGradient from 'react-native-linear-gradient';
+import { connect } from 'react-redux';
 
 class DisplayAnImage extends Component {
   render() {
+    console.log("loginDetails ", this.props.loginDetails);
     return (
       <View style={styles.container}>
-        <LinearGradient colors={['gray', 'white']} style={[styles.linearGradient]}>
+        <LinearGradient colors={['#fff', 'grey']} style={[styles.linearGradient]}>
           <Text style={styles.buttonText}>
-            {/* Sign in with Facebook */}
+            {`${this.props.isLogged ?` Hii, ${this.props.loginDetails.firstName} ${this.props.loginDetails.lastName}` : `Please sign in/sign up` }`}
+           </Text>
+           <Text style={styles.listData}>
+            {`Product Categories (Coming soon)`}
+           </Text>
+           <Text style={styles.listData}>
+            {`Online Payment (Coming soon)`}
+           </Text>
+           <Text style={[styles.listData]}>
+            {`CONTACT US:   8770435618, 7631438307, 7350255090 `}
            </Text>
         </LinearGradient>
-        {/* <Text>adsadasdsa</Text> */}
+        
 
       </View>
     );
@@ -36,12 +47,28 @@ const styles = StyleSheet.create({
     fontFamily: 'Gill Sans',
     textAlign: 'center',
     margin: 10,
-    color: '#ffffff',
+    color: '#000',
     backgroundColor: 'transparent',
+    fontWeight:'bold'
   },
+  listData: {
+    fontSize: 15,
+    fontFamily: 'Gill Sans',
+    padding: 15,
+    margin: 10,
+    color: '#548247',
+    fontWeight:'bold'
+    // backgroundColor: 'transparent',
+  }
 
 });
 
+function mapStateToProps(state) {
+  const { loginDetails, isLogged } = state.register;
+  return {
+      loginDetails, isLogged
+  };
+}
+export default connect(mapStateToProps)(DisplayAnImage);
 
-
-export default DisplayAnImage;
+// export default DisplayAnImage;

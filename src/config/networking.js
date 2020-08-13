@@ -13,13 +13,10 @@ postReq = async (params) => {
             data: params.requestData,
         });
         const data = await response.data;
-
-        // console.log("data : ",data)
-
+        console.log("data ", data);
         return { data: data, status: response.status };
     } catch (error) {
-        console.log("error : ",error)
-
+        console.log("error ",error)
         return {
             data: "error",
             status: 404
@@ -36,7 +33,6 @@ getReq = async (params) => {
                 'Content-Type': 'application/json',
             },
             timeout: 30000,
-            // data: params.requestData,
         });
         const data = await response.data;
 

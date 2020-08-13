@@ -38,7 +38,10 @@ class SelectDeliveryType extends Component {
         this.props.getAddress({
             endurl: '/GetUserAddress',
             requestData: {
-                "UserId": this.props.loginDetails?.userId
+                "UserId": this.props.loginDetails?.userId,
+                "TalukaId":1,
+                "CultureId":1,
+                "SupplierId":1
             },
         })
 

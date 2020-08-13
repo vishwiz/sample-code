@@ -76,8 +76,6 @@ class SelectDeliveryType extends Component {
 
     render() {
 
-        console.log("selectedAddress : ",this.props.selectedAddress)
-
         return (
             <View style={{ flex: 1 }}>
                 <Header

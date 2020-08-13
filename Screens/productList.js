@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     },
     card: {
         width: width,
-        height: width * 0.4,
+        height: width * 0.5,
     },
     cornerLabel: {
         position: 'absolute',

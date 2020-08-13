@@ -15,11 +15,15 @@ import IconI from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import TextInputComponent from '../src/component/TextInputComponent';
 import { placeOrderCall } from '../src/actions/productListAction';
+import ToastMessage from "../src/component/ToastMessage";
 
 class PaymentScreen extends Component {
     constructor(props) {
         super(props)
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
+        this.state = {
+            isLoading: false
+        }
     }
 
     componentWillUnmount() {
@@ -30,8 +34,24 @@ class PaymentScreen extends Component {
         return true;
     }
 
+    static getDerivedStateFromProps(props, state) {
+        if (!props.isLoading) {
+            return {
+                isLoading: false,
+            };
+        }
+
+        if (props.errorMessage !== "") {
+            return {
+                isLoading: false,
+            }
+        }
+
+        return null;
+    }
+
+
     placeOrderCall = () => {
-        console.log("OrderSummaryItemArray ", this.props.loginDetails.userId)
         let paramsArrayList = []
         this.props.OrderSummaryItemArray.forEach(element => {
             let obj = {
@@ -65,26 +85,29 @@ class PaymentScreen extends Component {
             "OrderId": 0,
             "UserId": this.props.loginDetails.userId,
             "OrderStatus": 0,
-            "DeliveryCharges": 0,
-            "DeliveryTypeId": this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? 2 : 1,
+            "DeliveryCharges": this.props.route.params.deliveryCharges,
+            "DeliveryTypeId": this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? 1 : 2,
             "PaymentMode": 0,
             "TotalAmount": this.props.totalPaymentedValue,
             "TotalDiscount": this.props.totalSaving,
-            "TotalPayble": 0,
+            "TotalPayble": this.props.totalPaymentedValue + Number(this.props.route.params.deliveryCharges),
             "TalukaId": 1,
             "SupplierId": 1,
             "OrderDate": new Date(),
             "OderMessage": "",
-            "UserAddressId": 0,
+            "UserAddressId": this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? this.props.SavePickUpPointList?.pickUpPointId : this.props.selectedAddress?.addressId,
             "CultureId": 1
         }
-
-        console.log("params ", params)
-
+        this.setState(function (state, props) { return { isLoading: true } });
+        this.props.placeOrderCall({
+            endurl: '/PlaceOrder',
+            requestData: params,
+        })
+        console.log("params ",this.props.route.params.deliveryType ,params);
     }
 
     render() {
-
+        // console.log("this.props.addressDetailsValueb ", this.props.selectedAddress?.addressId);
         return <View style={{ flex: 1 }}>
             <Header
                 placement="left"
@@ -110,6 +133,7 @@ class PaymentScreen extends Component {
                     title={'Payment Mode'}
                     value={"Cash on Delivery"}
                     isDisable={true}
+                    style={{ color: "black" }}
                 />
             </View>
             <TouchableOpacity
@@ -118,15 +142,16 @@ class PaymentScreen extends Component {
             >
                 <Text style={{ color: "white", fontSize: 14 }}>PLACE ORDER</Text>
             </TouchableOpacity>
+            {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
         </View>
     }
 }
 function mapStateToProps(state) {
     const { loginDetails } = state.register;
     const { isLoading, errorMessage, } = state.productList
-    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
+    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, addressDetailsValue, selectedAddress } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, loginDetails
+        isLoading, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, loginDetails, SavePickUpPointList, addressDetailsValue, selectedAddress
     };
 }
 export default connect(mapStateToProps, { placeOrderCall })(PaymentScreen);

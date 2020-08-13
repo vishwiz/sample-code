@@ -51,8 +51,6 @@ class OrderSummary extends Component {
 
     _deliveryCharges = () => {
 
-        console.log("logindetails : ",this.props.loginDetails?.firstName)
-
         let deliveryCharges;
 
         if (Number(this.props.totalPaymentedValue) <= 100) {
@@ -232,7 +230,7 @@ class OrderSummary extends Component {
                     style={{ position: 'absolute', left: 0, right: 0, bottom: 0, backgroundColor: "#548247", height: 50, justifyContent: "center", alignItems: "center" }}
                     onPress={() => {
                         if (this.props.isLogged) {
-                            this.props.navigation.navigate("PaymentScreen" ,{ deliveryType: "PICKUP_DELIVERY" })
+                            this.props.navigation.navigate("PaymentScreen" ,{ deliveryType: this.props.route.params.deliveryType, deliveryCharges: this.state.deliveryCharges })
                         } else {
                             this.props.navigation.navigate("Login")
                         }

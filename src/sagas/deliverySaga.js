@@ -4,6 +4,7 @@ import {
     call
 } from 'redux-saga/effects';
 import APIRequestAxios from '../config/networking';
+import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
 
 
 export function* handlePickUpPointList({
@@ -88,8 +89,6 @@ export function* handlePinCodeCall({
 export function* handleAddAdress({
     payload
 }) {
-    console.log("payload : ",payload);
-
 
     try {
         const response = yield call(APIRequestAxios.postReq, payload);
@@ -100,12 +99,10 @@ export function* handleAddAdress({
                     ResponseData: response.data,
                 },
             });
-
-            // console.log("response : ",response);
             RootNavigation.navigate("AddressBook");
 
         } else {
-
+            console.log("fail 1 ",response.data)
             yield put({
                 type: 'ADD_ADDRESS_FAILURE',
                 payload: {
@@ -117,6 +114,7 @@ export function* handleAddAdress({
         }
 
     } catch (error) {
+        console.log("fail 2 ",error)
         yield put({
             type: 'ADD_ADDRESS_FAILURE',
             payload: {
@@ -146,7 +144,7 @@ export function* handleGetAdress({
             });
 
         } else {
-
+            
             yield put({
                 type: 'GET_ADDRESS_FAILURE',
                 payload: {

@@ -203,26 +203,36 @@ class AddToCart extends Component {
             }
 
             if (createViewCart.some(item => item.productId === obj.productId)) {
-                createViewCart.forEach(elementRedux => {
-
+                let indexRemoval = ""
+                createViewCart.forEach((elementRedux, index) => {
                     if (elementRedux.productId === obj.productId) {
+                        if (obj.quantity == 0) {
+                            indexRemoval = index
+                        }
                         elementRedux.quantity = obj.quantity
                         elementRedux.totalSelllingPriceWithQuantity = obj.totalSelllingPriceWithQuantity
                         elementRedux.totalSavingAmmount = obj.totalSavingAmmount
                     }
+                    console.log("checking ", elementRedux.quantity, elementRedux.totalSelllingPriceWithQuantity)
                     totalProducts += elementRedux.quantity
                     totalAmount += elementRedux.totalSelllingPriceWithQuantity
+
                 })
+                console.log("indexRemoval ", indexRemoval, indexRemoval !== "" ? createViewCart.splice(indexRemoval, 1) : null);
+                indexRemoval !== "" ? createViewCart.splice(indexRemoval, 1) : null
             } else {
-                createViewCart.push(obj)
-                if (createViewCart.length > 0) {
-                    createViewCart.forEach(elementRedux => {
-                        totalProducts += elementRedux.quantity
-                        totalAmount += elementRedux.totalSelllingPriceWithQuantity
-                    })
-                } else {
-                    totalProducts += obj.quantity
-                    totalAmount += obj.totalSelllingPriceWithQuantity
+                console.log("checking 2")
+                if (obj.quantity > 0) {
+                    createViewCart.push(obj)
+                    if (createViewCart.length > 0) {
+                        createViewCart.forEach(elementRedux => {
+                            totalProducts += elementRedux.quantity
+                            totalAmount += elementRedux.totalSelllingPriceWithQuantity
+                        })
+                    } else {
+                        totalProducts += obj.quantity
+                        totalAmount += obj.totalSelllingPriceWithQuantity
+                    }
                 }
 
             }
@@ -351,7 +361,9 @@ class AddToCart extends Component {
                                     }}
 
                                     onPress={() => {
-                                        obj.isStock ? this.updateDropdownModal(index, item.isVisible) : null
+                                        // obj.isStock ?
+                                         this.updateDropdownModal(index, item.isVisible) 
+                                        //  : null
                                     }}
                                 >
                                     <Image style={{ width: 30, height: 34 }} source={require('../src/assests/Images/dropArrow11.png')} />
@@ -367,7 +379,7 @@ class AddToCart extends Component {
 
                                 onPress={() => obj.isStock ? this.addToCartFunction(obj, "add") : null}
                             >
-                                <View style={{justifyContent: "center", alignItems: "center", padding: 8,paddingHorizontal:15 }}>
+                                <View style={{ justifyContent: "center", alignItems: "center", padding: 8, paddingHorizontal: 15 }}>
                                     <Text style={[styles.textColor]}>ADD TO CART</Text>
                                 </View>
                             </TouchableOpacity>
@@ -396,6 +408,7 @@ class AddToCart extends Component {
     }
 
     render() {
+        console.log("OrderSummaryItemArray ", this.props.OrderSummaryItemArray);
         return (
             <View style={{ height: "100%", flex: 1 }}>
                 <Header
@@ -553,7 +566,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-end",
         alignContent: "flex-end",
-        marginRight:7
+        marginRight: 7
     },
     addToCart: {
         // width: "30%",

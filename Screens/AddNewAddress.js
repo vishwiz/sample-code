@@ -111,7 +111,7 @@ class RegisterScreen extends Component {
                             "addressType": addressType,
                             "address": `${this.state.address} ${this.state.pinCode} ${this.props.pinCodeDetails?.office_name} ${this.props.pinCodeDetails?.district} ${this.props.pinCodeDetails?.state_name} `,
                             "landMark": this.state.landmark,
-                            "isDeleted": true,
+                            "isDeleted": false,
                             "userId": this.props.loginDetails?.userId,
                             "isDefault": this.state.defaultAddressCheck
                         },
@@ -123,8 +123,6 @@ class RegisterScreen extends Component {
     };
 
     static getDerivedStateFromProps(props) {
-
-        console.log("props : ", props.isLoading, props.errorMessage);
         if (!props.isLoading) {
             return {
                 isLoading: false,

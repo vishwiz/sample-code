@@ -16,6 +16,7 @@ import { Header, Badge, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import { myOrdersCall } from '../src/actions/productListAction';
 import { connect } from 'react-redux';
+import ToastMessage from "../src/component/ToastMessage";
 
 class MyOrders extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class MyOrders extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
-            myOrders : []
+            myOrders: []
         }
     }
 
@@ -36,7 +37,7 @@ class MyOrders extends Component {
         return true;
     }
 
-    componentDidMount = ()=>{
+    componentDidMount = () => {
         this.apiFunctionCall()
     }
 
@@ -58,14 +59,14 @@ class MyOrders extends Component {
     }
 
 
-    apiFunctionCall = ()=>{
+    apiFunctionCall = () => {
         let params = {
-            "UserId": 1,
+            "UserId": this.props.loginDetails.userId,
             "TalukaId": 1,
             "CultureId": 1,
             "SupplierId": 1
         }
-        this.setState(function (state, props) { return { isLoading: true, myOrders: []} });
+        this.setState(function (state, props) { return { isLoading: true, myOrders: [] } });
         this.props.myOrdersCall({
             endurl: '/GetOrders',
             requestData: params,
@@ -73,7 +74,6 @@ class MyOrders extends Component {
     }
 
     renderProductListData = (item) => {
-        console.log("item ", item);
         return (
             <View style={styles.container}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignContent: "space-between", paddingBottom: 10 }}>
@@ -92,7 +92,13 @@ class MyOrders extends Component {
                     </View>
                     <View>
                         <Text style={{ color: "black", fontSize: 15 }}>DELIVERY TYPE</Text>
-                        <Text style={{ color: "grey", fontSize: 15 }}>{item.deliveryTypeId == 2 ? "Store collect" : "Home Delivery"}</Text>
+                        <Text style={{ color: "grey", fontSize: 15 }}>{item.deliveryTypeId == 1 ? "Store collect" : "Home Delivery"}</Text>
+                    </View>
+                </View>
+                <View style={styles.innerContainer}>
+                    <View>
+                        <Text style={{ color: "black", fontSize: 15 }}>CANCEL ORDER</Text>
+                        {/* <Text style={{ color: "grey", fontSize: 15 }}>{item.deliveryTypeId == 1 ? "Store collect" : "Home Delivery"}</Text> */}
                     </View>
                 </View>
             </View>
@@ -100,7 +106,6 @@ class MyOrders extends Component {
     }
 
     render() {
-        console.log("/api/GetOrders ", this.props.myOrdersDetails , this.state.myOrders);
         return <View style={{ flex: 1, backgroundColor: "#fff" }}>
             <Header
                 placement="left"
@@ -139,6 +144,7 @@ class MyOrders extends Component {
                     marginVertical: 5,
                 }}
             />
+            {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
         </View>
     }
 }
@@ -160,12 +166,13 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-    const {  isLoading, errorMessage, myOrdersDetails, myOrders_success } = state.productList
+    const { loginDetails } = state.register;
+    const { isLoading, errorMessage, myOrdersDetails, myOrders_success } = state.productList
     return {
-         isLoading, errorMessage, myOrdersDetails, myOrders_success
+        isLoading, errorMessage, myOrdersDetails, myOrders_success, loginDetails
     };
 }
 
-export default connect(mapStateToProps, {myOrdersCall})(MyOrders);
+export default connect(mapStateToProps, { myOrdersCall })(MyOrders);
 // export default MyOrders
 

@@ -32,13 +32,8 @@ class App extends Component {
     setModalVisible = (visible) => {
         this.setState({ modalVisible: visible });
     }
-
-    // componentWillMount = ()=>{
-    //     this.props.clearListData()
-    // }
     componentDidMount() {
-        // console.log("Hiiii")
-
+        this.props.clearListData()
         this.props.productSettings({
             endurl: '/GetProductSetting',
             requestData: {

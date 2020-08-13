@@ -5,6 +5,7 @@ import {
 } from 'redux-saga/effects';
 import APIRequestAxios from '../config/networking';
 import * as RootNavigation from '../../NavigationComponent/RootNavigation.js';
+import * as Actions from '../actions/deliveryAction';
 
 
 export function* handleProductList({
@@ -134,7 +135,13 @@ export function* handlePlaceOrder({
                     ResponseData: response.data,
                 },
             });
-            RootNavigation.navigate('PaymentScreen', { directionTo: "ThankYou" });
+            // RootNavigation.navigate('Home')
+            // Actions.incrementDecrementValue({
+            //     data: [],
+            //     totalItem: 0,
+            //     totalPaymentedValue: 0,
+            //     totalSaving: 0,
+            // })
         } else {
 
             yield put({
