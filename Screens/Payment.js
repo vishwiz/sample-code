@@ -14,7 +14,7 @@ import { Header, Badge, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import TextInputComponent from '../src/component/TextInputComponent';
-import { placeOrderCall } from '../src/actions/productListAction';
+import { placeOrderCall } from '../src/actions/deliveryAction';
 import ToastMessage from "../src/component/ToastMessage";
 
 class PaymentScreen extends Component {
@@ -22,7 +22,7 @@ class PaymentScreen extends Component {
         super(props)
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
-            isLoading: false
+            isLoading: false,
         }
     }
 
@@ -103,11 +103,9 @@ class PaymentScreen extends Component {
             endurl: '/PlaceOrder',
             requestData: params,
         })
-        console.log("params ",this.props.route.params.deliveryType ,params);
     }
 
     render() {
-        // console.log("this.props.addressDetailsValueb ", this.props.selectedAddress?.addressId);
         return <View style={{ flex: 1 }}>
             <Header
                 placement="left"
@@ -133,7 +131,10 @@ class PaymentScreen extends Component {
                     title={'Payment Mode'}
                     value={"Cash on Delivery"}
                     isDisable={true}
-                    style={{ color: "black" }}
+                    personalStyle={{ color: "black" }}
+
+                // style={{ color: "black" ,backgroundColor:"red" }}
+                // inputStyle={{color: 'red'}} 
                 />
             </View>
             <TouchableOpacity
@@ -142,16 +143,16 @@ class PaymentScreen extends Component {
             >
                 <Text style={{ color: "white", fontSize: 14 }}>PLACE ORDER</Text>
             </TouchableOpacity>
-            {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
+            {this.props.placeOrder_failure ? <ToastMessage message={this.props.errorMessage} /> : null}
         </View>
     }
 }
 function mapStateToProps(state) {
     const { loginDetails } = state.register;
-    const { isLoading, errorMessage, } = state.productList
-    const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, addressDetailsValue, selectedAddress } = state.userOrderAndDeliveryReducer;
+    // const { isLoading, errorMessage, } = state.productList
+    const { isLoading, errorMessage, totalItem, placeOrder_failure, totalPaymentedValue, totalSaving, OrderSummaryItemArray, SavePickUpPointList, addressDetailsValue, selectedAddress } = state.userOrderAndDeliveryReducer;
     return {
-        isLoading, errorMessage, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, loginDetails, SavePickUpPointList, addressDetailsValue, selectedAddress
+        isLoading, errorMessage, totalItem, totalPaymentedValue, placeOrder_failure, totalSaving, OrderSummaryItemArray, loginDetails, SavePickUpPointList, addressDetailsValue, selectedAddress
     };
 }
 export default connect(mapStateToProps, { placeOrderCall })(PaymentScreen);

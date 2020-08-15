@@ -63,7 +63,7 @@ class LoginScreen extends Component {
 
                 <View style={{ height: "15%", justifyContent: "center", alignItems: "center" }}>
                     <Text>
-                        Thank you for registering with DMart Ready.
+                        Thank you for registering with FeelFul Ready.
                     </Text>
                     <Text>
                         You can now Start Shopping.

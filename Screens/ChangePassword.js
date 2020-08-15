@@ -136,7 +136,9 @@ class ChangePassword extends Component {
                     behavior={"position"}
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
                 >
-                    <ScrollView>
+                    <ScrollView
+                        keyboardShouldPersistTaps={'always'}
+                    >
 
                         <PincodeComponent
                             title={"ENTER NEW PIN PASSWORD"}

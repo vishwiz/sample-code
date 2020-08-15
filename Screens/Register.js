@@ -170,7 +170,7 @@ class RegisterScreen extends Component {
           behavior={'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
           <ScrollView showsVerticalScrollIndicator={false}
-            keyboardShouldPersistTaps={'handled'}
+             keyboardShouldPersistTaps={'always'}
           >
             <Image
               style={styles.imageStyle}

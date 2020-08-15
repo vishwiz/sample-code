@@ -1,6 +1,6 @@
 import {
     PICK_UP_POINT_LIST, SAVE_PICK_UP_POINT_LIST, PIN_CODE_CALL, ADD_ADDRESS, SELECT_ADDRESS,
-    REMOVE_ALL, REMOVE_INDEX_ELEMENT, INCREMENT_DECREMENT_VALUE, INITIALIZE_VIEWCART_DATA, GET_ADDRESS
+    REMOVE_ALL, REMOVE_INDEX_ELEMENT, INCREMENT_DECREMENT_VALUE, INITIALIZE_VIEWCART_DATA, GET_ADDRESS, PLACE_ORDER, CANCEL_ORDER
 } from './types';
 
 export const pickUpPointList = (payload) => {
@@ -78,3 +78,18 @@ export const selectAddress = (payload) => {
     }
 }
 
+export const placeOrderCall = (payload) => {
+
+    return {
+        type: PLACE_ORDER,
+        payload: payload
+    }
+}
+
+export const cancelOrderCall = (payload) => {
+
+    return {
+        type: CANCEL_ORDER,
+        payload: payload
+    }
+}

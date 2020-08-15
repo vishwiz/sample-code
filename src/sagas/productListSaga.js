@@ -121,51 +121,6 @@ export function* handleCarouselData({
     }
 }
 
-export function* handlePlaceOrder({
-    payload
-}) {
-    try {
-
-        const response = yield call(APIRequestAxios.postReq, payload);
-        if (response.status === 200) {
-
-            yield put({
-                type: 'PLACE_ORDER_SUCCESS',
-                payload: {
-                    ResponseData: response.data,
-                },
-            });
-            // RootNavigation.navigate('Home')
-            // Actions.incrementDecrementValue({
-            //     data: [],
-            //     totalItem: 0,
-            //     totalPaymentedValue: 0,
-            //     totalSaving: 0,
-            // })
-        } else {
-
-            yield put({
-                type: 'PLACE_ORDER_FAILURE',
-                payload: {
-                    ResponseData: {},
-                    Error: true,
-                    ErrorMessage: 'Something went wrong..!!!',
-                },
-            });
-        }
-
-    } catch (error) {
-        yield put({
-            type: 'PLACE_ORDER_FAILURE',
-            payload: {
-                ResponseData: [],
-                Error: true,
-                ErrorMessage: 'Something went wrong..!!!',
-            },
-        });
-    }
-}
-
 
 export function* handleProductSettings({
     payload
@@ -249,7 +204,6 @@ export const productListSaga = [
     takeLatest('PRODUCT_LIST', handleProductList),
     takeLatest('ADD_TO_CART', handleAddToCartList),
     takeLatest('CAROUSEl_DATA', handleCarouselData),
-    takeLatest('PLACE_ORDER', handlePlaceOrder),
     takeLatest('PRODUCT_SETTING', handleProductSettings),
     takeLatest('MY_ORDERS', handleMyOrders)
 

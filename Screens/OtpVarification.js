@@ -117,7 +117,9 @@ class OtpVarification extends Component {
                     behavior={"position"}
                     keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 0}
                 >
-                    <ScrollView>
+                    <ScrollView
+                     keyboardShouldPersistTaps={'always'}
+                    >
                         <TextInputComponent title={"YOUR PHONE NUMBER"} keyboard_type={"number-pad"} onChangeText={this.onChangeTextphoneNumber} value={this.props.userDetails?.mobileNo} phoneNumber={true} isDisable={true} />
                         <PincodeComponent title={"ENTER THE OTP"} onChangeText={this.onChangeTextPassword} value={OtpPassword} passwordvisible={true} />
                         {flagOtp ? (

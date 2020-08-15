@@ -6,24 +6,45 @@ import { connect } from 'react-redux';
 
 class DisplayAnImage extends Component {
   render() {
-    console.log("loginDetails ", this.props.loginDetails);
     return (
       <View style={styles.container}>
         <LinearGradient colors={['#fff', 'grey']} style={[styles.linearGradient]}>
           <Text style={styles.buttonText}>
-            {`${this.props.isLogged ?` Hii, ${this.props.loginDetails.firstName} ${this.props.loginDetails.lastName}` : `Please sign in/sign up` }`}
-           </Text>
-           <Text style={styles.listData}>
-            {`Product Categories (Coming soon)`}
-           </Text>
-           <Text style={styles.listData}>
-            {`Online Payment (Coming soon)`}
-           </Text>
-           <Text style={[styles.listData]}>
-            {`CONTACT US:   8770435618, 7631438307, 7350255090 `}
-           </Text>
+            {`${this.props.isLogged ? ` Hii, ${this.props.loginDetails.firstName.toUpperCase()} ${this.props.loginDetails.lastName.toUpperCase()}` : `Please sign in/sign up`}`}
+          </Text>
+          <View style={styles.listDataTemp}>
+            <Text style={{
+              color: '#548247',
+              fontWeight: 'bold',
+              fontSize: 18,
+            }}>
+              {`Product Categories `}
+            </Text>
+            <Text>{`(Coming soon)`}</Text>
+          </View>
+          <View style={styles.listDataTemp}>
+            <Text style={{
+              color: '#548247',
+              fontWeight: 'bold',
+              fontSize: 18,
+            }}>
+              {`Online Payment`}
+            </Text>
+            <Text>{`(Coming soon)`}</Text>
+          </View>
+          <View style={styles.listDataTemp}>
+            <Text style={{
+              color: '#548247',
+              fontWeight: 'bold',
+              fontSize: 18,
+            }}>
+              {`CONTACT US:`}
+            </Text>
+            
+            <Text>{`(8770435618, 7631438307, 7350255090)`}</Text>
+          </View>
         </LinearGradient>
-        
+
 
       </View>
     );
@@ -40,7 +61,7 @@ const styles = StyleSheet.create({
     paddingLeft: 15,
     paddingRight: 15,
 
-    height:"100%"
+    height: "100%"
   },
   buttonText: {
     fontSize: 18,
@@ -49,7 +70,7 @@ const styles = StyleSheet.create({
     margin: 10,
     color: '#000',
     backgroundColor: 'transparent',
-    fontWeight:'bold'
+    fontWeight: 'bold'
   },
   listData: {
     fontSize: 15,
@@ -57,7 +78,15 @@ const styles = StyleSheet.create({
     padding: 15,
     margin: 10,
     color: '#548247',
-    fontWeight:'bold'
+    fontWeight: 'bold',
+
+    // backgroundColor: 'transparent',
+  },
+  listDataTemp: {
+    fontFamily: 'Gill Sans',
+    padding: 15,
+    margin: 10,
+
     // backgroundColor: 'transparent',
   }
 
@@ -66,7 +95,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   const { loginDetails, isLogged } = state.register;
   return {
-      loginDetails, isLogged
+    loginDetails, isLogged
   };
 }
 export default connect(mapStateToProps)(DisplayAnImage);

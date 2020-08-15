@@ -26,7 +26,8 @@ import Search from "./search"
 class App extends Component {
 
     state = {
-        modalVisible: false
+        modalVisible: false,
+        orderMessage : false
     };
 
     setModalVisible = (visible) => {
@@ -42,12 +43,25 @@ class App extends Component {
                 "SupplierId": 1
             }
         });
+    }
 
+    
+    // static getDerivedStateFromProps(props, state) {
+    //     if(props.sucessMessageOrder){
+    //         return {
+    //             orderMessage : true
+    //         }
+    //     }
+    // }
 
+    componentDidUpdate(){
+        if(this.props.route.params?.sucessMessageOrder && !this.state.orderMessage){
+            Alert.alert(this.props.route.params?.sucessMessageOrder)
+            this.setState({orderMessage:true})
+        }
     }
 
     render() {
-        // this.props.clearListData()
         return (
             <View style={styles.centeredView}>
                 <Header

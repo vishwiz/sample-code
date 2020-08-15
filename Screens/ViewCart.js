@@ -19,6 +19,7 @@ import ItemCardComponent from '../src/component/ItemCardComponent';
 //for redux
 import { connect } from 'react-redux';
 import { loginUser } from '../src/actions';
+import { CommonActions } from '@react-navigation/native';
 
 import { removeAll, removeIndexElement, incrementDecrementValue, initializeViewCartData } from '../src/actions/deliveryAction';
 
@@ -39,8 +40,19 @@ class ViewCart extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
     onBackPress = () => {
-        this.props.navigation.goBack();
-        return true;
+        this.props.route.params?.cart === 'addToCart' ? this.props.navigation.dispatch(
+            CommonActions.reset({
+                index: 1,
+                routes: [
+                    { name: 'AddToCart' },
+                    // {
+                    //   name: 'ViewCart',
+                    // //   params: { user: 'jane' },
+                    // },
+                ],
+            })
+        ) : this.props.navigation.goBack();
+        // return true;
     }
 
 
@@ -131,7 +143,16 @@ class ViewCart extends Component {
                         <TouchableHighlight
                             activeOpacity={0}
                             style={{ padding: 10 }}
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() => this.props.route.params?.cart === 'addToCart' ? this.props.navigation.dispatch(
+                                CommonActions.reset({
+                                    index: 0,
+                                    routes: [
+                                        { name: 'Home' },
+                                        { name: 'AddToCart' }
+                                    ],
+                                })
+                            ) : this.props.navigation.goBack()
+                            }>
                             <IconI name="chevron-back" size={25} color="#548247" />
                         </TouchableHighlight>
                     }

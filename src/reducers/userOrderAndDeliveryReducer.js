@@ -24,6 +24,16 @@ const initialState = {
 
     selectedAddress: {},
 
+    placeOrderDetails: [],
+    placeOrder_success: false,
+    placeOrder_failure: false,
+
+    isLoadingCancelOrder:false,
+    cancelAddressDetails: {},
+    cancelAddress_success: false,
+    cancelAddress_failure: false,
+    errorMessageCancelOrder: ""
+
 };
 
 export default (state = initialState, action) => {
@@ -186,6 +196,60 @@ export default (state = initialState, action) => {
                 ...state,
                 selectedAddress: action.payload.selectedAddress
             }
+
+            case types.PLACE_ORDER:
+                return {
+                    ...state,
+                    isLoading: true,
+                    placeOrder_success: false,
+                    placeOrder_failure: false,
+                    errorMessage: ""
+                }
+            case types.PLACE_ORDER_SUCCESS:
+                return {
+                    ...state,
+                    placeOrderDetails: action.payload.ResponseData,
+                    isLoading: false,
+                    placeOrder_success: true,
+                    OrderSummaryItemArray: [],
+                    totalItem: 0,
+                    totalPaymentedValue: 0,
+                    totalSaving: 0,
+    
+                }
+            case types.PLACE_ORDER_FAILURE:
+                return {
+                    ...state,
+                    isLoading: false,
+                    placeOrder_failure: true,
+                    errorMessage: action.payload.ErrorMessage
+                }
+
+                case types.CANCEL_ORDER:
+                    return {
+                        ...state,
+                        isLoadingCancelOrder: true,
+                        cancelAddress_success: false,
+                        cancelAddress_failure: false,
+                        errorMessageCancelOrder: ""
+                    }
+                case types.CANCEL_ORDER_SUCCESS:
+                    return {
+                        ...state,
+                        cancelAddressDetails: action.payload.ResponseData,
+                        cancelAddress_success: true,
+                        cancelAddress_failure: false,
+                        isLoadingCancelOrder: false,
+                        errorMessageCancelOrder:""
+                    }
+                case types.CANCEL_ORDER_FAILURE:
+                    return {
+                        ...state,
+                        isLoadingCancelOrder: false,
+                        cancelAddress_success: false,
+                        cancelAddress_failure: true,
+                        errorMessageCancelOrder: action.payload.ErrorMessage
+                    }
 
         default:
             return state;

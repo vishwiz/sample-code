@@ -213,15 +213,12 @@ class AddToCart extends Component {
                         elementRedux.totalSelllingPriceWithQuantity = obj.totalSelllingPriceWithQuantity
                         elementRedux.totalSavingAmmount = obj.totalSavingAmmount
                     }
-                    console.log("checking ", elementRedux.quantity, elementRedux.totalSelllingPriceWithQuantity)
                     totalProducts += elementRedux.quantity
                     totalAmount += elementRedux.totalSelllingPriceWithQuantity
 
                 })
-                console.log("indexRemoval ", indexRemoval, indexRemoval !== "" ? createViewCart.splice(indexRemoval, 1) : null);
                 indexRemoval !== "" ? createViewCart.splice(indexRemoval, 1) : null
             } else {
-                console.log("checking 2")
                 if (obj.quantity > 0) {
                     createViewCart.push(obj)
                     if (createViewCart.length > 0) {
@@ -362,7 +359,7 @@ class AddToCart extends Component {
 
                                     onPress={() => {
                                         // obj.isStock ?
-                                         this.updateDropdownModal(index, item.isVisible) 
+                                        this.updateDropdownModal(index, item.isVisible)
                                         //  : null
                                     }}
                                 >
@@ -408,7 +405,6 @@ class AddToCart extends Component {
     }
 
     render() {
-        console.log("OrderSummaryItemArray ", this.props.OrderSummaryItemArray);
         return (
             <View style={{ height: "100%", flex: 1 }}>
                 <Header
@@ -436,7 +432,7 @@ class AddToCart extends Component {
                             {this.props.totalItem ? <TouchableOpacity
                                 onPress={() => {
                                     // this.props.incrementDecrementValue({ data: this.props.addToCartListData  })
-                                    this.props.navigation.navigate("ViewCart")
+                                    this.props.navigation.navigate("ViewCart", { cart: "addToCart" })
                                     this.props.clearListData()
 
                                 }}
@@ -460,21 +456,6 @@ class AddToCart extends Component {
                                 null
                             }
 
-
-                            <TouchableOpacity
-                                onPress={() => {
-
-                                    // this.props.isLogged ?
-                                    //     Alert.alert("User Logged ..!!!")
-                                    //     :
-                                    //     this.setModalVisible(true)
-
-                                }}
-                                style={{ padding: 10 }}
-                            >
-                                {/* <IconI name="ellipsis-vertical" color="#548247" size={20} /> */}
-                            </TouchableOpacity>
-
                         </View>
                     }
                     containerStyle={{
@@ -483,18 +464,25 @@ class AddToCart extends Component {
                 />
 
                 {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
-                    <FlatList
-                        data={this.state.addToCartListData}
-                        renderItem={((item) => this.renderProductListData(item.item, item.index))}
-                        keyExtractor={(item, i) => i.toString()}
-                        extraData={this.state}
-                        showsVerticalScrollIndicator={false}
-                        removeClippedSubviews={false}
-                        horizontal={false}
-                        contentContainerStyle={{
-                            marginVertical: 5,
-                        }}
-                    />
+
+                    this.props.addToCartListDetails.length >0 ?
+                        <FlatList
+                            data={this.state.addToCartListData}
+                            renderItem={((item) => this.renderProductListData(item.item, item.index))}
+                            keyExtractor={(item, i) => i.toString()}
+                            extraData={this.state}
+                            showsVerticalScrollIndicator={false}
+                            removeClippedSubviews={false}
+                            horizontal={false}
+                            contentContainerStyle={{
+                                marginVertical: 5,
+                            }}
+                        /> :
+                        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                            <IconEv name="cart" color="#548247" size={28} />
+                            <Text>Product is Unavilable Right now!</Text>
+                            {/* <Text>Start Shopping Now</Text> */}
+                        </View>
                 }
                 {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
             </View>

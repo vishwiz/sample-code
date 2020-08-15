@@ -21,9 +21,9 @@ const initialState = {
     carouselData_success: false,
     carouselData_failure: false,
 
-    placeOrderDetails: [],
-    placeOrder_success: false,
-    placeOrder_failure: false,
+    // placeOrderDetails: [],
+    // placeOrder_success: false,
+    // placeOrder_failure: false,
 
     productSettings: baseProductSettings,
     product_settings_success: false,
@@ -85,30 +85,6 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 addToCartList_failure: true,
-                errorMessage: action.payload.ErrorMessage
-            }
-
-        case types.PLACE_ORDER:
-            return {
-                ...state,
-                isLoading: true,
-                placeOrder_success: false,
-                placeOrder_failure: false,
-                errorMessage: ""
-            }
-        case types.PLACE_ORDER_SUCCESS:
-            return {
-                ...state,
-                placeOrderDetails: action.payload.ResponseData,
-                isLoading: false,
-                placeOrder_success: true,
-
-            }
-        case types.PLACE_ORDER_FAILURE:
-            return {
-                ...state,
-                isLoading: false,
-                placeOrder_failure: true,
                 errorMessage: action.payload.ErrorMessage
             }
 

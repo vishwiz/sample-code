@@ -102,7 +102,6 @@ export function* handleAddAdress({
             RootNavigation.navigate("AddressBook");
 
         } else {
-            console.log("fail 1 ",response.data)
             yield put({
                 type: 'ADD_ADDRESS_FAILURE',
                 payload: {
@@ -114,7 +113,6 @@ export function* handleAddAdress({
         }
 
     } catch (error) {
-        console.log("fail 2 ",error)
         yield put({
             type: 'ADD_ADDRESS_FAILURE',
             payload: {
@@ -168,12 +166,97 @@ export function* handleGetAdress({
 
 }
 
+export function* handlePlaceOrder({
+    payload
+}) {
+    try {
+
+        const response = yield call(APIRequestAxios.postReq, payload);
+        if (response.status === 200) {
+
+            yield put({
+                type: 'PLACE_ORDER_SUCCESS',
+                payload: {
+                    ResponseData: response.data,
+                },
+            });
+            RootNavigation.navigate('Home',{sucessMessageOrder : "Order palced SucessFully"})
+            // Actions.incrementDecrementValue({
+            //     data: [],
+            //     totalItem: 0,
+            //     totalPaymentedValue: 0,
+            //     totalSaving: 0,
+            // })
+        } else {
+
+            yield put({
+                type: 'PLACE_ORDER_FAILURE',
+                payload: {
+                    ResponseData: {},
+                    Error: true,
+                    ErrorMessage: 'Something went wrong..!!!',
+                },
+            });
+        }
+
+    } catch (error) {
+        yield put({
+            type: 'PLACE_ORDER_FAILURE',
+            payload: {
+                ResponseData: [],
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
+
+export function* handleCancelOrder({
+    payload
+}) {
+    try {
+
+        const response = yield call(APIRequestAxios.postReq, payload);
+        if (response.status === 200) {
+
+            yield put({
+                type: 'CANCEL_ORDER_SUCCESS',
+                payload: {
+                    ResponseData: response.data,
+                },
+            });
+        } else {
+
+            yield put({
+                type: 'CANCEL_ORDER_FAILURE',
+                payload: {
+                ResponseData: {},
+                    Error: true,
+                    ErrorMessage: 'Something went wrong..!!!',
+                },
+            });
+        }
+
+    } catch (error) {
+        yield put({
+            type: 'CANCEL_ORDER_FAILURE',
+            payload: {
+                ResponseData: {},
+                Error: true,
+                ErrorMessage: 'Something went wrong..!!!',
+            },
+        });
+    }
+}
+
 
 export const deliverySaga = [
     takeLatest('PICK_UP_POINT_LIST', handlePickUpPointList),
     takeLatest('PIN_CODE_CALL', handlePinCodeCall),
     takeLatest('ADD_ADDRESS', handleAddAdress),
-    takeLatest('GET_ADDRESS', handleGetAdress)
+    takeLatest('GET_ADDRESS', handleGetAdress),
+    takeLatest('PLACE_ORDER', handlePlaceOrder),
+    takeLatest('CANCEL_ORDER', handleCancelOrder)
 
 
 ]

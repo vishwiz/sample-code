@@ -5,7 +5,7 @@ import {
     TouchableHighlight,
     KeyboardAvoidingView,
     Platform,
-    Image,
+    Alert,
     ScrollView,
     TouchableOpacity,
     Text,
@@ -15,16 +15,30 @@ import {
 import { Header, Badge, Divider } from 'react-native-elements';
 import IconI from 'react-native-vector-icons/Ionicons';
 import { myOrdersCall } from '../src/actions/productListAction';
+import { cancelOrderCall } from '../src/actions/deliveryAction'
 import { connect } from 'react-redux';
 import ToastMessage from "../src/component/ToastMessage";
+import moment from "moment";
+import IconAF from 'react-native-vector-icons/FontAwesome5';
+import Spinner from 'react-native-loading-spinner-overlay';
 
+let myEnum = {
+    0: "Ordered",
+    1: "Accepted",
+    2: "Cancel",
+    3: "Dispatch",
+    4: "Delivered",
+    5: "CancelBySupplier"
+}
+let CallHandling = false
 class MyOrders extends Component {
     constructor(props) {
         super(props)
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
-            myOrders: []
+            myOrders: [],
+            refreshCall: false
         }
     }
 
@@ -41,23 +55,43 @@ class MyOrders extends Component {
         this.apiFunctionCall()
     }
 
-    static getDerivedStateFromProps(props, state) {
+    componentWillReceiveProps(props, state) {
         if (!props.isLoading && props.myOrders_success) {
-            return {
+            this.setState({
                 isLoading: false,
                 myOrders: props.myOrdersDetails
-            };
+            })
+        }
+        if (!props.isLoadingCancelOrder && props.cancelAddress_success && CallHandling) {
+            this.setState({
+                isLoading: false,
+                refreshCall: true,
+            }, () => {
+                Alert.alert(
+                    "Cancel Order",
+                    this.props.cancelAddressDetails?.errorMessage,
+                    [
+
+                        {
+                            text: "OK", onPress: () => {
+                                CallHandling = false
+                                this.setState({ refreshCall: false })
+                                this.apiFunctionCall()
+                            }
+                        }
+                    ],
+                )
+            })
         }
 
         if (props.errorMessage !== "") {
-            return {
+            this.setState({
                 isLoading: false,
-            }
+            })
         }
 
         return null;
     }
-
 
     apiFunctionCall = () => {
         let params = {
@@ -73,6 +107,27 @@ class MyOrders extends Component {
         })
     }
 
+    cancelOrderCall = (id) => {
+        // /api​/ChangeOrderStatus
+        CallHandling = true
+        this.setState(function (state, props) { return { isLoading: true } });
+        let params = {
+
+            "UserId": this.props.loginDetails.userId,
+            "OrderId": id,
+            "OrderStatus": 2,
+            "TalukaId": 1,
+            "CultureId": 1,
+            "SupplierId": 1
+
+        }
+
+        this.props.cancelOrderCall({
+            endurl: '/ChangeOrderStatus mfbg;',
+            requestData: params,
+        })
+    }
+
     renderProductListData = (item) => {
         return (
             <View style={styles.container}>
@@ -82,7 +137,8 @@ class MyOrders extends Component {
                         <Text style={{ color: "black", fontWeight: "700", fontSize: 15 }}>{item.orderId}</Text>
                     </View>
                     <View style={{ backgroundColor: "#d1801d", justifyContent: "center", alignItems: "center", borderRadius: 5, paddingLeft: 5, paddingRight: 5, marginRight: 10 }}>
-                        <Text style={{ color: "#fff", fontSize: 10, fontWeight: "700" }}>CASH ON DELIVERY</Text>
+                        <Text style={{ color: "#fff", fontSize: 14, fontWeight: "700" }}>
+                            {myEnum[`${item.orderStatus}`]}</Text>
                     </View>
                 </View>
                 <View style={styles.innerContainer}>
@@ -96,10 +152,14 @@ class MyOrders extends Component {
                     </View>
                 </View>
                 <View style={styles.innerContainer}>
-                    <View>
-                        <Text style={{ color: "black", fontSize: 15 }}>CANCEL ORDER</Text>
-                        {/* <Text style={{ color: "grey", fontSize: 15 }}>{item.deliveryTypeId == 1 ? "Store collect" : "Home Delivery"}</Text> */}
-                    </View>
+
+                    <Text style={{ color: "grey", fontSize: 15 }}>{moment(item.orderDate).format('lll')}</Text>
+                    <TouchableOpacity
+                        style={{ backgroundColor: "#548247", borderRadius: 5, padding: 5 }}
+                        onPress={() => this.cancelOrderCall(item.orderId)}
+                    >
+                        <Text style={{ color: "#fff", fontSize: 13, }}>CANCEL ORDER</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         )
@@ -130,21 +190,33 @@ class MyOrders extends Component {
                     borderBottomColor: "grey"
                 }}
             />
-            <FlatList
-                data={this.state.myOrders}
-                renderItem={((item) => this.renderProductListData(item.item))}
-                keyExtractor={(item, i) => i.toString()}
-                extraData={this.state}
-                showsVerticalScrollIndicator={false}
-                removeClippedSubviews={false}
-                horizontal={false}
-                onRefresh={this.apiFunctionCall}
-                refreshing={this.state.isLoading}
-                contentContainerStyle={{
-                    marginVertical: 5,
-                }}
-            />
+            {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
+                this.props.myOrdersDetails.length > 0 ? <FlatList
+                    data={this.state.myOrders}
+                    renderItem={((item) => this.renderProductListData(item.item))}
+                    keyExtractor={(item, i) => i.toString()}
+                    extraData={this.state}
+                    showsVerticalScrollIndicator={false}
+                    removeClippedSubviews={false}
+                    horizontal={false}
+                    onRefresh={this.apiFunctionCall}
+                    refreshing={this.state.isLoading}
+                    contentContainerStyle={{
+                        marginVertical: 5,
+                    }}
+                /> : <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+                        {/* <IconEv name="cart" color="#548247" size={28} /> */}
+                        <IconAF name="box-open"
+                            color="green"
+                            size={28}
+                        />
+                        <Text>Your Have No Order Now</Text>
+                        <Text>Start Shopping Now</Text>
+                    </View>
+
+            }
             {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
+            {this.props.errorMessageCancelOrder ? <ToastMessage message={this.props.errorMessageCancelOrder} /> : null}
         </View>
     }
 }
@@ -168,11 +240,12 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
     const { loginDetails } = state.register;
     const { isLoading, errorMessage, myOrdersDetails, myOrders_success } = state.productList
+    const { cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails, errorMessageCancelOrder } = state.userOrderAndDeliveryReducer
     return {
-        isLoading, errorMessage, myOrdersDetails, myOrders_success, loginDetails
+        errorMessageCancelOrder, isLoading, errorMessage, myOrdersDetails, myOrders_success, loginDetails, cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails
     };
 }
 
-export default connect(mapStateToProps, { myOrdersCall })(MyOrders);
+export default connect(mapStateToProps, { myOrdersCall, cancelOrderCall })(MyOrders);
 // export default MyOrders
 

@@ -31,7 +31,7 @@ export default () => {
         compose(
             applyMiddleware(
                 sagaMiddleware,
-                logger
+                // logger
             )
         ));
     sagaMiddleware.run(Saga);

@@ -28,7 +28,7 @@ const TextInputComponent = (props) => {
                     </TextTicker>
                     :
                     <TextInput
-                        style={{ height: 40, width: "100%", fontSize: 16 }}
+                        style={[{ height: 40, width: "100%", fontSize: 16 }, props.personalStyle]}
                         editable={!props.isDisable}
                         onChangeText={text => {
                             if (props.phoneNumber) {
@@ -42,6 +42,7 @@ const TextInputComponent = (props) => {
                         value={props.value}
                         keyboardType={props.keyboard_type}
                         placeholder={props.placeholder}
+                        // placeholderStyle={{ }}
                     />
 
                 }
