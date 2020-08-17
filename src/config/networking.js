@@ -13,8 +13,10 @@ postReq = async (params) => {
             data: params.requestData,
         });
         const data = await response.data;
+        // console.log("data post ", data);
         return { data: data, status: response.status };
     } catch (error) {
+        // console.log("error post ", error);
         return {
             data: "error",
             status: 404
@@ -34,9 +36,10 @@ getReq = async (params) => {
         });
         const data = await response.data;
 
-        
+        // console.log("data get ", data);
         return { data: data, status: response.status };
     } catch (error) {
+        // console.log("error get ", error);
         return {
             data: "error",
             status: 404

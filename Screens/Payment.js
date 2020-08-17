@@ -23,6 +23,7 @@ class PaymentScreen extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
             isLoading: false,
+            isError: false
         }
     }
 
@@ -41,11 +42,11 @@ class PaymentScreen extends Component {
             };
         }
 
-        if (props.errorMessage !== "") {
-            return {
-                isLoading: false,
-            }
-        }
+        // if (props.errorMessage !== "") {
+        //     return {
+        //         isLoading: false,
+        //     }
+        // }
 
         return null;
     }
@@ -98,7 +99,7 @@ class PaymentScreen extends Component {
             "UserAddressId": this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? this.props.SavePickUpPointList?.pickUpPointId : this.props.selectedAddress?.addressId,
             "CultureId": 1
         }
-        this.setState(function (state, props) { return { isLoading: true } });
+        this.setState(function (state, props) { return { isLoading: true, isError: true } });
         this.props.placeOrderCall({
             endurl: '/PlaceOrder',
             requestData: params,
@@ -143,7 +144,7 @@ class PaymentScreen extends Component {
             >
                 <Text style={{ color: "white", fontSize: 14 }}>PLACE ORDER</Text>
             </TouchableOpacity>
-            {this.props.placeOrder_failure ? <ToastMessage message={this.props.errorMessage} /> : null}
+            {(this.props.isError && this.props.placeOrder_failure) ? <ToastMessage message={this.props.errorMessage} /> : null}
         </View>
     }
 }

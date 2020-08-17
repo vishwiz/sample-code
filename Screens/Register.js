@@ -40,6 +40,7 @@ class RegisterScreen extends Component {
       flagPin: false,
       checked: false,
       isLoading: false,
+      isError: false
     };
   }
 
@@ -103,7 +104,7 @@ class RegisterScreen extends Component {
               ToastAndroid.BOTTOM
             );
           } else {
-            this.setState(function (state, props) { return { isLoading: true } });
+            this.setState(function (state, props) { return { isLoading: true, isError: true } });
             this.props.registerUser({
               endurl: '/RegisterUser',
               requestData: register_user,
@@ -162,7 +163,7 @@ class RegisterScreen extends Component {
         <Spinner visible={this.state.isLoading} color="green" />
 
         {
-          (this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
+          (this.state.isError && this.props.register_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
         }
 
         <KeyboardAvoidingView
@@ -170,7 +171,7 @@ class RegisterScreen extends Component {
           behavior={'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 64 : 0}>
           <ScrollView showsVerticalScrollIndicator={false}
-             keyboardShouldPersistTaps={'always'}
+            keyboardShouldPersistTaps={'always'}
           >
             <Image
               style={styles.imageStyle}

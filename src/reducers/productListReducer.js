@@ -94,7 +94,8 @@ export default (state = initialState, action) => {
                 isLoading: true,
                 myOrders_success: false,
                 myOrders_failure: false,
-                errorMessage: ""
+                errorMessage: "",
+                myOrdersDetails:[]
             }
         case types.MY_ORDERS_SUCCESS:
             return {

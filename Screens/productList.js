@@ -23,7 +23,8 @@ class ProductList extends Component {
             screenheight: Dimensions.get('window').height,
             productListData: [],
             isLoading: false,
-            promotionData: []
+            promotionData: [],
+            isError :false
 
         }
     }
@@ -38,7 +39,7 @@ class ProductList extends Component {
             TalukaId: 1,
             SupplierId: 1
         }
-        this.setState(function (state, props) { return { isLoading: true, productListData: [],  promotionData: []} });
+        this.setState(function (state, props) { return { isLoading: true, productListData: [],  promotionData: [] , isError : true} });
         this.props.productListCall({
             endurl: '/BrandDetailList',
             requestData: params,
@@ -146,7 +147,7 @@ class ProductList extends Component {
                         }}
                     />
                 }
-                {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
+                {(this.state.isError && this.props.errorMessage) ? <ToastMessage message={this.props.errorMessage} /> : null}
             </View>
         )
     }

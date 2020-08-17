@@ -16,7 +16,8 @@ class PickUpPointList extends Component {
         BackHandler.addEventListener('hardwareBackPress', this.onBackPress);
         this.state = {
 
-            isLoading: false
+            isLoading: false,
+            isError:false
         };
     }
 
@@ -32,7 +33,7 @@ class PickUpPointList extends Component {
 
     componentDidMount() {
 
-        this.setState({ isLoading: true })
+        this.setState({ isLoading: true, isError:true })
         this.props.pickUpPointList({
             endurl: '/GetPickUpPointList',
             requestData: {
@@ -108,7 +109,7 @@ class PickUpPointList extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    this.props.pickUpPointList_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.state.isError && this.props.pickUpPointList_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
 
                 <FlatList

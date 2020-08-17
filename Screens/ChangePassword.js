@@ -22,7 +22,7 @@ class ChangePassword extends Component {
             pinPassword: "",
             flagConfirmPinPassword: false,
             flagPinPassword: false,
-
+            isError: false,
             isLoading: false
         };
     }
@@ -73,7 +73,7 @@ class ChangePassword extends Component {
                     let pinPasswordRequestData = this.props.userDetails;
                     pinPasswordRequestData.loginPinCode = this.state.pinPassword
 
-                    this.setState({ isLoading: true });
+                    this.setState({ isLoading: true, isError : true });
                     this.props.changePassword({
                         endurl: '/ChangePassword',
                         requestData: this.props.userDetails,
@@ -127,7 +127,7 @@ class ChangePassword extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    this.props.otp_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.state.isError && this.props.otp_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
 
 

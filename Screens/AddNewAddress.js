@@ -44,6 +44,7 @@ class RegisterScreen extends Component {
             flagMobile: false,
             checked: false,
             isLoading: false,
+            isError: false
         };
     }
 
@@ -102,12 +103,12 @@ class RegisterScreen extends Component {
                         addressType = "Home Address";
                     }
 
-                    this.setState({ isLoading: true })
+                    this.setState({ isLoading: true, isError: true })
 
                     this.props.addAddress({
                         endurl: '/SaveUserAddress',
                         requestData: {
-                            "addressId": 7,
+                            "addressId": 0,
                             "addressType": addressType,
                             "address": `${this.state.address} ${this.state.pinCode} ${this.props.pinCodeDetails?.office_name} ${this.props.pinCodeDetails?.district} ${this.props.pinCodeDetails?.state_name} `,
                             "landMark": this.state.landmark,
@@ -169,7 +170,7 @@ class RegisterScreen extends Component {
                 <Spinner visible={this.state.isLoading} color="green" />
 
                 {
-                    (this.props.addAddress_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.state.isError && this.props.addAddress_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
                 <View >
 

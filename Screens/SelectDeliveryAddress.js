@@ -171,7 +171,7 @@ class SelectDeliveryType extends Component {
                         onPress={() => this.props.navigation.navigate("AddressBook")}
                         activeOpacity={1}
                     >
-                        <TextInputComponent title={"Select Pick Up Location"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber}
+                        <TextInputComponent title={"Select Home Address"} keyboard_type={"default"} onChangeText={this.onChangeTextphoneNumber}
                             value={!this.props.selectedAddress?.addressId ? "Tap to add an address" : `${this.props.selectedAddress?.address} `}
                             phoneNumber={false} isDisable={true} marquee={true}
                         />

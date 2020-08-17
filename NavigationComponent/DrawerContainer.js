@@ -10,7 +10,7 @@ class DisplayAnImage extends Component {
       <View style={styles.container}>
         <LinearGradient colors={['#fff', 'grey']} style={[styles.linearGradient]}>
           <Text style={styles.buttonText}>
-            {`${this.props.isLogged ? ` Hii, ${this.props.loginDetails.firstName.toUpperCase()} ${this.props.loginDetails.lastName.toUpperCase()}` : `Please sign in/sign up`}`}
+            {`${this.props.isLogged ? ` Hii, ${this.props.loginDetails?.firstName?.toUpperCase()} ${this.props.loginDetails?.lastName?.toUpperCase()}` : `Please sign in/sign up`}`}
           </Text>
           <View style={styles.listDataTemp}>
             <Text style={{

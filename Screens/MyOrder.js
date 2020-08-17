@@ -38,7 +38,9 @@ class MyOrders extends Component {
         this.state = {
             isLoading: false,
             myOrders: [],
-            refreshCall: false
+            refreshCall: false,
+            isError: false,
+            isCancelError: false
         }
     }
 
@@ -55,43 +57,87 @@ class MyOrders extends Component {
         this.apiFunctionCall()
     }
 
-    componentWillReceiveProps(props, state) {
-        if (!props.isLoading && props.myOrders_success) {
-            this.setState({
-                isLoading: false,
-                myOrders: props.myOrdersDetails
-            })
-        }
+    static getDerivedStateFromProps(props, state) {
         if (!props.isLoadingCancelOrder && props.cancelAddress_success && CallHandling) {
-            this.setState({
+            CallHandling = false
+            return {
                 isLoading: false,
                 refreshCall: true,
-            }, () => {
-                Alert.alert(
-                    "Cancel Order",
-                    this.props.cancelAddressDetails?.errorMessage,
-                    [
-
-                        {
-                            text: "OK", onPress: () => {
-                                CallHandling = false
-                                this.setState({ refreshCall: false })
-                                this.apiFunctionCall()
-                            }
-                        }
-                    ],
-                )
-            })
+            }
         }
 
-        if (props.errorMessage !== "") {
-            this.setState({
+
+        else if (!props.isLoading) {
+            return {
                 isLoading: false,
-            })
+                myOrders: props.myOrdersDetails
+            };
+        }
+
+        if (props.errorMessage !== "" || props.errorMessageCancelOrder) {
+            return {
+                isLoading: false
+            }
         }
 
         return null;
     }
+
+
+    alretCall = () => {
+        Alert.alert(
+            "Cancel Order",
+            this.props.cancelAddressDetails?.errorMessage,
+            [
+
+                {
+                    text: "OK", onPress: () => {
+                        CallHandling = false
+                        this.setState({ refreshCall: false })
+                        this.apiFunctionCall()
+                    }
+                }
+            ],
+        )
+
+    }
+    // componentWillReceiveProps(props, state) {
+    //     if (!props.isLoading && props.myOrders_success) {
+    //         this.setState({
+    //             isLoading: false,
+    //             myOrders: props.myOrdersDetails
+    //         })
+    //     }
+    //     if (!props.isLoadingCancelOrder && props.cancelAddress_success && CallHandling) {
+    //         this.setState({
+    //             isLoading: false,
+    //             refreshCall: true,
+    //         }, () => {
+    //             Alert.alert(
+    //                 "Cancel Order",
+    //                 this.props.cancelAddressDetails?.errorMessage,
+    //                 [
+
+    //                     {
+    //                         text: "OK", onPress: () => {
+    //                             CallHandling = false
+    //                             this.setState({ refreshCall: false })
+    //                             this.apiFunctionCall()
+    //                         }
+    //                     }
+    //                 ],
+    //             )
+    //         })
+    //     }
+
+    // if (props.errorMessage !== "") {
+    //     this.setState({
+    //         isLoading: false,
+    //     })
+    // }
+
+    //     return null;
+    // }
 
     apiFunctionCall = () => {
         let params = {
@@ -100,7 +146,7 @@ class MyOrders extends Component {
             "CultureId": 1,
             "SupplierId": 1
         }
-        this.setState(function (state, props) { return { isLoading: true, myOrders: [] } });
+        this.setState(function (state, props) { return { isLoading: true, myOrders: [], isError: true } });
         this.props.myOrdersCall({
             endurl: '/GetOrders',
             requestData: params,
@@ -110,7 +156,7 @@ class MyOrders extends Component {
     cancelOrderCall = (id) => {
         // /api​/ChangeOrderStatus
         CallHandling = true
-        this.setState(function (state, props) { return { isLoading: true } });
+        this.setState(function (state, props) { return { isLoading: true, isCancelError: true } });
         let params = {
 
             "UserId": this.props.loginDetails.userId,
@@ -123,7 +169,7 @@ class MyOrders extends Component {
         }
 
         this.props.cancelOrderCall({
-            endurl: '/ChangeOrderStatus mfbg;',
+            endurl: '/ChangeOrderStatus',
             requestData: params,
         })
     }
@@ -155,8 +201,8 @@ class MyOrders extends Component {
 
                     <Text style={{ color: "grey", fontSize: 15 }}>{moment(item.orderDate).format('lll')}</Text>
                     <TouchableOpacity
-                        style={{ backgroundColor: "#548247", borderRadius: 5, padding: 5 }}
-                        onPress={() => this.cancelOrderCall(item.orderId)}
+                        style={{ backgroundColor: item.orderStatus ==2 ?"grey" :"#548247", borderRadius: 5, padding: 5 }}
+                        onPress={() => item.orderStatus ==2 ? null : this.cancelOrderCall(item.orderId)}
                     >
                         <Text style={{ color: "#fff", fontSize: 13, }}>CANCEL ORDER</Text>
                     </TouchableOpacity>
@@ -215,8 +261,10 @@ class MyOrders extends Component {
                     </View>
 
             }
-            {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
-            {this.props.errorMessageCancelOrder ? <ToastMessage message={this.props.errorMessageCancelOrder} /> : null}
+            {(this.state.isError && this.props.myOrders_failure) ? <ToastMessage message={this.props.errorMessage} /> : null}
+            {this.state.isCancelError && this.props.cancelAddress_failure ? <ToastMessage message={this.props.errorMessageCancelOrder} /> : null}
+
+            {this.state.refreshCall ? this.alretCall() : null}
         </View>
     }
 }
@@ -239,10 +287,10 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     const { loginDetails } = state.register;
-    const { isLoading, errorMessage, myOrdersDetails, myOrders_success } = state.productList
-    const { cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails, errorMessageCancelOrder } = state.userOrderAndDeliveryReducer
+    const { isLoading, errorMessage, myOrdersDetails, myOrders_success, myOrders_failure } = state.productList
+    const { cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails, errorMessageCancelOrder, cancelAddress_failure } = state.userOrderAndDeliveryReducer
     return {
-        errorMessageCancelOrder, isLoading, errorMessage, myOrdersDetails, myOrders_success, loginDetails, cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails
+        errorMessageCancelOrder, isLoading, errorMessage, myOrdersDetails, myOrders_success, loginDetails, cancelAddress_success, isLoadingCancelOrder, cancelAddressDetails, myOrders_failure, cancelAddress_failure
     };
 }
 

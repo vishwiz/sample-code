@@ -34,6 +34,7 @@ class AddToCart extends Component {
             maximumNumberAlert: false,
             totalItem: 0,
             totalPaymentedValue: 0,
+            isError: false
         }
         this.addtoCartListCall = false
     }
@@ -484,7 +485,7 @@ class AddToCart extends Component {
                             {/* <Text>Start Shopping Now</Text> */}
                         </View>
                 }
-                {this.props.errorMessage ? <ToastMessage message={this.props.errorMessage} /> : null}
+                {this.state.isError && this.props.addToCartList_failure ? <ToastMessage message={this.props.errorMessage} /> : null}
             </View>
         )
     }
@@ -628,10 +629,10 @@ const styles = StyleSheet.create({
 })
 
 function mapStateToProps(state) {
-    const { addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData } = state.productList
+    const { addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData, addToCartList_failure } = state.productList
     const { totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray } = state.userOrderAndDeliveryReducer;
     return {
-        addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray
+        addToCartListDetails, isLoading, errorMessage, addToCartList_success, searchData, totalItem, totalPaymentedValue, totalSaving, OrderSummaryItemArray, addToCartList_failure
     };
 }
 

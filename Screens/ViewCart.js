@@ -44,15 +44,13 @@ class ViewCart extends Component {
             CommonActions.reset({
                 index: 1,
                 routes: [
-                    { name: 'AddToCart' },
-                    // {
-                    //   name: 'ViewCart',
-                    // //   params: { user: 'jane' },
-                    // },
+                    { name: 'Home' },
+                    { name: 'AddToCart' }
+                    
                 ],
             })
         ) : this.props.navigation.goBack();
-        // return true;
+        return true;
     }
 
 
@@ -243,7 +241,15 @@ class ViewCart extends Component {
                                     </TouchableOpacity>
                                     <TouchableOpacity
                                         style={{ borderColor: "#548247", borderWidth: 1, borderRadius: 5, padding: 8 }}
-                                        onPress={() => this.props.navigation.goBack()}
+                                        onPress={() => this.props.route.params?.cart === 'addToCart' ? this.props.navigation.dispatch(
+                                            CommonActions.reset({
+                                                index: 0,
+                                                routes: [
+                                                    { name: 'Home' },
+                                                    { name: 'AddToCart' }
+                                                ],
+                                            })
+                                        ) : this.props.navigation.goBack()}
                                     >
                                         <Text style={{ fontSize: 12, color: "#548247" }}>CONTINUE SHOPPING</Text>
                                     </TouchableOpacity>

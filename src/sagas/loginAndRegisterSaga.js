@@ -305,7 +305,7 @@ export function* changePasswordASYNC({
 
 
         if (response.status === 200) {
-            if (response.data.errorMessage === "OB_Success_Change_Password") {
+            if (response.data.requestStatus === 1) {
 
                 yield put({
                     type: 'CHANGE_PASSWORD_SUCCESS',
@@ -325,7 +325,6 @@ export function* changePasswordASYNC({
                 });
             }
         } else {
-
             yield put({
                 type: 'CHANGE_PASSWORD_FAILURE',
                 payload: {

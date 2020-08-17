@@ -34,7 +34,8 @@ class LoginScreen extends Component {
             flagPhone: false,
             pinPassword: '',
             flagPin: false,
-            isLoading: false
+            isLoading: false,
+            isError: false
         };
     }
 
@@ -60,6 +61,7 @@ class LoginScreen extends Component {
         if (!props.isLoading) {
             return {
                 isLoading: false,
+                // isError: props.login_failure
             };
         }
         return null;
@@ -77,7 +79,7 @@ class LoginScreen extends Component {
         }, () => {
             if (m & p) {
 
-                this.setState({ isLoading: true })
+                this.setState({ isLoading: true, isError : true })
                 this.props.loginUser({
                     endurl: '/SignIn',
                     requestData: {
@@ -133,7 +135,7 @@ class LoginScreen extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    this.props.login_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.state.isError && this.props.login_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
                 {
                     this.props.route.params.register ?

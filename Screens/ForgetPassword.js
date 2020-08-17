@@ -24,7 +24,8 @@ class ForgetPassword extends Component {
         this.state = {
             phoneNumber: this.props.route.params.phoneNumber,
             flagPhone: false,
-            isLoading: false
+            isLoading: false,
+            isError: false
         };
     }
 
@@ -51,7 +52,7 @@ class ForgetPassword extends Component {
         }, () => {
             if (m) {
 
-                this.setState({ isLoading: true });
+                this.setState({ isLoading: true, isError : true });
                 this.props.forgetPassword({
                     endurl: '/ForgotPassword',
                     requestData: {
@@ -105,7 +106,7 @@ class ForgetPassword extends Component {
 
                 <Spinner visible={this.state.isLoading} color="green" />
                 {
-                    this.props.forget_password_failure ? <ToastMessage message={this.props.errorMessage} /> : null
+                    (this.state.isError && this.props.forget_password_failure) ? <ToastMessage message={this.props.errorMessage} /> : null
                 }
 
 
