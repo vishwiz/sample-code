@@ -161,8 +161,9 @@ class App extends Component {
                                         activeOpacity={0.1}
                                         onPress={() => {
                                             this.setState({ modalVisible: false }, () => {
-                                                this.props.logOutUser()
+                                                this.props.logOutUser();
                                             })
+                                            this.forceUpdate();
                                         }}>
                                         <View style={styles.userView} >
                                             <IconA name="logout"

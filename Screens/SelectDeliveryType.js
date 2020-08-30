@@ -39,7 +39,7 @@ class SelectDeliveryType extends Component {
         BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
     }
     onBackPress = () => {
-        this.props.navigation.goBack();
+        this.props.navigation.navigate("ViewCart");
         return true;
     }
 
@@ -56,7 +56,7 @@ class SelectDeliveryType extends Component {
                         <TouchableHighlight
                             activeOpacity={0}
                             style={{ padding: 10 }}
-                            onPress={() => this.props.navigation.goBack()}>
+                            onPress={() => this.props.navigation.navigate("ViewCart")}>
                             <IconI name="chevron-back" size={25} color="#548247" />
                         </TouchableHighlight>
                     }

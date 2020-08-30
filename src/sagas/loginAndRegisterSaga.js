@@ -77,7 +77,7 @@ export function* loginUserASYNC({
                     },
                 });
 
-                RootNavigation.navigate('Home');
+                RootNavigation.navigate(payload.routeTo);
 
             } else if (response.data.errorMessage === 'OB_InvalidLoginPinCode') {
                 yield put({

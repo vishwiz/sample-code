@@ -7,7 +7,12 @@ const PincodeComponent = (props) => {
     return (
 
         <KeyboardAvoidingView style={{ marginVertical: 5, height: 80 }}>
-            <Text style={styles.textinput}>{props.title}</Text>
+            <View style={{flexDirection:"row"}}>
+                <Text style={[styles.textinput, { color:"gray" }]}>{props.title}</Text>
+               {
+                   props.isMandatory ? <Text style={{ color: "red" }}>*</Text> : null
+               } 
+            </View>
             <View style={styles.pincodeStyle}>
                 {!props.passwordvisible ?
                     <SmoothPinCodeInput

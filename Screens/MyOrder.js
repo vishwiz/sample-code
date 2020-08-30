@@ -156,7 +156,7 @@ class MyOrders extends Component {
     cancelOrderCall = (id) => {
         // /api​/ChangeOrderStatus
         CallHandling = true
-        this.setState(function (state, props) { return { isLoading: true, isCancelError: true } });
+        this.setState( { isLoading: "bvhghgvghgvh", isCancelError: true } );
         let params = {
 
             "UserId": this.props.loginDetails.userId,
@@ -168,10 +168,12 @@ class MyOrders extends Component {
 
         }
 
-        this.props.cancelOrderCall({
-            endurl: '/ChangeOrderStatus',
-            requestData: params,
-        })
+        console.log("isloading ... cancelOrderCall",this.state.isLoading)
+
+        // this.props.cancelOrderCall({
+        //     endurl: '/ChangeOrderStatus',
+        //     requestData: params,
+        // })
     }
 
     renderProductListData = (item) => {
@@ -236,7 +238,14 @@ class MyOrders extends Component {
                     borderBottomColor: "grey"
                 }}
             />
-            {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" /> :
+
+            {
+                console.log("isloading ... ",this.state.isLoading)
+                
+            }
+            { this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" />
+            : 
+            
                 this.props.myOrdersDetails.length > 0 ? <FlatList
                     data={this.state.myOrders}
                     renderItem={((item) => this.renderProductListData(item.item))}

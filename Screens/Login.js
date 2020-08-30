@@ -82,6 +82,7 @@ class LoginScreen extends Component {
                 this.setState({ isLoading: true, isError : true })
                 this.props.loginUser({
                     endurl: '/SignIn',
+                    routeTo: this.props.route.params.routeTo ?  this.props.route.params.routeTo : "Home", 
                     requestData: {
                         MobileNo: Number(this.state.phoneNumber),
                         LoginPinCode: Number(this.state.pinPassword),
@@ -176,6 +177,7 @@ class LoginScreen extends Component {
                             value={phoneNumber}
                             phoneNumber={true}
                             isDisable={false}
+                            isMandatory={true}
                         />
                         {flagPhone ? (
                             <ErrorComponent title={'Enter your 10 digit phone number'} />
@@ -184,6 +186,7 @@ class LoginScreen extends Component {
                             title={'PIN PASSWORD'}
                             onChangeText={this.onChangeTextPassword}
                             value={pinPassword}
+                            isMandatory={true}
                         />
                         {flagPin ? (
                             <ErrorComponent title={'Should enter pin password'} />

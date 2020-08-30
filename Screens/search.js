@@ -108,7 +108,7 @@ class Search extends Component {
                         style={styles.textInputStyle}
                         onChangeText={text => this.onChangeText(text)}
                         value={this.state.searchText}
-                        placeholder={"Aapko Kya Chahiye"}
+                        placeholder={"Search"}
                     />
                     <TouchableOpacity style={{ width: "25%", justifyContent: "center", alignItems: "center", height: 40, backgroundColor: "green" }}
                         onPress={this.onClickNavigation}

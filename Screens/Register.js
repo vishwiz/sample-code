@@ -185,6 +185,7 @@ class RegisterScreen extends Component {
               onChangeText={this.onChangeTextfirstName}
               value={firstName}
               isDisable={false}
+              isMandatory={true}
             />
             {flagFirst ? (
               <ErrorComponent title={'Enter at least 3 characters'} />
@@ -195,6 +196,7 @@ class RegisterScreen extends Component {
               onChangeText={this.onChangeTextlastName}
               value={lastName}
               isDisable={false}
+              isMandatory={true}
             />
             {flagLast ? (
               <ErrorComponent title={'Enter at least 3 characters'} />
@@ -206,6 +208,7 @@ class RegisterScreen extends Component {
               value={phoneNumber}
               phoneNumber={true}
               isDisable={false}
+              isMandatory={true}
             />
             {flagPhone ? (
               <ErrorComponent title={'Enter your 10 digit phone number'} />
@@ -225,6 +228,7 @@ class RegisterScreen extends Component {
               onChangeText={this.onChangeTextPassword}
               value={pinPassword}
               passwordvisible={false}
+              isMandatory={true}
             />
             {flagPin ? (
               <ErrorComponent title={'Should enter pin password'} />

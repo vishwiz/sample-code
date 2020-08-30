@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import TextInputComponent from '../src/component/TextInputComponent';
 import { placeOrderCall } from '../src/actions/deliveryAction';
 import ToastMessage from "../src/component/ToastMessage";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 class PaymentScreen extends Component {
     constructor(props) {
@@ -127,6 +128,7 @@ class PaymentScreen extends Component {
                     backgroundColor: 'white',
                 }}
             />
+            <Spinner visible={this.state.isLoading} color="green" />
             <View style={{ padding: 20, height: "100%" }}>
                 <TextInputComponent
                     title={'Payment Mode'}

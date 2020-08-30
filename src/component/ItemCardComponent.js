@@ -30,7 +30,9 @@ const ItemCardComponent = (props) => {
             </View>
             <View style={{ width: "70%", padding: 10 }}>
                 <Text style={styles.textinput}>{item.name}</Text>
-                <Text style={[styles.textinput, { fontSize: 12 }]}>{item.quantity} {item.unit}</Text>
+                <Text style={[styles.textinput, { fontSize: 12 }]}>{item.productOption} {item.unit}</Text>
+                {/* <Text style={[styles.textinput, { fontSize: 12 }]}>{item.productOption}</Text> */}
+                
 
                 <View style={{ alignItems: 'flex-end', a: "center" }}>
                     <Text style={styles.textinputDmart}>{"FeelFuL   ₹"}{item.totalSelllingPriceWithQuantity}{".00"}</Text>

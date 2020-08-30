@@ -64,6 +64,7 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 userDetails: action.payload.ResponseData,
+                loginDetails: action.payload.ResponseData,
                 isLoading: false,
                 register_success: true,
 

@@ -275,7 +275,7 @@ class ViewCart extends Component {
                                 if (this.props.isLogged) {
                                     this.props.navigation.navigate("SelectDeliveryType")
                                 } else {
-                                    this.props.navigation.navigate("Login", { register: true })
+                                    this.props.navigation.navigate("Login", { register: true, routeTo:"SelectDeliveryType" })
                                 }
                             }}
                         >
