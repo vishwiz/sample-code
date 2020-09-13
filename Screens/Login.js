@@ -85,7 +85,7 @@ class LoginScreen extends Component {
                     routeTo: this.props.route.params.routeTo ?  this.props.route.params.routeTo : "Home", 
                     requestData: {
                         MobileNo: Number(this.state.phoneNumber),
-                        LoginPinCode: Number(this.state.pinPassword),
+                        LoginPinCode: this.state.pinPassword,
                     },
                 });
 

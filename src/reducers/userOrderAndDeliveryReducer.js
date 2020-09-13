@@ -163,12 +163,16 @@ export default (state = initialState, action) => {
 
         case types.GET_ADDRESS_SUCCESS:
 
-            let defaultAddress = {};
-            action.payload.ResponseData.forEach(element => {
-                if (element.isDefault) {
-                    defaultAddress = element
-                }
-            });
+            let defaultAddress = selectedAddress;
+            if(!selectedAddress.address){
+                // selectedAddress.address
+                action.payload.ResponseData.forEach(element => {
+                    if (element.isDefault) {
+                        defaultAddress = element
+                    }
+                });
+            }
+            
 
             // defaultAddress = action.payload.ResponseData[0];
 
@@ -203,7 +207,7 @@ export default (state = initialState, action) => {
                 isLoading: true,
                 placeOrder_success: false,
                 placeOrder_failure: false,
-                errorMessage: ""
+                errorMessage: "",
             }
         case types.PLACE_ORDER_SUCCESS:
             return {
@@ -215,6 +219,7 @@ export default (state = initialState, action) => {
                 totalItem: 0,
                 totalPaymentedValue: 0,
                 totalSaving: 0,
+                errorMessage: "",
 
             }
         case types.PLACE_ORDER_FAILURE:
@@ -222,7 +227,7 @@ export default (state = initialState, action) => {
                 ...state,
                 isLoading: false,
                 placeOrder_failure: true,
-                errorMessage: action.payload.ErrorMessage
+                errorMessage: action.payload.ErrorMessage,
             }
 
         case types.CANCEL_ORDER:
@@ -231,7 +236,7 @@ export default (state = initialState, action) => {
                 isLoadingCancelOrder: true,
                 cancelAddress_success: false,
                 cancelAddress_failure: false,
-                errorMessageCancelOrder: ""
+                errorMessageCancelOrder: "",
             }
         case types.CANCEL_ORDER_SUCCESS:
             return {
@@ -240,7 +245,7 @@ export default (state = initialState, action) => {
                 cancelAddress_success: true,
                 cancelAddress_failure: false,
                 isLoadingCancelOrder: false,
-                errorMessageCancelOrder: ""
+                errorMessageCancelOrder: "",
             }
         case types.CANCEL_ORDER_FAILURE:
             return {
@@ -248,12 +253,10 @@ export default (state = initialState, action) => {
                 isLoadingCancelOrder: false,
                 cancelAddress_success: false,
                 cancelAddress_failure: true,
-                errorMessageCancelOrder: action.payload.ErrorMessage
+                errorMessageCancelOrder: action.payload.ErrorMessage,
             }
 
         case types.LOGOUT_USER:
-
-        console.log("logout...!!!")
             return {
                 ...state,
                 OrderSummaryItemArray: [],

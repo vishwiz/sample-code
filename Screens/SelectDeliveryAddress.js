@@ -124,7 +124,7 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
@@ -134,7 +134,7 @@ class SelectDeliveryType extends Component {
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.state.deliveryCharges}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.state.deliveryCharges}</Text>
                         </View>
                         <View>
                             {/* <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
@@ -158,7 +158,7 @@ class SelectDeliveryType extends Component {
                             <View style={{ height: 25 }}>
                                 <Text style={{ fontSize: 10, color: 'gray', fontStyle: 'italic' }}>{`(Our Recommendation)`}</Text>
                             </View>
-                            <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY CHARGES {this.state.deliveryCharges}.00</Text>
+                            <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY CHARGES ₹{this.state.deliveryCharges}</Text>
                         </View>
                         <View style={[styles.rightDeliveryContainer, { backgroundColor: "#d7dce5" }]}>
                             <View style={[styles.imageContainer, { backgroundColor: "#0f4760" }]}>

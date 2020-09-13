@@ -247,7 +247,7 @@ class RegisterScreen extends Component {
                                 title={'AREA'}
                                 keyboard_type={'default'}
                                 onChangeText={this.onChangeTextemail}
-                                value={this.props.pinCodeDetails?.office_name}
+                                value={this.props.pinCodeDetails?.pincode == "443201" ? "Chikhali" : this.props.pinCodeDetails?.office_name}
                                 isDisable={true}
                             />
                             <TextInputComponent

@@ -81,7 +81,7 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
@@ -90,11 +90,11 @@ class SelectDeliveryType extends Component {
                         </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Amount Payable :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}</Text>
                         </View>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}</Text>
                         </View>
                         <View>
                             <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>

@@ -96,7 +96,7 @@ class SelectDeliveryType extends Component {
                     this.state.fullView ? <View style={styles.lowerContainer}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Cart Value :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalPaymentedValue}</Text>
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
@@ -119,21 +119,22 @@ class SelectDeliveryType extends Component {
                                         </View>
                                     </TouchableOpacity>
                                 )}>
+                                    {/* For Home  Delivery, we Charge Rs. 49 or 3% of the order value- whichever is higer.\nFor Free Delivery, Select Pick-up Point. */}
                                 <View style={{ paddingVertical: 10, paddingHorizontal: 15 }}>
-                                    <Text style={{ fontSize: 12, color: "black" }}>{`For Home  Delivery, we Charge Rs. 49.00 or 3.00% of the order value- whichever is higer.\nFor Free Delivery, Select Pick-up Point.`}</Text>
+                                    <Text style={{ fontSize: 12, color: "black" }}>{`For Home Delivery there are charges applicable as per your order. \nFor Free Delivery, Select Pick-up Point.`}</Text>
                                 </View>
                             </Popover>
                         </View>
 
-                        <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+                        {/* <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}.00</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.props.totalSaving}</Text>
                         </View>
                         <View>
                             <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>
                                 Tax of 206.53 included in total amount
                                 </Text>
-                        </View>
+                        </View> */}
 
                     </View>
                         :
@@ -200,7 +201,12 @@ class SelectDeliveryType extends Component {
                         <View style={styles.leftDeliveryContainer}>
                             <Text style={{ fontSize: 13, color: 'black' }}>HOME DELIVERY</Text>
 
-                            <Text style={{ fontSize: 11, color: 'black' }}>You can also get your orders delivered to an address of your choice. Rs. 49.00 or 3.00% of value whichever is higer will be added to your order amount .</Text>
+                            <Text style={{ fontSize: 11, color: 'black' }}>
+                                {/* You can also get your orders delivered to an address of your choice. Rs. 49 or 3% of value whichever is higer will be added to your order amount . */}
+
+                                You can also get your orders delivered to an address of your choice. For Home Delivery there are charges applicable as per your order.
+                                
+                                </Text>
                             <Text style={{ fontSize: 13, color: '#0f4760' }}>DELIVERY CHARGES EXTRA</Text>
 
                         </View>

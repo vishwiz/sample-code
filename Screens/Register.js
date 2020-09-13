@@ -186,6 +186,7 @@ class RegisterScreen extends Component {
               value={firstName}
               isDisable={false}
               isMandatory={true}
+              maxLength={50}
             />
             {flagFirst ? (
               <ErrorComponent title={'Enter at least 3 characters'} />
@@ -197,6 +198,7 @@ class RegisterScreen extends Component {
               value={lastName}
               isDisable={false}
               isMandatory={true}
+              maxLength={50}
             />
             {flagLast ? (
               <ErrorComponent title={'Enter at least 3 characters'} />
@@ -209,6 +211,7 @@ class RegisterScreen extends Component {
               phoneNumber={true}
               isDisable={false}
               isMandatory={true}
+              maxLength={10}
             />
             {flagPhone ? (
               <ErrorComponent title={'Enter your 10 digit phone number'} />
@@ -219,6 +222,7 @@ class RegisterScreen extends Component {
               onChangeText={this.onChangeTextemail}
               value={email}
               isDisable={false}
+              maxLength={50}
             />
             {flagEmail ? (
               <ErrorComponent title={'Enter a valid email address'} />

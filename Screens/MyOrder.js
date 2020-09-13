@@ -31,6 +31,7 @@ let myEnum = {
     5: "CancelBySupplier"
 }
 let CallHandling = false
+let CallHandlingMyorders = false
 class MyOrders extends Component {
     constructor(props) {
         super(props)
@@ -61,20 +62,28 @@ class MyOrders extends Component {
         if (!props.isLoadingCancelOrder && props.cancelAddress_success && CallHandling) {
             CallHandling = false
             return {
-                isLoading: false,
                 refreshCall: true,
+                isLoading: false,
             }
         }
 
 
-        else if (!props.isLoading) {
+        else if (!props.isLoading && CallHandlingMyorders) {
+            CallHandlingMyorders = false
             return {
                 isLoading: false,
                 myOrders: props.myOrdersDetails
             };
         }
 
-        if (props.errorMessage !== "" || props.errorMessageCancelOrder) {
+        if (props.errorMessage !== "" && CallHandlingMyorders) {
+            CallHandlingMyorders = false
+            return {
+                isLoading: false
+            }
+        }
+        else if (props.errorMessageCancelOrder !== "" && props.cancelAddress_failure && CallHandling) {
+            CallHandling = false
             return {
                 isLoading: false
             }
@@ -92,9 +101,9 @@ class MyOrders extends Component {
 
                 {
                     text: "OK", onPress: () => {
-                        CallHandling = false
-                        this.setState({ refreshCall: false })
-                        this.apiFunctionCall()
+                        // CallHandling = false
+                        this.setState({ refreshCall: false },()=> this.apiFunctionCall())
+                       
                     }
                 }
             ],
@@ -146,6 +155,7 @@ class MyOrders extends Component {
             "CultureId": 1,
             "SupplierId": 1
         }
+        CallHandlingMyorders = true
         this.setState(function (state, props) { return { isLoading: true, myOrders: [], isError: true } });
         this.props.myOrdersCall({
             endurl: '/GetOrders',
@@ -154,9 +164,8 @@ class MyOrders extends Component {
     }
 
     cancelOrderCall = (id) => {
-        // /api​/ChangeOrderStatus
         CallHandling = true
-        this.setState( { isLoading: "bvhghgvghgvh", isCancelError: true } );
+        this.setState(function (state, props) { return { isLoading: true, isCancelError: true } });
         let params = {
 
             "UserId": this.props.loginDetails.userId,
@@ -168,12 +177,10 @@ class MyOrders extends Component {
 
         }
 
-        console.log("isloading ... cancelOrderCall",this.state.isLoading)
-
-        // this.props.cancelOrderCall({
-        //     endurl: '/ChangeOrderStatus',
-        //     requestData: params,
-        // })
+        this.props.cancelOrderCall({
+            endurl: '/ChangeOrderStatus',
+            requestData: params,
+        })
     }
 
     renderProductListData = (item) => {
@@ -203,8 +210,8 @@ class MyOrders extends Component {
 
                     <Text style={{ color: "grey", fontSize: 15 }}>{moment(item.orderDate).format('lll')}</Text>
                     <TouchableOpacity
-                        style={{ backgroundColor: item.orderStatus ==2 ?"grey" :"#548247", borderRadius: 5, padding: 5 }}
-                        onPress={() => item.orderStatus ==2 ? null : this.cancelOrderCall(item.orderId)}
+                        style={{ backgroundColor: item.orderStatus == 2 ? "grey" : "#548247", borderRadius: 5, padding: 5 }}
+                        onPress={() => item.orderStatus == 2 ? null : this.cancelOrderCall(item.orderId)}
                     >
                         <Text style={{ color: "#fff", fontSize: 13, }}>CANCEL ORDER</Text>
                     </TouchableOpacity>
@@ -238,15 +245,10 @@ class MyOrders extends Component {
                     borderBottomColor: "grey"
                 }}
             />
+            {this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" />
+                :
 
-            {
-                console.log("isloading ... ",this.state.isLoading)
-                
-            }
-            { this.state.isLoading ? <Spinner visible={this.state.isLoading} color="green" />
-            : 
-            
-                this.props.myOrdersDetails.length > 0 ? <FlatList
+                this.state.myOrders.length > 0 ? <FlatList
                     data={this.state.myOrders}
                     renderItem={((item) => this.renderProductListData(item.item))}
                     keyExtractor={(item, i) => i.toString()}

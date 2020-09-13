@@ -73,7 +73,7 @@ class OrderSummary extends Component {
         } else {
             deliveryCharges = "0";
         }
-        return deliveryCharges;
+        return this.props.route.params.deliveryType == "PICKUP_DELIVERY" ? 0 : deliveryCharges;
     }
 
     _renderFlatList = (item, index) => {
@@ -91,8 +91,9 @@ class OrderSummary extends Component {
                 </View>
                 <View style={{ marginLeft: 20, flex: 1 }}>
                     <Text>{item.item.name}</Text>
-                    <Text style={{ color: "#6bb757", fontWeight: "bold", alignSelf: "flex-end" }}> You Pay ₹ {item.item.totalSelllingPriceWithQuantity}.00</Text>
-                    <Text style={{ color: "#ef2626", fontSize: 12, alignSelf: "flex-end" }}> You Save ₹ {item.item.totalSavingAmmount}.00</Text>
+                    <Text>{item.item.productOption} {item.item.unit}</Text>
+                    <Text style={{ color: "#6bb757", fontWeight: "bold", alignSelf: "flex-end" }}> You Pay ₹ {item.item.totalSelllingPriceWithQuantity}</Text>
+                    <Text style={{ color: "#ef2626", fontSize: 12, alignSelf: "flex-end" }}> You Save ₹ {item.item.totalSavingAmmount}</Text>
                     <Text style={{ fontSize: 12 }}> Quantity {item.item.quantity}</Text>
                 </View>
             </View>
@@ -139,11 +140,11 @@ class OrderSummary extends Component {
                 }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "black" }}>Cart Value: <Text style={{ fontStyle: "italic", fontSize: 10, color: "gray" }}>(Incl. of Taxes)</Text></Text>
-                        <Text style={{ fontWeight: "bold" }}>₹{this.props.totalPaymentedValue}.00</Text>
+                        <Text style={{ fontWeight: "bold" }}>₹{this.props.totalPaymentedValue}</Text>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "black" }}>Delivery Charges : </Text>
-                        <Text style={{ fontWeight: "bold" }}>₹{this.state.deliveryCharges}.00</Text>
+                        <Text style={{ fontWeight: "bold" }}>₹{this.state.deliveryCharges}</Text>
                     </View>
                     <View style={{ marginVertical: 5 }}>
                         <Divider style={{ backgroundColor: 'black' }} />
@@ -151,14 +152,14 @@ class OrderSummary extends Component {
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "#6bb757" }}>Amount Payable: <Text style={{ fontStyle: "italic", fontSize: 10, color: "gray" }}>(Incl. of Taxes)</Text> </Text>
-                        <Text style={{ fontWeight: "bold", color: "#6bb757" }}>₹{this.props.totalPaymentedValue}.00</Text>
+                        <Text style={{ fontWeight: "bold", color: "#6bb757" }}>₹{this.props.totalPaymentedValue}</Text>
                     </View>
                     <View style={{ marginVertical: 5 }}>
                         <Divider style={{ backgroundColor: 'black' }} />
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "#ef2626" }}>Your Saving <Text style={{ fontSize: 10 }}>(on M.R.P.) :</Text> </Text>
-                        <Text style={{ fontWeight: "bold", color: "#ef2626" }}>₹{this.props.totalSaving}.00</Text>
+                        <Text style={{ fontWeight: "bold", color: "#ef2626" }}>₹{this.props.totalSaving}</Text>
                     </View>
                 </View>
 

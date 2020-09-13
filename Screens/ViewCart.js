@@ -178,7 +178,7 @@ class ViewCart extends Component {
                                                 containerStyle={{ position: 'absolute', top: -10, right: -4 }}
                                             />
                                             <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -8, width: 100 }}>
-                                                ₹ {this.props.totalPaymentedValue}.00
+                                                ₹ {this.props.totalPaymentedValue}
                                             </Text>
                                         </> :
                                         null
@@ -217,11 +217,11 @@ class ViewCart extends Component {
                         <View style={styles.upperContainer}>
                             <View style={styles.leftUpperContainer}>
                                 <Text style={{ fontSize: 13, fontWeight: "bold" }}>{this.props.totalItem} Items(s) in cart</Text>
-                                <Text style={{ fontSize: 9, color: 'red' }}>TOTAL SAVINGS {this.props.totalSaving}.00</Text>
+                                <Text style={{ fontSize: 9, color: 'red' }}>TOTAL SAVINGS {this.props.totalSaving}</Text>
                             </View>
 
                             <View style={styles.rightUpperContainer}>
-                                <Text style={{ color: "green", paddingRight: 24, fontWeight: "bold", fontSize: 15 }}>TOTAL PRICE {this.props.totalPaymentedValue}.00</Text>
+                                <Text style={{ color: "green", paddingRight: 24, fontWeight: "bold", fontSize: 15 }}>TOTAL PRICE {this.props.totalPaymentedValue}</Text>
                             </View>
                         </View>
 

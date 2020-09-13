@@ -234,7 +234,6 @@ class AddToCart extends Component {
                 }
 
             }
-
             // this.props.addtoCartListCompleteData(createViewCart)
 
             this.props.incrementDecrementValue({ data: createViewCart, totalPaymentedValue: totalAmount, totalItem: totalProducts })
@@ -331,9 +330,9 @@ class AddToCart extends Component {
                             <Text style={styles.textFormatHeader}>{obj.name}</Text>
                         </View>
                         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
-                            <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}.00`}</Text>
-                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "FeelFuL"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}.00`}</Text>
-                            <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}.00`}</Text>
+                            <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}`}</Text>
+                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "FeelFuL"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}`}</Text>
+                            <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}`}</Text>
                         </View>
                     </View>
                 </View>
@@ -347,28 +346,31 @@ class AddToCart extends Component {
                     paddingBottom: 10,
                 }}>
 
-                    <View style={[styles.optionView, { borderColor: obj.isStock ? "#1D800E" : "grey", }]}>
+                    <TouchableOpacity
+                    activeOpacity={1}
+                    onPress={() => {
+                        // obj.isStock ?
+                        this.updateDropdownModal(index, item.isVisible)
+                        //  : null
+                    }}
+                    style={[styles.optionView, { borderColor: obj.isStock ? "#1D800E" : "grey", }]}>
                         <View style={styles.quantityView}><Text>{`${obj.productOption} ${obj.unit}`}</Text></View>
                         {
                             item.productVariantList.length > 0 ?
-                                <TouchableOpacity
-                                    activeOpacity={1}
+                                <View
+                                    
                                     style={{
                                         backgroundColor: obj.isStock ? "#1D800E" : "grey", borderTopRightRadius: 5,
                                         borderBottomRightRadius: 5
                                     }}
 
-                                    onPress={() => {
-                                        // obj.isStock ?
-                                        this.updateDropdownModal(index, item.isVisible)
-                                        //  : null
-                                    }}
+                                   
                                 >
                                     <Image style={{ width: 30, height: 34 }} source={require('../src/assests/Images/dropArrow11.png')} />
-                                </TouchableOpacity>
+                                </View>
                                 : null
                         }
-                    </View>
+                    </TouchableOpacity>
                     {/* <View style={{ padding: 5 }} /> */}
                     {obj.quantity === 0 ?
                         <View style={[styles.addToCart, { backgroundColor: obj.isStock ? "#1D800E" : "grey" }]}>
@@ -448,7 +450,7 @@ class AddToCart extends Component {
                                         containerStyle={{ position: 'absolute', top: -10, right: -4 }}
                                     />
                                     <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -5, width: 100 }}>
-                                        ₹ {this.props.totalPaymentedValue}.00
+                                        ₹ {this.props.totalPaymentedValue}
                                     </Text>
                                 </View>
                             </TouchableOpacity>

@@ -102,7 +102,7 @@ class App extends Component {
                                                 containerStyle={{ position: 'absolute', top: -10, right: -4 }}
                                             />
                                             <Text style={{ fontSize: 10, color: "red", position: 'absolute', top: 25, left: -8, width: 100 }}>
-                                                ₹ {this.props.totalPaymentedValue}.00
+                                                ₹ {this.props.totalPaymentedValue}
                                             </Text>
                                         </> :
                                         null

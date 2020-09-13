@@ -39,7 +39,7 @@ class PaymentScreen extends Component {
     static getDerivedStateFromProps(props, state) {
         if (!props.isLoading) {
             return {
-                isLoading: false,
+                isLoading: props.isLoading,
             };
         }
 

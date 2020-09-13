@@ -9,11 +9,11 @@ const TextInputComponent = (props) => {
     return (
 
         <KeyboardAvoidingView style={{ marginVertical: 5 }}>
-            <View style={{flexDirection:"row"}}>
+            <View style={{ flexDirection: "row" }}>
                 <Text style={[styles.textinput, { color: highlight ? "green" : "gray" }]}>{props.title}</Text>
-               {
-                   props.isMandatory ? <Text style={{ color: "red" }}> *</Text> : null
-               } 
+                {
+                    props.isMandatory ? <Text style={{ color: "red" }}> *</Text> : null
+                }
             </View>
 
 
@@ -48,6 +48,7 @@ const TextInputComponent = (props) => {
                         value={props.value}
                         keyboardType={props.keyboard_type}
                         placeholder={props.placeholder}
+                        maxLength={props.maxLength ? props.maxLength : 300}
                     // placeholderStyle={{ }}
                     />
 

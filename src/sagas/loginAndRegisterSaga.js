@@ -67,8 +67,8 @@ export function* loginUserASYNC({
     try {
 
         const response = yield call(APIRequestAxios.postReq, payload);
-
         if (response.status === 200) {
+      
             if (response.data.errorMessage === 'OB_Success') {
                 yield put({
                     type: 'LOGIN_USER_SUCCESS',
