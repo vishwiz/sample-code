@@ -209,12 +209,13 @@ class MyOrders extends Component {
                 <View style={styles.innerContainer}>
 
                     <Text style={{ color: "grey", fontSize: 15 }}>{moment(item.orderDate).format('lll')}</Text>
-                    <TouchableOpacity
+                   { item.orderStatus == 2 || item.orderStatus == 3 || item.orderStatus == 4 || item.orderStatus == 5 ? null : <TouchableOpacity
                         style={{ backgroundColor: item.orderStatus == 2 ? "grey" : "#548247", borderRadius: 5, padding: 5 }}
-                        onPress={() => item.orderStatus == 2 ? null : this.cancelOrderCall(item.orderId)}
+                        onPress={() =>  this.cancelOrderCall(item.orderId)}
                     >
+                         {/* item.orderStatus == 2  ? null : */}
                         <Text style={{ color: "#fff", fontSize: 13, }}>CANCEL ORDER</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
                 </View>
             </View>
         )
