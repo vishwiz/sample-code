@@ -8,7 +8,7 @@ class DisplayAnImage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LinearGradient colors={['#fff', 'grey']} style={[styles.linearGradient]}>
+        <LinearGradient colors={['#fff', '#FFCC00']} style={[styles.linearGradient]}>
           <Text style={styles.buttonText}>
             {`${this.props.isLogged ? ` Hii, ${this.props.loginDetails?.firstName?.toUpperCase()} ${this.props.loginDetails?.lastName?.toUpperCase()}` : `Please sign in/sign up`}`}
           </Text>

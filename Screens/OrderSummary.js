@@ -152,7 +152,7 @@ class OrderSummary extends Component {
 
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginVertical: 5 }}>
                         <Text style={{ color: "#6bb757" }}>Amount Payable: <Text style={{ fontStyle: "italic", fontSize: 10, color: "gray" }}>(Incl. of Taxes)</Text> </Text>
-                        <Text style={{ fontWeight: "bold", color: "#6bb757" }}>₹{this.props.totalPaymentedValue}</Text>
+                        <Text style={{ fontWeight: "bold", color: "#6bb757" }}>₹{Number(this.props.totalPaymentedValue) + Number(this.state.deliveryCharges)}</Text>
                     </View>
                     <View style={{ marginVertical: 5 }}>
                         <Divider style={{ backgroundColor: 'black' }} />
