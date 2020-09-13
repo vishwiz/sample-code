@@ -163,8 +163,8 @@ export default (state = initialState, action) => {
 
         case types.GET_ADDRESS_SUCCESS:
 
-            let defaultAddress = selectedAddress;
-            if(!selectedAddress.address){
+            let defaultAddress = state.selectedAddress;
+            if(!state.selectedAddress?.address){
                 // selectedAddress.address
                 action.payload.ResponseData.forEach(element => {
                     if (element.isDefault) {
