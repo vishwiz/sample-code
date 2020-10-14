@@ -74,7 +74,8 @@ class RegisterScreen extends Component {
             this.setState({ pinCode: value });
             if (value.length === 6) {
                 this.props.pincodeCall({
-                    endurl: 'https://pincode.saratchandra.in/api/pincode/' + value,
+                    endurl: 'https://api.postalpincode.in/pincode/' + value
+                    // 'https://pincode.saratchandra.in/api/pincode/' + value,
                 });
             }
         }
@@ -110,7 +111,7 @@ class RegisterScreen extends Component {
                         requestData: {
                             "addressId": 0,
                             "addressType": addressType,
-                            "address": `${this.state.address} ${this.state.pinCode} ${this.props.pinCodeDetails?.office_name} ${this.props.pinCodeDetails?.district} ${this.props.pinCodeDetails?.state_name} `,
+                            "address": `${this.state.address} ${this.state.pinCode} ${this.props.pinCodeDetails?.Name} ${this.props.pinCodeDetails?.District} ${this.props.pinCodeDetails?.State} `,
                             "landMark": this.state.landmark,
                             "isDeleted": false,
                             "userId": this.props.loginDetails?.userId,
@@ -247,21 +248,21 @@ class RegisterScreen extends Component {
                                 title={'AREA'}
                                 keyboard_type={'default'}
                                 onChangeText={this.onChangeTextemail}
-                                value={this.props.pinCodeDetails?.pincode == "443201" ? "Chikhali" : this.props.pinCodeDetails?.office_name}
+                                value={this.props.pinCodeDetails?.Pincode == "443201" ? "Chikhali" : this.props.pinCodeDetails?.Name}
                                 isDisable={true}
                             />
                             <TextInputComponent
                                 title={'CITY*'}
                                 keyboard_type={'default'}
                                 onChangeText={this.onChangeTextemail}
-                                value={this.props.pinCodeDetails?.district}
+                                value={this.props.pinCodeDetails?.District}
                                 isDisable={true}
                             />
                             <TextInputComponent
                                 title={'STATE*'}
                                 keyboard_type={'default'}
                                 onChangeText={this.onChangeTextemail}
-                                value={this.props.pinCodeDetails?.state_name}
+                                value={this.props.pinCodeDetails?.State}
                                 isDisable={true}
                             />
                             {/* <TextInputComponent

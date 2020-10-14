@@ -133,8 +133,8 @@ class SelectDeliveryType extends Component {
                         </View>
 
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                            <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
-                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.state.deliveryCharges}</Text>
+                            {/* <Text style={{ fontSize: 12, color: 'black' }}>Your Charges :</Text>
+                            <Text style={{ fontSize: 12, color: 'black' }}>₹{this.state.deliveryCharges}</Text> */}
                         </View>
                         <View>
                             {/* <Text style={{ fontSize: 10, fontStyle: "italic", color: 'black' }}>

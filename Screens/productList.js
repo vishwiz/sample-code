@@ -13,6 +13,7 @@ import { productListCall, carouselDataCall, searchTextValue } from '../src/actio
 import Spinner from 'react-native-loading-spinner-overlay';
 import ToastMessage from "../src/component/ToastMessage";
 import Carousel, { PaginationLight } from 'react-native-x-carousel';
+import LinearGradient from 'react-native-linear-gradient';
 const { width } = Dimensions.get('window');
 
 class ProductList extends Component {
@@ -24,22 +25,22 @@ class ProductList extends Component {
             productListData: [],
             isLoading: false,
             promotionData: [],
-            isError :false
+            isError: false
 
         }
     }
 
     componentDidMount = () => {
-       this.functionCall()
+        this.functionCall()
     }
 
-    functionCall= ()=>{
+    functionCall = () => {
         let params = {
             CultureId: 1,
             TalukaId: 1,
             SupplierId: 1
         }
-        this.setState(function (state, props) { return { isLoading: true, productListData: [],  promotionData: [] , isError : true} });
+        this.setState(function (state, props) { return { isLoading: true, productListData: [], promotionData: [], isError: true } });
         this.props.productListCall({
             endurl: '/BrandDetailList',
             requestData: params,
@@ -87,21 +88,27 @@ class ProductList extends Component {
                 source={{ uri: data.promtionImageUrl }}
             />
         </TouchableOpacity>
+
     );
 
     renderProductListData = (item, index) => {
         return (<View style={styles.flatListContainer}>
             {
                 index === 0 ?
-                <View style={{ paddingBottom: 20,}}>
-                    <Carousel
-                        // pagination={PaginationLight}
-                        renderItem={this.renderPromotionData}
-                        data={this.state.promotionData}
-                        loop
-                        autoplay
-                    /> 
-                    </View>
+                    <View style={{ paddingBottom: 20, }}>
+                        <Carousel
+                            // pagination={PaginationLight}
+                            renderItem={this.renderPromotionData}
+                            data={this.state.promotionData}
+                            loop
+                            autoplay
+                        />
+                         <LinearGradient colors={['#fff', '#FFCC00']} style={[styles.linearGradient]}>
+                        <View style={[styles.productHeader,{ paddingTop: 20, }]}>
+                            <Text style={[styles.productListHeader]}>Product's list </Text>
+                        </View>
+                        </LinearGradient>
+                    </View> 
                     : null
             }
             <View style={styles.productHeader}>
@@ -140,8 +147,8 @@ class ProductList extends Component {
                         keyExtractor={(item, i) => i.toString()}
                         extraData={this.state}
                         horizontal={false}
-                        onRefresh = {this.functionCall}
-                        refreshing = {this.state.isLoading}
+                        onRefresh={this.functionCall}
+                        refreshing={this.state.isLoading}
                         contentContainerStyle={{
                             marginVertical: 5,
                         }}
@@ -163,7 +170,7 @@ const styles = StyleSheet.create({
     },
     productHeader: {
         paddingHorizontal: 15,
-        paddingBottom:5
+        paddingBottom: 5
     },
     productListHeader: {
         fontWeight: "bold",

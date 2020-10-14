@@ -58,7 +58,7 @@ export function* handlePinCodeCall({
             yield put({
                 type: 'PIN_CODE_CALL_SUCCESS',
                 payload: {
-                    ResponseData: response.data.data[0],
+                    ResponseData: response.data[0]?.PostOffice[0],
                 },
             });
         } else {
