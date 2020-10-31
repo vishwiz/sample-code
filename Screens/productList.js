@@ -105,7 +105,7 @@ class ProductList extends Component {
                         />
                          <LinearGradient colors={['#fff', '#FFCC00']} style={[styles.linearGradient]}>
                         <View style={[styles.productHeader,{ paddingTop: 20, }]}>
-                            <Text style={[styles.productListHeader]}>Product's list </Text>
+                            <Text style={[styles.productListHeader]}>Shop By Category</Text>
                         </View>
                         </LinearGradient>
                     </View> 
