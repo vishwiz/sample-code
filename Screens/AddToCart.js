@@ -313,7 +313,7 @@ class AddToCart extends Component {
                         {
                             obj.isStock ?
                                 obj.quantity > 0 ?
-                                    <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/cart.png')} >
+                                    <ImageBackground style={styles.cardInside} source={require('../src/assests/Images/pexels-lorenzo-242236.jpg')} >
                                         <View style={styles.innerImageView}>
                                             <Text style={styles.innerImageText}>{obj.quantity}</Text>
                                         </View>
@@ -331,7 +331,7 @@ class AddToCart extends Component {
                         </View>
                         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
                             <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}`}</Text>
-                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "FeelFuL"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}`}</Text>
+                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "Online-Bazar"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}`}</Text>
                             <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}`}</Text>
                         </View>
                     </View>
@@ -506,7 +506,8 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     innerImageView: {
-        left: 30, top: -30, justifyContent: "center", alignSelf: "center", backgroundColor: "#A82828", borderRadius: 20, width: 22
+        // left: 30, top: -30, 
+        justifyContent: "center", alignSelf: "center", backgroundColor: "#A82828", borderRadius: 20, width: 22
     },
     innerImageText: {
         justifyContent: "center", alignSelf: "center", fontSize: 15, color: "#fff"

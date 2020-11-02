@@ -162,7 +162,7 @@ class SelectDeliveryType extends Component {
                             <View style={{ height: 25 }}>
                                 <Text style={{ fontSize: 10, color: 'gray', fontStyle: 'italic' }}>{`(Our Recommendation)`}</Text>
                             </View>
-                            <Text style={{ fontSize: 11, color: 'black' }}>You can collect your order from a FeelFul Ready Pick-up point. Select a self Pick-up Point near you and a convenient time slot.</Text>
+                            <Text style={{ fontSize: 11, color: 'black' }}>You can collect your order from a Online-Bazar Ready Pick-up point. Select a self Pick-up Point near you and a convenient time slot.</Text>
                             <Text style={{ fontSize: 14, color: '#0f4760', paddingTop: 10 }}>DELIVERY FREE</Text>
                         </View>
                         <View style={[styles.rightDeliveryContainer, { backgroundColor: "#ffdbdb" }]}>

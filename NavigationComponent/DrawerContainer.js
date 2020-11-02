@@ -12,7 +12,7 @@ class DisplayAnImage extends Component {
           <Text style={styles.buttonText}>
             {`${this.props.isLogged ? ` Hii, ${this.props.loginDetails?.firstName?.toUpperCase()} ${this.props.loginDetails?.lastName?.toUpperCase()}` : `Please sign in/sign up`}`}
           </Text>
-          <View style={styles.listDataTemp}>
+          {/* <View style={styles.listDataTemp}>
             <Text style={{
               color: '#548247',
               fontWeight: 'bold',
@@ -31,7 +31,7 @@ class DisplayAnImage extends Component {
               {`Online Payment`}
             </Text>
             <Text>{`(Coming soon)`}</Text>
-          </View>
+          </View> */}
           <View style={styles.listDataTemp}>
             <Text style={{
               color: '#548247',
@@ -40,8 +40,8 @@ class DisplayAnImage extends Component {
             }}>
               {`CONTACT US:`}
             </Text>
-            
-            <Text>{`(8770435618, 7631438307, 7350255090)`}</Text>
+
+            <Text>{`(8237121713, 8770435618, 7350255090)`}</Text>
           </View>
         </LinearGradient>
 
