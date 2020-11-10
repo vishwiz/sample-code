@@ -35,7 +35,7 @@ const ItemCardComponent = (props) => {
                 
 
                 <View style={{ alignItems: 'flex-end', a: "center" }}>
-                    <Text style={styles.textinputDmart}>{"Online-Bazar   ₹"}{item.totalSelllingPriceWithQuantity}</Text>
+                    <Text style={styles.textinputDmart}>{"DB-MART  ₹"}{item.totalSelllingPriceWithQuantity}</Text>
                     <View style={{ flexDirection: "row" }}>
                         <Text style={[styles.textRemove, { marginTop: 0, textAlignVertical: "center" }]}>{"You Save   "}</Text>
                         <Text style={{ paddingHorizontal: 8, paddingVertical: 5, fontSize: 10, borderRadius: 5, backgroundColor: "#d1801d", color: "white" }}>

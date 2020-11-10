@@ -180,6 +180,8 @@ const styles = StyleSheet.create({
     productImage: {
         resizeMode: "cover",
         // height: 190,
+        borderTopWidth:4,
+        borderBottomWidth:4,
 
     },
     flatListContainer: {

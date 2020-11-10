@@ -331,7 +331,7 @@ class AddToCart extends Component {
                         </View>
                         <View style={{ justifyContent: "flex-end", alignItems: "flex-end", paddingTop: 5 }}>
                             <Text style={styles.textFormatMrp}>{obj.quantity > 0 ? null : `MRP ${'\u20B9'} ${obj.mrp}`}</Text>
-                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "Online-Bazar"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}`}</Text>
+                            <Text style={styles.textFormatDmart}>{`${obj.quantity > 0 ? "You Pay" : "DB-MART"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSelllingPriceWithQuantity : obj.sellingPrice}`}</Text>
                             <Text style={styles.textFormatSave}>{`${obj.quantity > 0 ? "You Save" : "Save"} ${'\u20B9'} ${obj.quantity > 0 ? obj.totalSavingAmmount : obj.discountPer}`}</Text>
                         </View>
                     </View>

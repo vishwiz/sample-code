@@ -79,7 +79,7 @@ class App extends Component {
                         <Image
                             style={styles.imageStyle}
                             // resizeMode={'contain'}
-                            source={require('../src/assests/Images/online_bazar_logo.png')}
+                            source={require('../src/assests/Images/Log_png-01.png')}
                         />
                     }
                     rightComponent={
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     },
     imageStyle: {
         width: 40,
-        height: 60,
+        height: 70,
     },
     userView: {
         flexDirection: "row",
