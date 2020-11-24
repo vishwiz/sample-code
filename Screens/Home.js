@@ -79,7 +79,7 @@ class App extends Component {
                         <Image
                             style={styles.imageStyle}
                             // resizeMode={'contain'}
-                            source={require('../src/assests/Images/Log_png-01.png')}
+                            source={require('../src/assests/Images/Log_png-01.jpg')}
                         />
                     }
                     rightComponent={

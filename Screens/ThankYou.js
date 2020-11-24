@@ -63,7 +63,7 @@ class LoginScreen extends Component {
 
                 <View style={{ height: "15%", justifyContent: "center", alignItems: "center" }}>
                     <Text>
-                        Thank you for registering with DB-MART.
+                        Thank you for registering with ANNAPURNA.
                     </Text>
                     <Text>
                         You can now Start Shopping.
